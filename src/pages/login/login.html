@@ -1,0 +1,57 @@
+<ion-content padding>
+
+    <div class="login">
+    <div *ngIf="showForgotPassword">
+        <ion-row>
+            <ion-col text-center>
+                <h1 class="topHead">Sign in</h1>
+            </ion-col>
+        </ion-row>
+
+        <form [formGroup]="form" (ngSubmit)="logIn()">
+            <ion-list text-center>
+                <ion-item margin-bottom>
+                    <ion-label stacked>USER NAME</ion-label>
+                    <ion-input type="text" formControlName="username" placeholder="Username"></ion-input>
+                </ion-item>
+
+
+                <ion-item margin-bottom>
+                    <ion-label stacked>Your Password</ion-label>
+                    <ion-input type="password" formControlName="password" placeholder="***********"></ion-input>
+                </ion-item>
+
+                <p class="forget" (click)="forgotPassword()">Forget password</p>
+
+                <button ion-button block large color="danger" [disabled]="!form.valid">SIGN IN</button>
+
+                <ion-row>
+                    <ion-col text-center>
+                        <h6>Don't have an account? <span class="forget" [navPush]="vendorSignUp">Sign Up</span></h6>
+                    </ion-col>
+                </ion-row>
+            </ion-list>
+        </form>
+    </div>
+    <div *ngIf="!showForgotPassword">
+            <ion-row>
+                    <ion-col text-center>
+                        <h1 class="topHead">Forgot password</h1>
+                    </ion-col>
+                </ion-row>
+            <form [formGroup]="forgotForm" (ngSubmit)="submitEmail()">
+                    <ion-list text-center>                        
+                        <ion-item margin-bottom>
+                            <ion-label stacked>Your e-mail</ion-label>
+                            <ion-input type="email" formControlName="forgotEmail" placeholder="E-mail" [ngClass]="showInputLoader?'loading':''"></ion-input>
+                        </ion-item>                        
+                        <button class="custom-btn" ion-button [disabled]="!forgotForm.valid">Sent reset link</button>
+        
+                        <p style="color:#ec6f6a" class="phoneTitle" (click)="showLogin()">Back to login</p>
+                    </ion-list>
+                </form>
+    </div>
+
+    </div>
+
+</ion-content>

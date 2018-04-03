@@ -1,0 +1,74 @@
+<ion-header>
+    <ion-navbar color="danger">
+        <button ion-button menuToggle start>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+        <ion-title>Home</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only>
+                <ion-icon name="ios-funnel"></ion-icon>
+            </button>
+
+            <button ion-button icon-only>
+                <ion-icon name="search"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-row class="tabHeadBg">
+        <ion-col col-6>
+            <button [ngClass]="sarvmaanTab?'activeTab':''" ion-button full class="tabBtn" (click)="sarvmanTabClicked()">Sarvman</button>
+        </ion-col>
+        <ion-col col-6>
+            <button [ngClass]="!sarvmaanTab?'activeTab':''" ion-button full class="tabBtn" (click)="customerTabClicked()">Customer</button>
+        </ion-col>
+    </ion-row><br><br><br>
+    <ion-row *ngIf="quoteList.length==0" text-center><br><br><br><br>
+        <ion-col col-12>
+            <h3 class="cardTitle">No record found!</h3>
+        </ion-col>
+    </ion-row>
+    <ion-card *ngFor="let item of quoteList">
+        <ion-card-header>
+            <ion-row>
+                <ion-col col-6>
+                    <strong class="cardTitle">
+                        {{item.quoteNumber}}
+                    </strong>
+                </ion-col>
+                <ion-col col-6 text-right>
+                    {{item.createdTs | date: 'dd-MM-yyyy'}}
+                </ion-col>
+            </ion-row>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-row>
+                <ion-col col-12>
+                    {{item.workTitle}}
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col col-12>
+                    {{item.clientName}}
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col col-6>
+                    <ion-icon name="checkmark-circle" [style.color]="item.quoteStatus=='DRAFT' ? 'orange': 'red'"></ion-icon> {{item.quoteStatus}}
+                </ion-col>
+                <ion-col col-6 text-right>
+                    <p>Total: <span>
+                      {{item.grandTotal}}/-
+                    </span></p>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+    <ion-fab bottom right (click)="addNewQuote()">
+        <button color="danger" ion-fab>
+          <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>
+</ion-content>

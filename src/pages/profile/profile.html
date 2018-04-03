@@ -1,0 +1,86 @@
+<ion-header>
+    <ion-navbar color="danger">
+        <ion-title>profile</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-list no-lines>
+        <ion-row class="tabHeadBg" style="background-image: url('assets/imgs/bg.jpg '); height: 175px;">
+            <ion-col col-12>
+                <div class="profile-pic-container">
+                    <img [src]="bussinessDetails.logo" class="profilePic">
+                </div>
+                <div class="text-container">
+                    <span class="user-name">
+                        {{userDetails.firstName}}
+                         <br>
+                        <p class="profession">Painter</p>
+                    </span>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-list><br>
+    <ion-list>
+        <ion-item class="item-list">
+            <p item-start class="title-text">
+                Skill
+            </p>
+            <p item-end>
+                <span *ngFor="let skill of skillList">
+                    {{skill.displayText}},
+                </span>
+            </p>
+
+        </ion-item>
+        <ion-item class="item-list">
+            <p item-start class="title-text">
+                Language
+            </p>
+            <p item-end>
+                <span>
+                    {{userDetails.language}}
+                </span>
+            </p>
+
+        </ion-item>
+        <ion-item class="item-list">
+            <p item-start class="title-text">
+                Contact
+            </p>
+            <p item-end>
+                <span>
+                   {{userDetails.contactNumber}}
+                    <ion-icon name="create" class="title-text edit-btn" (click)="editContact('contact')"></ion-icon>
+                    <br> <span class="contact-identifier">Calling</span>
+                </span><br><br>
+                <span>
+                   {{bussinessDetails.whatsAppNumber}}  
+                   <ion-icon name="create" class="title-text edit-btn" (click)="editContact('whatsApp')"></ion-icon>
+                   <br> <span class="contact-identifier">Whatsapp</span>
+                </span>
+            </p>
+        </ion-item>
+        <ion-item class="item-list">
+            <p item-start class="title-text">
+                Address
+            </p>
+            <p item-end>
+                <span>
+                        {{userAddress.street}},
+                        {{userAddress.cityName}},
+                        {{userAddress.stateName}},
+                        {{userAddress.countryName}} 
+                    </span>
+            </p>
+        </ion-item>
+        <ion-item text-center>
+            <button class="custom-btn" ion-button (click)="editProfile()">Edit profile</button>
+        </ion-item>
+        <br>
+        <div text-center>
+            <a text-center [href]="bussinessDetails.webSite">{{bussinessDetails.webSite}}</a>
+        </div>
+
+    </ion-list>
+</ion-content>

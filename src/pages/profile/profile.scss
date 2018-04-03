@@ -1,0 +1,35 @@
+page-profile {
+    .title-text {
+        color: red;
+    }
+    .item-list {
+        padding: 20px 30px 0px 40px;
+        border-bottom: 1px solid #e3e3e3;
+    }
+    .item-md.item-block .item-inner {
+        border: none;
+    }
+    .edit-btn {
+        margin-left: 15px;
+        font-size: 20px;
+    }
+    .profile-pic-container {
+        position: absolute;
+        top: 59%;
+        left: 8%;
+        border: 2px solid #f53d3d;
+        background: white;
+        z-index: 99999;
+    }
+    .text-container {
+        position: absolute;
+        right: 62%;
+        top: 73%;
+    }
+    .item-list .item-inner {
+        font-style: italic;
+    }
+    .contact-identifier {
+        opacity: .6;
+    }
+}

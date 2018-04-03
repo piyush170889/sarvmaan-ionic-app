@@ -1,0 +1,24 @@
+page-home {
+    .tabHeadBg {
+        background: #dc6460;
+        position: fixed;
+        width: 100%;
+        z-index: 999;
+    }
+    .activeTab {
+        color: #dc6460 !important;
+        background-color: #fff !important;
+    }
+    .tabBtn {
+        color: #ffffff;
+        background-color: #fff0;
+        border: none;
+        box-shadow: none;
+    }
+    .cardTitle {
+        color: #dc6460;
+    }
+    .button-md {
+        background: #dc6460;
+    }
+}

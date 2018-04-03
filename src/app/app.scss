@@ -1,0 +1,157 @@
+// http://ionicframework.com/docs/theming/
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+
+/*theme varibale styles starts here */
+
+$theme-primary: #ec6f6a;
+$theme-secondary: #51bcf2;
+$theme-light: #a6a6a6;
+$theme-dark: #7a7a7a;
+$green: #57c972;
+$blue: #2979ff;
+$border-light: #e4e4e4;
+$white: #ffffff;
+$black: #000000;
+
+/*theme styles starts here styles starts here */
+
+// backgrounds
+.primary-bg {
+    background: $theme-primary;
+}
+
+.secondary-bg {
+    background: $theme-secondary;
+}
+
+.light-bg {
+    background: $theme-light;
+}
+
+.dark-bg {
+    background: $theme-dark;
+}
+
+.green-bg {
+    background: $green;
+}
+
+.blue-bg {
+    background: $blue;
+}
+
+.white-bg {
+    background: $white;
+}
+
+//text colors
+.primary-color {
+    color: $theme-primary;
+}
+
+.secondary-color {
+    color: $theme-secondary;
+}
+
+.light-color {
+    color: $theme-light;
+}
+
+.dark-color {
+    color: $theme-dark;
+}
+
+.blue-color {
+    color: $blue;
+}
+
+// borders
+.border-light {
+    border-color: $border-light;
+}
+
+.border-dark {
+    border-color: $theme-dark;
+}
+
+
+/*Defualt styles starts here*/
+
+modal-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+@media not all and (min-height: 600px) and (min-width: 768px) {
+    ion-modal ion-backdrop {
+        visibility: hidden;
+    }
+}
+
+@media only screen and (min-height: 0px) and (min-width: 0px) {
+    .modal-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.profilePic {
+    display: inline-block;
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+.user-name {
+    position: absolute;
+    top: 35%;
+    left: 112%;
+    color: #fff;
+    line-height: 7px;
+    font-size: 2em;
+}
+
+.profession {
+    font-weight: 100;
+    font-size: 20px;
+    margin-left: 3px;
+}
+
+.profileContainer {
+    position: absolute;
+    top: 40%;
+    left: 8%;
+}
+
+.item-md {
+    padding-top: 10px;
+}
+
+.item-md .label-md {
+    font-size: 18px;
+    font-weight: 200;
+}
+
+.custom-btn {
+    border-radius: 5px;
+    width: 250px;
+    background: #dc6460;
+}

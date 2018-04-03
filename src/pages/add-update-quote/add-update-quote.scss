@@ -1,0 +1,19 @@
+page-add-update-quote {
+    .header-md::after {
+        background-image: none;
+    }
+    .cardTitle {
+        font-weight: 300;
+        font-size: 18px;
+    }
+    .toolbar-title-md {
+        padding: 0 20px;
+    }
+    .toolbar-background-md {
+        border-color: none;
+        background: none;
+    }
+    ion-content {
+        top: -24px;
+    }
+}
