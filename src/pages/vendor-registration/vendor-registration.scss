@@ -34,4 +34,19 @@ page-vendor-registration {
         background-position: right center;
         background-repeat: no-repeat;
     }
+    .input-checkbox {
+        width: 10%;
+        display: inline-block;
+        font-size:16px;
+        margin: 0;
+        padding: 0;
+        vertical-align: top;
+    }
+    #child {
+        width: 88%;
+        display: inline-block;
+    }
+    #parent {
+        width: 240px;
+    }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { ToastController, IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { SelectSearchable } from 'ionic-select-searchable';
@@ -31,7 +31,8 @@ export class VendorRegistrationPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public modalCtrl: ModalController,
-    public apiService: ApiService
+    public apiService: ApiService,
+    public toastCtrl: ToastController
   ) {
     this.PhoneForm = this._FORMBUILDER.group({
       'phoneNo': ['', 
@@ -64,11 +65,22 @@ export class VendorRegistrationPage {
       'emailId': ['', Validators.required],            
       'password': ['', Validators.required],
       'ConfirmPass': ['', Validators.required],
-      'termsAndCondition': ['', Validators.required],
+      'termsAndCondition': [false, Validators.required],
 
 
     });
   }
+
+  public toast:any; 
+  ionViewDidLoad() {
+    this.getMasterDataList();
+    this.toast = this.toastCtrl.create({
+      message: 'Registration successfully',
+      duration: 3000
+    });    
+    console.log('ionViewDidLoad VendorRegistrationPage');
+  }
+
   portChange(event: { component: SelectSearchable, value: any }) {
     console.log('port:', event.value);
   }
@@ -147,7 +159,8 @@ export class VendorRegistrationPage {
     
     this.apiService.vendorRegistration(data).subscribe((response) => {
       if (response.responseMessage.status == "200" && response.responseMessage.message == "OK") {
-        alert('registration success');
+        //alert('registration success');
+        this.toast.present();
         //this.navCtrl.push();
         this.navCtrl.setRoot(LoginPage);
       } else {
@@ -162,10 +175,7 @@ export class VendorRegistrationPage {
 
   }
 
-  ionViewDidLoad() {
-    this.getMasterDataList();
-    console.log('ionViewDidLoad VendorRegistrationPage');
-  }
+  
   public openTermNconditionModal() {
     var data = { message: 'hello world' };
     var modalPage = this.modalCtrl.create('TermModalPage', data);

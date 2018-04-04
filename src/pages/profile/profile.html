@@ -5,22 +5,45 @@
 </ion-header>
 
 <ion-content>
+    <ion-fab right bottom>
+        <button ion-fab color="danger" style="border-radius: 50%;">
+            <ion-icon name="create"></ion-icon>
+        </button>
+        <ion-fab-list side="top">
+            <button ion-fab color="danger" (click)="editProfile()">
+                Update profile
+            </button>
+            <!-- <button ion-fab color="danger" (click)="updateProfile('LOGO')">
+                Update Logo
+            </button> -->
+            <button ion-fab color="danger" (click)="updateProfile('CONTACT')">
+                Update contact
+            </button>
+            <button ion-fab color="danger" (click)="updateProfile('EMAIL')">
+                Update e-mail
+            </button>
+            <button ion-fab color="danger" (click)="updateProfile('PASSWORD')">
+                Update password
+            </button>
+        </ion-fab-list>
+    </ion-fab>
     <ion-list no-lines>
         <ion-row class="tabHeadBg" style="background-image: url('assets/imgs/bg.jpg '); height: 175px;">
             <ion-col col-12>
                 <div class="profile-pic-container">
-                    <img [src]="bussinessDetails.logo" class="profilePic">
+                    <img [src]="bussinessDetails.logo == null ? 'assets/imgs/user.png' : bussinessDetails.logo" class="profilePic">
                 </div>
                 <div class="text-container">
                     <span class="user-name">
                         {{userDetails.firstName}}
-                         <br>
+                        <br>
                         <p class="profession">Painter</p>
                     </span>
                 </div>
             </ion-col>
         </ion-row>
-    </ion-list><br>
+    </ion-list>
+    <br>
     <ion-list>
         <ion-item class="item-list">
             <p item-start class="title-text">
@@ -50,14 +73,18 @@
             </p>
             <p item-end>
                 <span>
-                   {{userDetails.contactNumber}}
-                    <ion-icon name="create" class="title-text edit-btn" (click)="editContact('contact')"></ion-icon>
-                    <br> <span class="contact-identifier">Calling</span>
-                </span><br><br>
+                    {{userDetails.contactNumber}}
+                    <!-- <ion-icon name="create" class="title-text edit-btn" (click)="editContact('contact')"></ion-icon> -->
+                    <br>
+                    <span class="contact-identifier">Calling</span>
+                </span>
+                <br>
+                <br>
                 <span>
-                   {{bussinessDetails.whatsAppNumber}}  
-                   <ion-icon name="create" class="title-text edit-btn" (click)="editContact('whatsApp')"></ion-icon>
-                   <br> <span class="contact-identifier">Whatsapp</span>
+                    {{bussinessDetails.whatsAppNumber}}
+                    <!-- <ion-icon name="create" class="title-text edit-btn" (click)="editContact('whatsApp')"></ion-icon> -->
+                    <br>
+                    <span class="contact-identifier">Whatsapp</span>
                 </span>
             </p>
         </ion-item>
@@ -67,16 +94,13 @@
             </p>
             <p item-end>
                 <span>
-                        {{userAddress.street}},
-                        {{userAddress.cityName}},
-                        {{userAddress.stateName}},
-                        {{userAddress.countryName}} 
-                    </span>
+                    {{userAddress.street}}, {{userAddress.cityName}}, {{userAddress.stateName}}, {{userAddress.countryName}}
+                </span>
             </p>
         </ion-item>
-        <ion-item text-center>
+        <!-- <ion-item text-center>
             <button class="custom-btn" ion-button (click)="editProfile()">Edit profile</button>
-        </ion-item>
+        </ion-item> -->
         <br>
         <div text-center>
             <a text-center [href]="bussinessDetails.webSite">{{bussinessDetails.webSite}}</a>

@@ -121,9 +121,9 @@ export class ApiService {
     updateContact(argument) {
         let data =
             {
-                "cellNumber": "8668448108",
+                "cellNumber": argument.cellNumber,
                 "deviceInfo": "rahuldevice",
-                "otp": 4099
+                "otp": argument.otp
             }
         return this.http.put(AppSettings.API_ENDPOINT + 'contact-number', data, this.headers.createHeaderOptions())
             .map(response => response.json())
@@ -147,7 +147,7 @@ export class ApiService {
     }
 
     updateEmail(argument) {
-        let url = 'v1/update-emailid?emailId=' + argument;            
+        let url = 'v1/update-emailid?emailId=' + argument.emailId;            
         return this.http.post(AppSettings.API_ENDPOINT + url, '')
             .map(response => response.json())
             .catch((err: Response) => {

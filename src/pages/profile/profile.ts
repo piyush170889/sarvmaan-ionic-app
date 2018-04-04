@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
 import { ApiService } from '../../api-services/api.services';
 import { EditProfilePage } from '../../pages/edit-profile/edit-profile';
+import { UpdateUserInfoPage } from '../../pages/update-user-info/update-user-info';
 
 @Component({
   selector: 'page-profile',
@@ -56,6 +57,10 @@ export class ProfilePage {
 
   editProfile(){
     this.navCtrl.push(EditProfilePage);
+  }
+
+  updateProfile(requestedPage){
+    this.navCtrl.push(UpdateUserInfoPage, {id : requestedPage});
   }
 
 }

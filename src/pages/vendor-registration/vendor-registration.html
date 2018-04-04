@@ -51,9 +51,9 @@
             </ion-list>
         </form>
 
-        <!-- Registration form -->
+        <!-- Registration form  [hidden]="!showRegistrationForm"-->
 
-        <form [formGroup]="regForm" (ngSubmit)="submitVendorRegistration()" [hidden]="!showRegistrationForm">
+        <form [formGroup]="regForm" (ngSubmit)="submitVendorRegistration()" [hidden]="!showRegistrationForm" >
             <ion-list text-center>
                 <ion-item margin-bottom>
                     <ion-label stacked>First name*</ion-label>
@@ -134,18 +134,35 @@
                     <ion-label stacked>Confirm Password</ion-label>
                     <ion-input type="password" formControlName="ConfirmPass" placeholder="Enter Password"></ion-input>
                 </ion-item>
+                <!-- <ion-row>
+                        <ion-col text-left>
+                                <span (click)="openTermNconditionModal()" class="forget" style="    position: absolute;
+                                top: 20px;
+                                left: -129px;">Terms and conditions</span>
+                            </ion-col>
+                </ion-row> -->
                 <ion-row>
-                    <ion-col text-left>
-                        <ion-item>
-                            <ion-label>Accept</ion-label>
-                            <ion-checkbox formControlName="termsAndCondition" color="dark" checked="false"></ion-checkbox>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col text-left>
+                        <ion-col text-left>
+                                <!-- <span (click)="openTermNconditionModal()" class="forget">Terms and conditions</span>
+                              
+                            <input type="checkbox" formControlName="termsAndCondition" required> -->
+
+
+
+                            <div id="parent">
+                                    <input class="input-checkbox" type="checkbox" formControlName="termsAndCondition" required />
+                                    <div (click)="openTermNconditionModal()" class="forget" id="child">Terms and conditions</div>
+                                </div>
+                                <!-- <ion-item>
+                                    <ion-label>Accept</ion-label>
+                                    <ion-checkbox formControlName="termsAndCondition" color="dark" checked="false" required></ion-checkbox>                                    <input type="checkbox" formControlName="termsAndCondition" required>
+                                </ion-item> -->
+                            </ion-col>
+                    <!-- <ion-col text-left>
                         <span (click)="openTermNconditionModal()" class="forget" style="    position: absolute;
                         top: 20px;
                         left: -129px;">Terms and conditions</span>
-                    </ion-col>
+                    </ion-col> -->
                 </ion-row>
                 <!-- <ion-list text-center inset>
                     <ion-item>

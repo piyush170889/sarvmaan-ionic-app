@@ -20,6 +20,7 @@ page-profile {
         border: 2px solid #f53d3d;
         background: white;
         z-index: 99999;
+        padding-top: 3px;
     }
     .text-container {
         position: absolute;
@@ -31,5 +32,14 @@ page-profile {
     }
     .contact-identifier {
         opacity: .6;
+    }
+    .fab-in-list {    
+        width: 136px;
+    }
+    .fab {
+        border-radius: 8px;
+    }
+    ion-fab-list[side=top] {
+        right: 50%;
     }
 }

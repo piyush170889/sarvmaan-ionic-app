@@ -1,0 +1,112 @@
+<ion-header>
+
+  <ion-navbar color="danger">
+    <ion-title>Update profile</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div *ngIf="pageListToShow.updatePassword">
+    <ion-row>
+      <ion-col text-center>
+        <h3 class="topHead">Update Password</h3>
+      </ion-col>
+    </ion-row>
+
+    <form [formGroup]="passwordUpdateForm" (ngSubmit)="updatePassword()">
+      <ion-list text-center>
+        <ion-row *ngIf="showPasswordMatch">
+          <ion-col text-center>
+            <p style="color:#36e430">Password Matched.</p>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="showPasswordMismatch">
+          <ion-col text-center>
+            <p style="color:#e2531a">Password Mismatched.</p>
+          </ion-col>
+        </ion-row>
+        <ion-item margin-bottom>
+          <ion-label stacked>Your Old Password</ion-label>
+          <ion-input type="password" formControlName="oldPassword" placeholder="***********"></ion-input>
+        </ion-item>
+        <ion-item margin-bottom>
+          <ion-label stacked>Your New Password</ion-label>
+          <ion-input type="password" formControlName="newPassword" placeholder="***********"></ion-input>
+        </ion-item>
+        <ion-item margin-bottom>
+          <ion-label stacked>Confirm Password</ion-label>
+          <ion-input (input)="passwordChange($event)" type="password" formControlName="confirmPassword" placeholder="***********"></ion-input>
+        </ion-item>
+
+        <button ion-button block large color="danger" [disabled]="!passwordUpdateForm.valid">UPDATE</button>
+      </ion-list>
+    </form>
+  </div>
+
+  <div *ngIf="pageListToShow.updateEmail">
+    <ion-row>
+      <ion-col text-center>
+        <h3 class="topHead">Update E-mail</h3>
+      </ion-col>
+    </ion-row>
+
+    <form [formGroup]="emailUpdateForm" (ngSubmit)="updateEmail()">
+      <ion-list text-center>
+        <ion-item margin-bottom>
+          <ion-label stacked>New e-mail id</ion-label>
+          <ion-input type="email" formControlName="emailId" placeholder="E-mail"></ion-input>
+        </ion-item>
+
+        <button ion-button block large color="danger" [disabled]="!emailUpdateForm.valid">UPDATE</button>
+      </ion-list>
+    </form>
+  </div>
+
+  <div *ngIf="pageListToShow.updateContact">
+    <ion-row>
+      <ion-col text-center>
+        <h3 class="topHead">Update Contact</h3>
+      </ion-col>
+    </ion-row>
+
+    <form [formGroup]="contactUpdateForm" (ngSubmit)="sendOtp()">
+      <ion-list text-center>
+        <ion-item margin-bottom>
+          <ion-label stacked>Your new phone no.</ion-label>
+          <ion-input type="number" formControlName="cellNumber" placeholder="Phone no"></ion-input>
+        </ion-item>
+
+        <button ion-button block large color="danger" [disabled]="!contactUpdateForm.valid">UPDATE</button>
+      </ion-list>
+    </form>
+  </div>
+
+  <div *ngIf="pageListToShow.otp">
+    <ion-row>
+      <ion-col text-center>
+        <h3 class="topHead">Update Contact</h3>
+      </ion-col>
+    </ion-row>
+
+    <form [formGroup]="otpForm" (ngSubmit)="updateContact()">
+      <ion-list text-center>
+        <ion-row *ngIf="otpMessageObj.otpErrorBox">
+          <ion-col text-left>
+            <ion-label stacked class="phoneTitle" style="color:#ec6f6a">{{otpMessageObj.msg}}</ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-item margin-bottom>
+          <ion-label stacked>OTP</ion-label>
+          <ion-input type="text" formControlName="otp" placeholder="OTP"></ion-input>
+        </ion-item>
+        <!-- <button ion-button block large color="danger" [disabled]="!OtpForm.valid">Submit</button> -->
+        <button class="custom-btn" ion-button [disabled]="!otpForm.valid">Submit</button>
+
+        <p style="color:#ec6f6a" class="phoneTitle" (click)="sendOtp()">Resend OTP Link</p>
+      </ion-list>
+    </form>
+  </div>
+
+</ion-content>

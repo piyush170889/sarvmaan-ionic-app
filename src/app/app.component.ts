@@ -24,6 +24,11 @@ export class MyApp {
   rootPage: any;// = LoginPage;
   loading: Loading;
   loadingConfig: any;
+  profileData: any = {
+    name: '',
+    profession: '',
+    imageUrl: 'assets/imgs/user.png'
+  }
 
   pages: Array<{ title: string, component: any }>;
 
@@ -60,25 +65,30 @@ export class MyApp {
   }
 
   checkAuthorization() {
-      this.createLoader();
-      this.loading.present().then(() => {
-        this.apiServices.getUserProfile()
-          .subscribe(response => {
-            this.loading.dismiss();
-            this.rootPage = HomePage;
-          }, (error) => {
-            this.loading.dismiss();
-            if (error.error == "invalid_token") {
-              this.refreshToken();
-              //this.rootPage = LoginPage;
-              localStorage.clear();
-            }else{
-              this.rootPage = LoginPage;
-              //this.rootPage = VendorRegistrationPage
-              localStorage.clear();
-            }
-          });
-      });
+    this.createLoader();
+    this.loading.present().then(() => {
+      this.apiServices.getUserProfile()
+        .subscribe(response => {
+          this.loading.dismiss();
+          //this.profileData = response;
+          this.profileData.name = response.appUsers.firstName + '' + response.appUsers.lastName;
+          this.profileData.profession = response.appUsers.businessDetails.skillSet[0].displayText;
+          this.profileData.imageUrl = response.appUsers.businessDetails.logo == null ? 'assets/imgs/user.png' : response.appUsers.businessDetails.logo ;
+          //this.profileData = response;
+          this.rootPage = HomePage;
+        }, (error) => {
+          this.loading.dismiss();
+          if (error.error == "invalid_token") {
+            this.refreshToken();
+            //this.rootPage = LoginPage;
+            localStorage.clear();
+          } else {
+            this.rootPage = LoginPage;
+            //this.rootPage = VendorRegistrationPage
+            localStorage.clear();
+          }
+        });
+    });
   }
 
 
@@ -88,10 +98,11 @@ export class MyApp {
       this.apiServices.refreshToken()
         .subscribe(response => {
           this.loading.dismiss();
-          this.rootPage = HomePage;
+          //this.rootPage = HomePage;
+          this.checkAuthorization();
         }, (error) => {
           this.loading.dismiss();
-          if (error.error == "invalid_grant") {            
+          if (error.error == "invalid_grant") {
             this.rootPage = LoginPage;
             localStorage.clear();
           }

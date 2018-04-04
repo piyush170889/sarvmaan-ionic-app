@@ -16,6 +16,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { VendorRegistrationPage } from '../pages/vendor-registration/vendor-registration';
 import { AddUpdateQuotePage } from '../pages/add-update-quote/add-update-quote';
 import { EditProfilePage } from '../pages/edit-profile/edit-profile';
+import { UpdateUserInfoPage } from '../pages/update-user-info/update-user-info';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -33,7 +34,8 @@ import { HelperService } from '../api-services/helperServices';
     PriceListPage,
     ProfilePage,
     AddUpdateQuotePage,
-    EditProfilePage
+    EditProfilePage,
+    UpdateUserInfoPage
   ],
   imports: [
     BrowserModule,
@@ -51,7 +53,8 @@ import { HelperService } from '../api-services/helperServices';
     PriceListPage,
     ProfilePage,
     AddUpdateQuotePage,
-    EditProfilePage
+    EditProfilePage,
+    UpdateUserInfoPage
   ],
   providers: [
     StatusBar,

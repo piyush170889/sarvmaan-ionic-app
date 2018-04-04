@@ -21,6 +21,8 @@ export class LoginPage {
   public form: FormGroup;
   public forgotForm: FormGroup;
   public showInputLoader = false;
+  public emailSendMsg:boolean = false;
+  public loginErrorShow:boolean = false;
   constructor(
     private _FORMBUILDER: FormBuilder,
     public navCtrl: NavController,
@@ -51,6 +53,10 @@ export class LoginPage {
       }else{
         alert('Login error.');
       }      
+    }, (err)=>{
+        if(err.error == "invalid_grant"){
+          this.loginErrorShow = true;
+        }
     }) 
   }
 
@@ -59,6 +65,9 @@ export class LoginPage {
   }
   showLogin(){
     this.showForgotPassword = true;
+  }
+  fieldChangeEvent(){
+    this.loginErrorShow = false;
   }
 
   submitEmail(){    
@@ -69,11 +78,16 @@ export class LoginPage {
     this.services.sendEmail(data).subscribe((response) => {      
       if(response){
         this.showInputLoader = false;
+        this.emailSendMsg = true;
         //this.navCtrl.setRoot(HomePage);
       }else{
-        alert('Login error.');
+        alert('Server error occured.');
         this.showInputLoader = false;
       }      
+    }, (error)=>{
+      this.showInputLoader = false;
+      //this.emailSendMsg = true;
+      alert(error.responseMessage.message);
     }) 
   }
 

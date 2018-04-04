@@ -6,7 +6,7 @@
     </ion-header> -->
 
     <ion-content>
-        <ion-list no-lines>
+        <ion-list no-lines class="custom-item">
             <!-- <div class="item item-avatar" style="background-image: url('assets/imgs/bg.jpg ')">
                 <img src="assets/imgs/logo.png">
                 <p>Sameer Gupta</p>
@@ -14,31 +14,47 @@
             <ion-row menuClose (click)="openPage('Profile')" class="tabHeadBg" style="background-image: url('assets/imgs/bg.jpg '); height: 175px;">
                 <ion-col col-12>
                     <div class="profileContainer">
-                        <img src="assets/imgs/logo.png" class="profilePic">
-                        <span class="user-name">Sameer <br>
-                            <p class="profession">Painter</p>
+                        <img [src]="profileData.imageUrl" class="profilePic">
+                        <span class="user-name">{{profileData.name}}
+                            <br>
+                            <p class="profession">{{profileData.profession}}</p>
                         </span>
 
                     </div>
                 </ion-col>
 
             </ion-row>
+
             <ion-item menuClose (click)="openPage('PriceList')">
-                <ion-icon name="list" item-start></ion-icon>
-                Price list
+                <ion-thumbnail item-start>
+                    <img src="assets/imgs/price list.svg">
+                </ion-thumbnail>
+                <h2>Price list</h2>
             </ion-item>
-            <ion-item>
-                <ion-icon name="leaf" item-start></ion-icon>
-                Product request
+
+            <ion-item menuClose (click)="openPage('PriceList')">
+                <ion-thumbnail item-start>
+                    <img src="assets/imgs/Product request.svg">
+                </ion-thumbnail>
+                <h2>Product request</h2>
             </ion-item>
-            <ion-item>
-                <ion-icon name="settings" item-start></ion-icon>
-                Setting
+
+            <ion-item menuClose (click)="openPage('PriceList')">
+                <ion-thumbnail item-start>
+                    <img src="assets/imgs/setting.svg">
+                </ion-thumbnail>
+                <h2>Setting</h2>
             </ion-item>
+
+
             <ion-item menuClose (click)="openPage('Login')">
-                <ion-icon name="log-out" item-start></ion-icon>
-                Logout
+                <ion-thumbnail item-start>
+                    <img src="assets/imgs/logout.svg">
+                </ion-thumbnail>
+                <h2>Logout</h2>
             </ion-item>
+
+
             <!-- <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
              {{p.title}}
             </button> -->
