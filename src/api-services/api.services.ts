@@ -107,7 +107,7 @@ export class ApiService {
 
     updateLogo(argument) {
         let data = {
-            "logo": argument.data
+            "logo": argument
         }
 
         return this.http.put(AppSettings.API_ENDPOINT + 'profile-logo', data, this.headers.createHeaderOptions())

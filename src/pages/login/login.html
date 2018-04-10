@@ -4,7 +4,7 @@
         <div *ngIf="showForgotPassword">
             <ion-row>
                 <ion-col text-center>
-                    <h1 class="topHead">Sign in</h1>
+                    <h1 class="topHead">{{ 'SIGN_IN' | translate }}</h1>
                 </ion-col>
             </ion-row>
 
@@ -12,29 +12,29 @@
                 <ion-list text-center>
                     <ion-row *ngIf="loginErrorShow">
                         <ion-col text-center>
-                            <p style="color:#ec6f6a">Invalid username or password.</p>
+                            <p style="color:#ec6f6a">{{ 'LOGIN_ERROR' | translate }}</p>
                         </ion-col>
                     </ion-row>
 
                     <ion-item margin-bottom>
-                        <ion-label stacked>USER NAME</ion-label>
-                        <ion-input (input)="fieldChangeEvent($event)" type="text" formControlName="username" placeholder="Username"></ion-input>
+                        <ion-label stacked>{{ 'USER_NAME' | translate }}</ion-label>
+                        <ion-input (input)="fieldChangeEvent($event)" type="text" formControlName="username" placeholder="{{ 'USERNAME' | translate }}"></ion-input>
                     </ion-item>
 
 
                     <ion-item margin-bottom>
-                        <ion-label stacked>Your Password</ion-label>
+                        <ion-label stacked>{{ 'YOUR_PASSWORD' | translate }}</ion-label>
                         <ion-input (input)="fieldChangeEvent($event)" type="password" formControlName="password" placeholder="***********"></ion-input>
                     </ion-item>
 
-                    <p class="forget" (click)="forgotPassword()">Forget password</p>
+                    <p class="forget" (click)="forgotPassword()">{{ 'FORGOT_PASSWORD' | translate }}</p>
 
-                    <button ion-button block large color="danger" [disabled]="!form.valid">SIGN IN</button>
+                    <button ion-button block large color="danger" [disabled]="!form.valid">{{ 'SIGN_IN' | translate }}</button>
 
                     <ion-row>
                         <ion-col text-center>
-                            <h6>Don't have an account?
-                                <span class="forget" [navPush]="vendorSignUp">Sign Up</span>
+                            <h6>{{ 'SIGNUP_INFO' | translate }}
+                                <span class="forget" [navPush]="vendorSignUp">{{ 'SIGN_UP' | translate }}</span>
                             </h6>
                         </ion-col>
                     </ion-row>
@@ -44,29 +44,28 @@
         <div *ngIf="!showForgotPassword">
             <ion-row>
                 <ion-col text-center>
-                    <h1 class="topHead">Forgot password</h1>
+                    <h1 class="topHead">{{ 'FORGOT_PASSWORD' | translate }}</h1>
                 </ion-col>
             </ion-row>
             <form [formGroup]="forgotForm" (ngSubmit)="submitEmail()">
                 <ion-list text-center>
                     <ion-row *ngIf="!emailSendMsg">
                         <ion-col text-center>
-                            <p style="color:#ec6f6a">Enter your email address and we will send you a link to reset your password.</p>
+                            <p style="color:#ec6f6a">{{ 'RESET_PASSWORD_INFO' | translate }}</p>
                         </ion-col>
                     </ion-row>
                     <ion-row *ngIf="emailSendMsg">
                         <ion-col text-center>
-                            <p style="color:#0ab627">We have sent an email with instructions for resetting your password. Please check your email
-                                for next steps.</p>
+                            <p style="color:#0ab627">{{ 'RESET_PASSWORD_SUCESS_INFO' | translate }}</p>
                         </ion-col>
                     </ion-row>
                     <ion-item margin-bottom>
-                        <ion-label stacked>Your e-mail</ion-label>
+                        <ion-label stacked>{{ 'YOUR_EMAIL' | translate }}</ion-label>
                         <ion-input type="email" formControlName="forgotEmail" placeholder="E-mail" [ngClass]="showInputLoader?'loading':''"></ion-input>
                     </ion-item>
-                    <button class="custom-btn" ion-button [disabled]="!forgotForm.valid">Sent reset link</button>
+                    <button class="custom-btn" ion-button [disabled]="!forgotForm.valid">{{ 'RESET_LINK' | translate }}</button>
 
-                    <p style="color:#ec6f6a" class="phoneTitle" (click)="showLogin()">Back to login</p>
+                    <p style="color:#ec6f6a" class="phoneTitle" (click)="showLogin()">{{ 'BACK_TO_LOGIN' | translate }}</p>
                 </ion-list>
             </form>
         </div>

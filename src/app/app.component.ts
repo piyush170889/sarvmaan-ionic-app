@@ -4,6 +4,7 @@ import { LoadingController, Loading } from 'ionic-angular';
 import { ApiService } from '../api-services/api.services';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { TranslateService } from '@ngx-translate/core';
 
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
@@ -11,8 +12,6 @@ import { LoginPage } from '../pages/login/login';
 import { PriceListPage } from '../pages/price-list/price-list';
 import { ProfilePage } from '../pages/profile/profile';
 import { VendorRegistrationPage } from '../pages/vendor-registration/vendor-registration';
-
-
 import { AuthProvider } from '../providers/auth/auth';
 
 @Component({
@@ -37,11 +36,15 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     public apiServices: ApiService,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private translate: TranslateService
   ) {
-    this.initializeApp();
 
-    // used for an example of ngFor and navigation
+    translate.addLangs(["en", "marathi"]);
+    translate.setDefaultLang('en');
+    translate.use('en');
+
+    this.initializeApp();
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: 'PriceList', component: PriceListPage },
@@ -55,8 +58,6 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.refreshToken();
@@ -73,7 +74,7 @@ export class MyApp {
           //this.profileData = response;
           this.profileData.name = response.appUsers.firstName + '' + response.appUsers.lastName;
           this.profileData.profession = response.appUsers.businessDetails.skillSet[0].displayText;
-          this.profileData.imageUrl = response.appUsers.businessDetails.logo == null ? 'assets/imgs/user.png' : response.appUsers.businessDetails.logo ;
+          this.profileData.imageUrl = response.appUsers.businessDetails.logo == null ? 'assets/imgs/user.png' : response.appUsers.businessDetails.logo;
           //this.profileData = response;
           this.rootPage = HomePage;
         }, (error) => {
@@ -110,7 +111,7 @@ export class MyApp {
     });
   }
 
-  createLoader(message: string = "Checking authentication..") { // Optional Parameter
+  createLoader(message: string = "Checking authentication..") {
     this.loading = this.loadingCtrl.create({
       content: message
     });
@@ -126,22 +127,12 @@ export class MyApp {
       }
     })
 
-
-
-    //this.nav.setRoot(page.component);
-    if (localStorage.getItem('isLogin') == 'true')// page == 'Login')
-    {
-      //this.nav.setRoot(page.component);
-      this.nav.push(getSelectedIndex.component);
-    } else if (page == 'Logout') {
-      localStorage.clear();
-    }
-
-    // Otherwise reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    else {
+     if (page == 'Logout') {
       localStorage.clear();
       this.nav.setRoot(this.pages[3].component);
+    }
+    else {
+      this.nav.push(getSelectedIndex.component);
     }
   }
 }

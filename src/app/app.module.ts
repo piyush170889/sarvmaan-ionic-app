@@ -1,7 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule } from '@angular/http';
+import { HttpModule, Http } from '@angular/http';
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { ImagePicker } from '@ionic-native/image-picker';
 
 
 import { SelectSearchableModule } from 'ionic-select-searchable';
@@ -24,6 +26,13 @@ import { AuthProvider } from '../providers/auth/auth';
 import { ApiService } from '../api-services/api.services';
 import { HelperService } from '../api-services/helperServices';
 
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function createTranslateLoader(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
+}
+
 @NgModule({
   declarations: [
     MyApp,
@@ -41,7 +50,15 @@ import { HelperService } from '../api-services/helperServices';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
-    SelectSearchableModule
+    SelectSearchableModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -57,6 +74,7 @@ import { HelperService } from '../api-services/helperServices';
     UpdateUserInfoPage
   ],
   providers: [
+    ImagePicker,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
@@ -66,3 +84,4 @@ import { HelperService } from '../api-services/helperServices';
   ]
 })
 export class AppModule {}
+
