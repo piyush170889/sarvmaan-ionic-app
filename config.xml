@@ -85,7 +85,7 @@
     <plugin name="com.synconset.imagepicker" spec="~2.1.10">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="your usage message" />
     </plugin>
-    <engine name="android" spec="7.0.0" />
     <allow-navigation href="http://192.168.1.36:8100" />
     <plugin name="com-badrit-base64" spec="^0.2.0" />
+    <engine name="android" spec="7.0.0" />
 </widget>

@@ -35,7 +35,8 @@ export class EditProfilePage {
       'state': ['', Validators.required],
       'city': ['', Validators.required],
       'skillSet': [''],
-      'whatsappNo': ['']
+      'whatsappNo': [''],
+      'countryName': ['']
     });
   }
 
@@ -75,6 +76,7 @@ response.appUsers.businessDetails.skillSet.forEach(element => {
           this.editProfileForm.controls['city'].setValue(response.appUsers.address[0].cityName);
           this.editProfileForm.controls['skillSet'].setValue(skillSetData);
           this.editProfileForm.controls['whatsappNo'].setValue(response.appUsers.businessDetails.whatsAppNumber);
+          this.editProfileForm.controls['countryName'].setValue(response.appUsers.address[0].countryName);
           // this.userDetails = response.appUsers;
           // this.bussinessDetails = response.appUsers.businessDetails;
           // this.skillList = response.appUsers.businessDetails.skillSet
@@ -121,10 +123,10 @@ response.appUsers.businessDetails.skillSet.forEach(element => {
       "lastName": this.editProfileForm.controls['lastName'].value,
       "address": [
         {
-          "cityName": "Nasik",
-          "stateName": "Maharashtra",
-          "countryName": "India",
-          "street": this.editProfileForm.controls['streetAddress'].value
+          "cityName": this.editProfileForm.value.city,
+          "stateName": this.editProfileForm.value.state,
+          "countryName": this.editProfileForm.value.countryName,
+          "street": this.editProfileForm.value.streetAddress
         }
       ],
       "businessDetails": {

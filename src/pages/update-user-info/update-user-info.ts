@@ -13,6 +13,7 @@ export class UpdateUserInfoPage {
   public requestedPage: any;
   public errorToast: any;
   public successToast: any;
+  public emailSendSuccess:any;
   public passwordUpdateForm: FormGroup;
   public emailUpdateForm: FormGroup;
   public contactUpdateForm: FormGroup;
@@ -90,6 +91,11 @@ export class UpdateUserInfoPage {
       duration: 700,
       position: 'bottom'
     });
+    this.emailSendSuccess = this.toastCtrl.create({
+      message: 'An email has been sent to provided email id.',
+      duration: 900,
+      position: 'bottom'
+    });
 
     if (this.requestedPage == 'EMAIL') {
       this.pageListToShow.updateEmail = true;
@@ -131,14 +137,12 @@ export class UpdateUserInfoPage {
   }
 
   updateEmail() {
-    let data = {
-      'emailId': this.emailUpdateForm.controls['emailId'].value
-    }
+    let data =  this.emailUpdateForm.controls['emailId'].value;
     this.createLoader();
     this.loading.present().then(() => {
-      this.apiServices.updateEmail(data).subscribe((response) => {
+      this.apiServices.sendEmail(data).subscribe((response) => {
         this.loading.dismiss();
-        this.successToast.present();
+        this.emailSendSuccess.present();
         setTimeout(() => {
           this.navCtrl.pop();
         }, 1000)

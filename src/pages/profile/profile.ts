@@ -100,7 +100,7 @@ export class ProfilePage {
       this.base64.encodeFile(filePath).then((base64File: string) => {
         let stringData = base64File.split(',')[1];        
         console.log(stringData);
-        this.uploadLogo(stringData);
+        this.uploadLogo('data:image/png;base64,' + stringData);
       }, (err) => {
         console.log(err);
       });    

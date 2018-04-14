@@ -110,7 +110,7 @@ export class ApiService {
             "logo": argument
         }
 
-        return this.http.put(AppSettings.API_ENDPOINT + 'profile-logo', data, this.headers.createHeaderOptions())
+        return this.http.post(AppSettings.API_ENDPOINT + 'profile-logo', data, this.headers.createHeaderOptions())
             .map(response => response.json())
             .catch((err: Response) => {
                 let details = err.json();
@@ -138,7 +138,7 @@ export class ApiService {
         {
             "emailId": argument
         }        
-        return this.http.post(AppSettings.API_ENDPOINT + 'send-email', data)
+        return this.http.post(AppSettings.API_ENDPOINT + 'send-email', data, this.headers.createHeaderOptions())
             .map(response => response.json())
             .catch((err: Response) => {
                 let details = err.json();
@@ -231,7 +231,8 @@ export class ApiService {
             },
             {
                 "group": "skillset"
-            }]
+            }
+        ]
         })
             .map(response => response.json())
             .catch((err: Response) => {
