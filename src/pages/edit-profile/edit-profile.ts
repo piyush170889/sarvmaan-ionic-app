@@ -94,8 +94,10 @@ response.appUsers.businessDetails.skillSet.forEach(element => {
 
   getMasterDataList() {
     this.apiServices.getMasterDataList('').subscribe((response) => {
-      this.masterDataList.language = response.masterDataToList[0].masterDataList;
-      this.masterDataList.Skillset = response.masterDataToList[1].masterDataList;
+      if((response.masterDataToList !== null)){
+        this.masterDataList.language = response.masterDataToList[0].masterDataList;
+        this.masterDataList.Skillset = response.masterDataToList[1].masterDataList;
+      }
     })
   }
 

@@ -4,8 +4,9 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { ImagePicker } from '@ionic-native/image-picker';
+import { Base64 } from '@ionic-native/base64';
 
-
+import{ServerErrorComponent} from '../shared/server-error/server-error';
 import { SelectSearchableModule } from 'ionic-select-searchable';
 
 import { MyApp } from './app.component';
@@ -44,7 +45,8 @@ export function createTranslateLoader(httpClient: HttpClient) {
     ProfilePage,
     AddUpdateQuotePage,
     EditProfilePage,
-    UpdateUserInfoPage
+    UpdateUserInfoPage,
+    ServerErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -71,17 +73,20 @@ export function createTranslateLoader(httpClient: HttpClient) {
     ProfilePage,
     AddUpdateQuotePage,
     EditProfilePage,
-    UpdateUserInfoPage
+    UpdateUserInfoPage,
+    ServerErrorComponent
   ],
   providers: [
     ImagePicker,
+    Base64,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     ApiService,
     HelperService
-  ]
+  ],
+  exports: [ServerErrorComponent]
 })
 export class AppModule {}
 

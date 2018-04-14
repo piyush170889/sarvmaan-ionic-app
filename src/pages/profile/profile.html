@@ -1,11 +1,106 @@
 <ion-header>
     <ion-navbar color="danger">
-        <ion-title>profile</ion-title>
+        <ion-title>Profile</ion-title>
     </ion-navbar>
 </ion-header>
+<ion-content parallax-header no-bounce class="bg-modal">
+    <ion-fab right bottom #fab>
+        <button ion-fab color="danger" style="border-radius: 50%;">
+            <ion-icon name="create"></ion-icon>
+        </button>
+        <ion-fab-list side="top">
+            <button ion-fab color="danger" (click)="editProfile()">
+                Update profile
+            </button>
+            <button ion-fab color="danger" (click)="changeProfilePicture()">
+                Update Logo
+            </button>
+            <button ion-fab color="danger" (click)="updateProfile('CONTACT')">
+                Update contact
+            </button>
+            <button ion-fab color="danger" (click)="updateProfile('EMAIL')">
+                Update e-mail
+            </button>
+            <button ion-fab color="danger" (click)="updateProfile('PASSWORD')">
+                Update password
+            </button>
+        </ion-fab-list>
+    </ion-fab>
+    <!-- <div class="header-image"></div>
+    <div class="main-content" text-wrap text-center>
+        <div class="circular" [style.background]="'url('+ bussinessDetails.logo == null ? 'assets/imgs/user.png' : bussinessDetails.logo + ')'"></div>
+        <h2>{{userDetails.firstName}}</h2>
+        <p>{{bussinessDetails.businessName}} &bull; location</p>
+        <p class="profile-description">
+            <span *ngFor="let skill of skillList">
+                {{skill.displayText}},
+            </span>
+        </p>
+        <hr> -->
 
-<ion-content>
-    <ion-fab right bottom>
+    <div id="profile-bg" [ngStyle]="{'background-image': 'url(assets/imgs/bg.jpg)'}"></div>
+    <div id="content">
+        <div id="profile-info">
+            <img id="profile-image" [src]="bussinessDetails.logo == null ? 'assets/imgs/user.png' : bussinessDetails.logo">
+            <h3 id="profile-name">{{userDetails.firstName + ' ' + userDetails.lastName}}</h3>
+            <hr>
+            <span id="profile-description">
+                {{bussinessDetails.businessName}}
+            </span>
+            <hr>
+            <p>
+                <span *ngFor="let skill of skillList">
+                    {{skill.displayText}},
+                </span>
+            </p>
+        </div>
+        <hr>
+        <ion-list no-lines>
+            <ion-item>
+                <ion-icon name="mail" color="danger" item-start></ion-icon>
+                <p>Email</p>
+                {{userDetails.emailId}}                
+            </ion-item>
+            <ion-item>
+                <ion-icon item-start name="call" color="danger"></ion-icon>
+                <p>Mobile</p>
+                {{bussinessDetails.whatsAppNumber}}                
+            </ion-item>
+            <ion-item>
+                <ion-icon item-start name="logo-whatsapp" color="secondary"></ion-icon>
+                <p>Whatsapp</p>
+                {{userDetails.contactNumber}}                
+            </ion-item>
+            <ion-item>
+                <ion-icon item-start name="pin" color="twitter"></ion-icon>
+                <p>Address</p>
+                <p>{{userAddress.street}}, {{userAddress.cityName}}, {{userAddress.stateName}}, {{userAddress.countryName}}</p>
+            </ion-item>
+            <ion-item>
+                <ion-icon item-start name="megaphone" color="danger"></ion-icon>
+                <p>Language</p>
+                {{userDetails.language}}                
+            </ion-item>
+        </ion-list>
+    </div>
+
+</ion-content>
+<ion-footer>
+    <ion-toolbar class="footer">
+        <div text-center>
+            <span>
+                <strong>
+                    <a [href]="bussinessDetails.webSite">{{bussinessDetails.webSite}}</a>
+                </strong>.</span>
+        </div>
+    </ion-toolbar>
+</ion-footer>
+
+
+
+
+<!--<ion-content>
+    <ion-fab right bottom #fab>
         <button ion-fab color="danger" style="border-radius: 50%;">
             <ion-icon name="create"></ion-icon>
         </button>
@@ -37,7 +132,7 @@
                     <span class="user-name">
                         {{userDetails.firstName}}
                         <br>
-                        <p class="profession">Painter</p>
+                        <p class="profession">{{bussinessDetails.businessName}}</p>
                     </span>
                 </div>
             </ion-col>
@@ -74,7 +169,7 @@
             <p item-end>
                 <span>
                     {{userDetails.contactNumber}}
-                    <!-- <ion-icon name="create" class="title-text edit-btn" (click)="editContact('contact')"></ion-icon> -->
+                   
                     <br>
                     <span class="contact-identifier">Calling</span>
                 </span>
@@ -82,7 +177,7 @@
                 <br>
                 <span>
                     {{bussinessDetails.whatsAppNumber}}
-                    <!-- <ion-icon name="create" class="title-text edit-btn" (click)="editContact('whatsApp')"></ion-icon> -->
+                    
                     <br>
                     <span class="contact-identifier">Whatsapp</span>
                 </span>
@@ -98,13 +193,10 @@
                 </span>
             </p>
         </ion-item>
-        <!-- <ion-item text-center>
-            <button class="custom-btn" ion-button (click)="editProfile()">Edit profile</button>
-        </ion-item> -->
         <br>
         <div text-center>
             <a text-center [href]="bussinessDetails.webSite">{{bussinessDetails.webSite}}</a>
         </div>
 
     </ion-list>
-</ion-content>
+</ion-content> -->

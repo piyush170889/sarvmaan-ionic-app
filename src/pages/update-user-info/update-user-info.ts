@@ -11,18 +11,19 @@ import { ApiService } from '../../api-services/api.services';
 export class UpdateUserInfoPage {
 
   public requestedPage: any;
-  public errorToast:any;
-  public successToast:any;
-  public passwordUpdateForm:FormGroup;
-  public emailUpdateForm:FormGroup;
-  public contactUpdateForm:FormGroup;
-  public otpForm:FormGroup;
+  public errorToast: any;
+  public successToast: any;
+  public passwordUpdateForm: FormGroup;
+  public emailUpdateForm: FormGroup;
+  public contactUpdateForm: FormGroup;
+  public otpForm: FormGroup;
   public showPasswordMatch: boolean = false;
-  public showPasswordMismatch:boolean = false;
-  public otpMessageObj:any ={
+  public showPasswordMismatch: boolean = false;
+  public validateChangePasswordForm: boolean = false;
+  public otpMessageObj: any = {
     otpErrorBox: false,
     msg: ''
-  } 
+  }
   loading: Loading;
   loadingConfig: any;
   pageListToShow: any = {
@@ -60,16 +61,28 @@ export class UpdateUserInfoPage {
       ]]
     });
   }
-  passwordChange(){
+  passwordChange() {
     //setTimeout(()=>{
-      if(this.passwordUpdateForm.controls['newPassword'].value == this.passwordUpdateForm.controls['confirmPassword'].value){
-        this.showPasswordMatch = true;
-        this.showPasswordMismatch =  false;
-      }else{
+    //if (this.passwordUpdateForm.controls['newPassword'].value != '' && this.passwordUpdateForm.controls['confirmPassword'].value != '') {
+      if (this.passwordUpdateForm.controls['newPassword'].value == this.passwordUpdateForm.controls['confirmPassword'].value) {
+        if (this.passwordUpdateForm.controls['newPassword'].value != '' && this.passwordUpdateForm.controls['confirmPassword'].value != '') {
+          this.showPasswordMatch = true;
+          this.showPasswordMismatch = false;
+          if ((this.passwordUpdateForm.controls['oldPassword'].status != "INVALID") && !this.showPasswordMismatch) {
+            this.validateChangePasswordForm = true;
+          }
+        }
+      } else {
+        //this.passwordUpdateForm.valid = true
         this.showPasswordMatch = false;
-        this.showPasswordMismatch =  true;
+        this.showPasswordMismatch = true;
+        this.validateChangePasswordForm = false;
+        if ((this.passwordUpdateForm.controls['oldPassword'].status != "INVALID") && !this.showPasswordMismatch) {
+          this.validateChangePasswordForm = true;
+        }
       }
-   // }, 200)
+    //}
+    // }, 200)
   }
   ionViewDidLoad() {
     this.successToast = this.toastCtrl.create({
@@ -88,37 +101,45 @@ export class UpdateUserInfoPage {
 
   }
 
-  updatePassword() {    
+  passwordChangeError:any = {
+    show: false,
+    msg: ''
+  }
+  updatePassword() {
     let data = {
       'oldPassword': this.passwordUpdateForm.controls['oldPassword'].value,
-      'newPassword': this.passwordUpdateForm.controls['newPassword'].value      
-    }    
+      'newPassword': this.passwordUpdateForm.controls['newPassword'].value
+    }
     this.createLoader();
     this.loading.present().then(() => {
       this.apiServices.changePassword(data).subscribe((response) => {
         this.loading.dismiss();
         this.successToast.present();
-        setTimeout(()=>{
+        setTimeout(() => {
           this.navCtrl.pop();
         }, 1000)
       }, (err) => {
         //this.errorToast.present();
-        alert(err.responseMessage.message)
+        this.passwordChangeError.show= true;
+        this.showPasswordMatch = false;
+        this.showPasswordMismatch = false;
+        this.passwordChangeError.msg= err.responseMessage.message;
+        //alert(err.responseMessage.message)
         this.loading.dismiss();
       })
     })
   }
 
-  updateEmail() {    
+  updateEmail() {
     let data = {
       'emailId': this.emailUpdateForm.controls['emailId'].value
-    }    
+    }
     this.createLoader();
     this.loading.present().then(() => {
       this.apiServices.updateEmail(data).subscribe((response) => {
         this.loading.dismiss();
         this.successToast.present();
-        setTimeout(()=>{
+        setTimeout(() => {
           this.navCtrl.pop();
         }, 1000)
       }, (err) => {
@@ -128,7 +149,7 @@ export class UpdateUserInfoPage {
     })
   }
 
-  sendOtp() {    
+  sendOtp() {
     let data = {
       "cellNumber": this.contactUpdateForm.controls['cellNumber'].value,
       "deviceInfo": "abc"
@@ -139,15 +160,15 @@ export class UpdateUserInfoPage {
         this.loading.dismiss();
         this.pageListToShow.otp = true;
         this.pageListToShow.updateContact = false;
-       // this.successToast.present();
+        // this.successToast.present();
         // setTimeout(()=>{
         //   this.navCtrl.pop();
         // }, 1000)
       }, (err) => {
-        if(err.hasOwnProperty('responseMessage')){
+        if (err.hasOwnProperty('responseMessage')) {
           this.otpMessageObj.otpErrorBox = true;
           this.otpMessageObj.msg = err.responseMessage.message;
-        }       
+        }
         //this.errorToast.present();
         this.loading.dismiss();
       })
@@ -155,24 +176,24 @@ export class UpdateUserInfoPage {
 
   }
 
-  updateContact() {    
+  updateContact() {
     let data = {
       'cellNumber': this.contactUpdateForm.controls['cellNumber'].value,
       'otp': this.otpForm.controls['otp'].value
-    }    
+    }
     this.createLoader();
     this.loading.present().then(() => {
       this.apiServices.updateContact(data).subscribe((response) => {
         this.loading.dismiss();
         this.successToast.present();
-        setTimeout(()=>{
+        setTimeout(() => {
           this.navCtrl.pop();
         }, 1000)
       }, (err) => {
-        if(err.hasOwnProperty('responseMessage')){
+        if (err.hasOwnProperty('responseMessage')) {
           this.otpMessageObj.otpErrorBox = true;
           this.otpMessageObj.msg = err.responseMessage.message;
-        }  
+        }
         this.loading.dismiss();
       })
     })
@@ -180,7 +201,7 @@ export class UpdateUserInfoPage {
   }
 
 
-// loader initilization
+  // loader initilization
   createLoader(message: string = "Please wait...") { // Optional Parameter
     this.loading = this.loadingCtrl.create({
       content: message

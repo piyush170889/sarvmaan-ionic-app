@@ -15,6 +15,7 @@ import { ApiService } from '../../api-services/api.services';
   templateUrl: 'login.html',
 })
 export class LoginPage {
+  
   public showForgotPassword:boolean = true;
   public vendorSignUp = VendorRegistrationPage;
   public selectedLoginType: any;

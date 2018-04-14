@@ -27,20 +27,25 @@
             <p style="color:#e2531a">Password Mismatched.</p>
           </ion-col>
         </ion-row>
+        <ion-row *ngIf="passwordChangeError.show">
+          <ion-col text-center>
+            <p style="color:#e2531a">{{passwordChangeError.msg}}</p>
+          </ion-col>
+        </ion-row>
         <ion-item margin-bottom>
           <ion-label stacked>Your Old Password</ion-label>
-          <ion-input type="password" formControlName="oldPassword" placeholder="***********"></ion-input>
+          <ion-input (input)="passwordChange($event)" type="password" formControlName="oldPassword" placeholder="***********"></ion-input>
         </ion-item>
         <ion-item margin-bottom>
           <ion-label stacked>Your New Password</ion-label>
-          <ion-input type="password" formControlName="newPassword" placeholder="***********"></ion-input>
+          <ion-input (input)="passwordChange($event)" type="password" formControlName="newPassword" placeholder="***********"></ion-input>
         </ion-item>
         <ion-item margin-bottom>
           <ion-label stacked>Confirm Password</ion-label>
           <ion-input (input)="passwordChange($event)" type="password" formControlName="confirmPassword" placeholder="***********"></ion-input>
         </ion-item>
 
-        <button ion-button block large color="danger" [disabled]="!passwordUpdateForm.valid">UPDATE</button>
+        <button ion-button block large color="danger" [disabled]="validateChangePasswordForm==false">UPDATE</button>
       </ion-list>
     </form>
   </div>

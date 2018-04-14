@@ -13,7 +13,10 @@ import { ApiService } from '../../api-services/api.services';
   templateUrl: 'vendor-registration.html',
 })
 export class VendorRegistrationPage {
-
+  public serverError:any = {
+    show: false,
+    message: ''
+  };
   public PhoneForm: FormGroup;
   public OtpForm: FormGroup;
   public regForm: FormGroup;
@@ -23,9 +26,11 @@ export class VendorRegistrationPage {
   public showInputLoader = false;
   public otpMessageObj:any ={
     otpErrorBox: false,
-    msg: ''
+    msg: '',
+    otpSendSuccess: true
   } 
-
+  // this.otpMessageObj.otpSendSuccess = false;
+  // this.otpMessageObj.sucessMsg = 'An OTP has been send to your given mobile no.'
   constructor(
     private _FORMBUILDER: FormBuilder,
     public navCtrl: NavController,
@@ -97,7 +102,10 @@ export class VendorRegistrationPage {
       if (response.responseMessage.status == "200" && response.responseMessage.message == "OK") {        
         this.showPhoneForm = false;
         this.showOtpForm = true;
-        this.showInputLoader = false;
+        this.showInputLoader = false;  
+        this.otpMessageObj.otpErrorBox = false;
+        this.otpMessageObj.otpSendSuccess = true; 
+        this.OtpForm.controls['otp'].setValue('');    
       } else {
         alert(response.responseMessage.message);
       }
@@ -108,6 +116,9 @@ export class VendorRegistrationPage {
         this.showInputLoader = false;
       }
     })
+  }
+  phoneFieldChangeEvent(){
+    this.otpMessageObj.otpErrorBox = false;
   }
 
   submitOtp() {
@@ -136,9 +147,13 @@ export class VendorRegistrationPage {
       if(err.hasOwnProperty('responseMessage')){
         this.otpMessageObj.otpErrorBox = true;
         this.otpMessageObj.msg = err.responseMessage.message;
+        this.otpMessageObj.otpSendSuccess = false;
         this.showInputLoader = false;
       }
     })    
+  }
+  otpFieldChangeEvent(){
+    this.otpMessageObj.otpErrorBox = false;
   }
 
   submitVendorRegistration(){
@@ -169,11 +184,7 @@ export class VendorRegistrationPage {
     })    
   }
 
-  logIn(): void {
-    //  let email : any = this.form.controls['username'].value,
-    //      password : any = this.form.controls['password'].value;
-
-  }
+ 
 
   
   public openTermNconditionModal() {
@@ -187,9 +198,11 @@ export class VendorRegistrationPage {
   };
   getMasterDataList() {
     this.apiService.getMasterDataList('').subscribe((response) => {
-      this.masterDataList.language = response.masterDataToList[0].masterDataList;
-      this.masterDataList.Skillset = response.masterDataToList[1].masterDataList;
-    })
+      if((response.masterDataToList !== null)){
+        this.masterDataList.language = response.masterDataToList[0].masterDataList;
+        this.masterDataList.Skillset = response.masterDataToList[1].masterDataList;
+      }
+    }, )
   }
 
 }
