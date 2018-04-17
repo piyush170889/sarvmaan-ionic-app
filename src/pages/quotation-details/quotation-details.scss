@@ -1,0 +1,153 @@
+page-quotation-details {
+
+    .header-md::after {
+        background-image: none;
+    }
+    .cardTitle {
+        font-weight: 300;
+        font-size: 18px;
+    }
+    .toolbar-title-md {
+        padding: 0 20px;
+    }
+    .toolbar-background-md {
+        border-color: none;
+        background: none;
+    }
+   
+
+    /* start new design css 07-04-2018*/
+    .date-print
+    {
+        font-size: 14px;
+        color: #dc6460;
+        margin-top: 0px;
+        margin-bottom: 0px
+    }   
+    .Quotation-head
+    {
+        text-align: center;
+        font-size: 17px;
+    }
+    .Quotation-head p
+    {
+        margin: 0px;
+    }
+    .Quotation-head p:last-child
+    {
+        color: rgba(0,0,0,0.7);
+    }
+    
+    .no-padding
+    {
+        padding: 0px;
+    }
+    .quotation-block
+    {
+        margin-top: 20px;
+        position: relative;
+    }
+    .Quotation-item
+    {
+        background-color: #f9f9f9;
+        border-top: 1px solid #d7d7d7;
+        border-left: 1px solid #d7d7d7;
+        border-right: 1px solid #d7d7d7;
+        padding-top: 0px;
+        max-height: 57px !important;
+    }
+    .Quotation-list .item-block .item-inner {
+        border-bottom: 1px solid transparent;
+    }
+    .Quotation-item:last-child 
+    {
+        border-bottom: 1px solid #d7d7d7;
+        border-top: 1px solid #d7d7d7;
+    }
+    .Quotation-item.item-md p
+    {
+        font-size: 16px;
+        color: #dc6460 !important;
+    }
+    .Quotation-item.item-md span
+    {
+        font-size: 14px;
+        color: rgba(0,0,0,.7) !important;
+    }
+    .patch-btn
+    {
+        position: absolute;
+        top: -35px;
+        right: 1px;
+        background-color: #ec6f6a;
+        padding: 4px 8px;
+        font-size: 15px;
+        color: #fff;
+        height: 27px;
+    }
+    .total-block
+    {
+        padding: 0 5px 0 15px;
+    }
+    .total-block p
+    {
+        font-size: 18px;
+        color: rgba(0,0,0,0.8);
+        margin: 0;
+    }
+    .total-block span
+    {
+        font-size: 15px;
+    }
+    .grant-total
+    {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 8px;
+    }
+    .grant-total p
+    {
+        font-size: 19px;
+        color: #dc6460;
+        
+    }
+    .address-block
+    {
+        padding: 0 5px 0 15px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 13px;
+        margin-top: 10px;
+    
+    }
+    .address-block span
+    {
+        font-size: 15px;
+        color: #dc6460;
+    }
+    .address-block p
+    {
+        font-size: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        margin: 0px;
+        font-style: italic;
+        text-align: left;
+    }
+    .full-btn
+    {
+        width: 90%;
+    }
+    .submited-block p
+    {
+        color: rgba(0,0,0,0.7);     
+        margin-top: 5px;
+        font-size: 15px;
+    }
+    .submited-block span
+    {
+        color: #488aff;
+    }
+    .status-img img
+    {
+        width: 18px;
+        margin-top: 5px;
+    }
+}

@@ -1,0 +1,115 @@
+<ion-header>
+  <ion-navbar color="danger">
+      <ion-title>4500</ion-title>
+  </ion-navbar>
+  <ion-toolbar class="sub-header-content">
+      <ion-title>
+          <ion-row>
+              <ion-col text-left>
+                  <span class="cardTitle">
+                      Work Title here
+                  </span>
+              </ion-col>
+              <ion-col text-right>
+                    <ion-icon class="status-draft" name="bookmark"></ion-icon>
+              </ion-col>
+          </ion-row>
+      </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+  <h3 class="page-title">Add Material List</h3>
+  <ion-list class="add-material-item">  .
+    <ion-item class="cust-border-bottom">
+      <ion-label class="note-title" stacked>Sr.No</ion-label>
+      <ion-input placeholder="001" [(ngModel)]= "materialId"></ion-input>
+    </ion-item>
+    <ion-item class="input_cust_border show-select-text">
+    <ion-label class="showing-text" style="display: none" stacked></ion-label>
+      <!--<ion-select  >
+        <ion-option value="Product_1">Product 1</ion-option>
+        <ion-option value="Product_2">Product 2</ion-option>
+        <ion-option value="Product_3">Product 3</ion-option>
+        <ion-option value="Product_4">Product 4</ion-option>
+        <ion-option value="Product_5">Product 5</ion-option>
+        <ion-option value="Product_6">Product 6</ion-option>
+      </ion-select>-->
+      <ion-select [(ngModel)]= "productName" (ionChange)="getProductName(productName)">
+        <ion-option *ngFor="let productName of productNameList">{{productName}}</ion-option>
+        <!--<ion-option value="15000">Product Two</ion-option>
+        <ion-option value="1800">Product Three</ion-option>
+        <ion-option value="2000">Product Four</ion-option> -->          
+    </ion-select>
+    </ion-item>
+   <ion-row>
+     <ion-col col-5 text-left class="cust-left-border" >
+       <p class="cust-item-title">quantity</p>
+      <ion-input placeholder="Enter quantity" [(ngModel)]= "quantity"></ion-input>
+     </ion-col>
+     <ion-col col-6 text-right class="cust-right-border unit-select-box"> 
+       <ion-item class="unit-select">      
+        <!--<ion-select >
+            <ion-option value="Handred">Handred</ion-option>
+            <ion-option value="Thousands">Thousands</ion-option>
+            <ion-option value="lacs">lacs</ion-option>
+            <ion-option value="core">core</ion-option>           
+        </ion-select>-->
+        <ion-select [(ngModel)]= "unit" (ionChange)="getUnit(unit)">
+            <ion-option *ngFor="let unit of unitList">{{unit}}</ion-option>
+           <!-- <ion-option value="Thousands">Thousands</ion-option>
+            <ion-option value="lacs">lacs</ion-option>
+            <ion-option value="core">core</ion-option>  -->         
+        </ion-select>
+      </ion-item>
+      </ion-col>
+   </ion-row>
+   <ion-row class="rate-row">
+      <ion-col col-6 text-left class="cust-right-border"> 
+          <p class="amount-rate-title">Rate</p> 
+          <ion-item class="rate-select">                
+          <!-- <ion-select >
+               <ion-option value="12000">12000/-</ion-option>
+               <ion-option value="15000">15000/-</ion-option>
+               <ion-option value="1800">1800/-</ion-option>
+               <ion-option value="2000">2000/-</ion-option>           
+           </ion-select>-->
+           <ion-select [(ngModel)]= "rate" (ionChange)="getRate(rate)">
+            <ion-option *ngFor="let rate of rateList">{{rate}}</ion-option>
+           <!-- <ion-option value="15000">15000/-</ion-option>
+            <ion-option value="1800">1800/-</ion-option>
+            <ion-option value="2000">2000/-</ion-option> -->          
+        </ion-select>
+         </ion-item>
+      </ion-col>
+      <ion-col col-5  text-right class="cust-left-border margin-right-side " >
+        <p class="amount-rate-title">Custome Rate</p>
+       <ion-input class="margin-top-input"placeholder="Enter Rate" [(ngModel)]= "custRate" (change)="getCustRate(custRate)"></ion-input>     
+      </ion-col>
+      <span class="add-or"></span>     
+    </ion-row>
+    <ion-item class="cust-border-bottom">
+        <ion-label class="note-title" stacked>Total</ion-label>
+        <ion-input placeholder="000" [(ngModel)]= "total"></ion-input>
+    </ion-item>
+    <ion-item class="note-box" no-border>
+      <ion-label class="note-title" stacked>Notes</ion-label>
+      <ion-textarea  class="cust-ion-textarea" placeholder="Write here" [(ngModel)]= "notes"></ion-textarea>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+      <ion-title>
+          <ion-row>
+              <ion-col text-center>
+                  <button class="full-btn" ion-button color="primary" round>Cancel</button>
+              </ion-col>
+              <ion-col text-center>
+                  <button class="full-btn" ion-button color="secondary" round (click)="saveMaterialToQuotation()">Save</button>
+              </ion-col>
+          </ion-row>
+      </ion-title>
+  </ion-toolbar>
+</ion-footer>

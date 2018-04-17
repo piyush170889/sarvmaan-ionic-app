@@ -1,0 +1,79 @@
+page-edit-material-list {
+    .header-md::after {
+        background-image: none;
+    }
+    .cardTitle {
+        font-weight: 300;
+        font-size: 18px;
+    }
+    .toolbar-title-md {
+        padding: 0 20px;
+    }
+    .toolbar-background-md {
+        border-color: none;
+        background: none;
+    }
+   
+ 
+    .no-padding
+    {
+        padding: 0px;
+    }
+    .price-content 
+    {
+        position: relative;
+    }
+    .price-content span
+    {
+        font-size: 16px;
+        padding-top: 0px;
+        color: #000;
+    }
+    .price-content p
+    {
+        font-size: 16px;
+        padding-top: 0px;
+        color: #000;
+    }
+    .item.item-md .checkbox-md {
+        position: static;
+        display: block;
+        margin: 9px 15px 9px 4px;
+    }
+    .mark-icon
+    {
+        position: absolute;
+        top: 7px;
+        right: 10px;
+        background-color: #ec6f6a;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 17px;
+        display: block;
+        padding: 0;
+        width: 15px;
+        height: 15px;
+        text-align: center;
+    }
+    .price-content .button-inner
+    {
+        border-bottom: 1px solid #ddd;
+    }
+    .price-content.item-md
+    {
+        color: #ec6f6a;
+    }
+    
+    .price-content .checkbox-icon
+    {
+        border-color: #32db64;;
+    }
+    .price-content.item-block .item-inner {
+        border-bottom: 1px solid transparent;
+    }
+    .full-btn
+    {
+        width: 90%;
+    }
+    
+}

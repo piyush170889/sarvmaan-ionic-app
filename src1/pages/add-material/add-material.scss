@@ -1,0 +1,245 @@
+page-add-material {
+
+    .item-md.item-block .item-inner,
+    .item-md.item-input.input-has-focus .item-inner,
+    .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner,
+    .item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner,
+    .list-md .item-input.input-has-focus:last-child,
+    .list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):last-child,
+    .list-md .item-input.ng-invalid.ng-touched:not(.input-has-focus):last-child {
+        border-bottom: none;
+        box-shadow: none;
+    }
+    .list-md .item-input.input-has-focus:last-child .item-inner,
+    .list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):last-child .item-inner,
+    .list-md .item-input.ng-invalid.ng-touched:not(.input-has-focus):last-child .item-inner {
+        box-shadow: none; 
+    }
+
+    .header-md::after {
+        background-image: none;
+    }
+    .cardTitle {
+        font-weight: 300;
+        font-size: 18px;
+    }
+    .toolbar-title-md {
+        padding: 0 20px;
+    }
+    .toolbar-background-md {
+        border-color: none;
+        background: none;
+    }
+    .title-select
+    {
+        font-size: 20px !important;
+        font-weight: 200;
+        text-align: center;
+        color: #000 !important;
+        margin-bottom: 10px;
+    }
+    .show-select-text:before
+    {
+        content: 'Enter Product Name';
+        color: rgba(0,0,0,0.5);
+        margin-top: -8px;
+    }
+    .show-select-text.item-input-has-value:before
+    {
+        content: '';
+    }
+    .add-material-item .item-md.item-block .item-inner {
+        padding-right: 0px;
+        border-bottom: 1px solid transparent;
+    }
+    .input_cust_border
+	{
+	  border-bottom: 1px solid #c8c7cc !important;
+    }
+    .page-title
+    {
+        text-align: center;
+        color: #000;
+    }
+    .unit-select .select.select-md
+    {
+        max-width: 100%;
+        margin-top: 13px;
+        width: 100%;
+    }
+    .unit-select:before
+    {
+        content: 'Unit';
+        color: rgba(0,0,0,0.5);
+        padding-top: 10px;
+    }
+    .unit-select.item-input-has-value:before
+    {
+        content: '';
+    }
+    .rate-select .select.select-md
+    {
+        max-width: 100%;      
+        width: 100%;
+    }   
+    .rate-select:before
+    {
+        content: 'Select Rate';
+        color: rgba(0,0,0,0.5);
+       
+    }
+    .rate-select.item-input-has-value:before
+    {
+        content: '';
+    }
+    
+    .cust-item-title
+    {
+        margin: 0px;
+        color: #ec6f6a;
+        font-size: 17px;
+        padding-left: 0px;
+        font-weight: bold
+    }
+    .cust-left-border
+    {
+        border-bottom: 1px solid #ddd;
+       
+    }
+    .cust-right-border
+    {
+        border-bottom: 1px solid #ddd;
+    
+    }
+    .margin-left
+    {
+        margin-left: 15px;
+    }
+    .amount-rate-title
+    {
+        text-align: left;
+        color: #ec6f6a;
+        font-size: 15px;
+        margin: 0px;
+        padding-left: 0px;
+        padding-top: 8px;
+    }    
+    .margin-right-side
+    {
+        margin-left: 20px;
+
+    }
+   
+    .unit-select-box
+    {
+        margin-left: 20px;
+        
+    }
+    .rate-row
+    {
+        position: relative;
+    }
+    .add-or
+    {
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        background-color: #ddd;
+        bottom: 0;
+    }
+    .add-or:after
+    {
+        content: 'OR';
+        background-color: #fff;       
+        text-align: center;
+        left: 46%;
+        position: absolute;
+        top: -21px;
+        padding: 10px;
+        color: #ec6f6a;
+    }
+    .margin-top-input
+    {
+        margin-top: 10px;
+    }
+    .note-box
+    {
+        margin-top: 15px;
+        padding: 0px;
+        border: medium none !important
+    }
+    .cust-ion-textarea
+    {
+        border: 1px solid rgb(204, 204, 204);
+        padding: 10px;
+        height: 80px;
+       
+    }
+    .note-title
+    {
+        color: #ec6f6a !important;
+        margin-bottom: 10px !important;
+      
+    }
+    .full-btn
+    {
+        width: 90%;
+    }
+    .add-material-item .item-md {
+        padding-left: 0;
+    }
+     .add-material-item .text-input-md {
+        margin: 13px 0;
+        padding: 0;
+        width: 100%;
+    }
+    .dropdown-cust-icon
+    {
+        position: absolute;
+        top: 12px;
+        right: 8px;
+    }
+    .product-name-content
+    {
+        position: relative;
+        margin-right: 9px;
+        border-bottom: 1px solid #ccc;
+        padding-left: 6px;
+        font-size: 16px;
+        margin-bottom: 10px;
+    
+    }
+    .product-name-content ion-icon
+    {
+        color: #ec6f6a !important;
+    }
+    .product-name-content span
+    {
+        padding: 14px 0;
+        display: block;
+        color: rgba(0,0,0,0.6);
+    }
+
+    .product-select .select.select-md
+    {
+        max-width: 100%;
+        margin-top: 13px;
+        width: 100%;
+    }
+    .product-select:before
+    {
+        content: 'Enter Product Name';
+        color: rgba(0,0,0,0.5);
+        padding-top: 10px;
+    }
+    .product-select.item-input-has-value:before
+    {
+        content: '';
+    }
+
+    .cust-border-bottom
+    {
+        border-bottom: 1px solid #ccc;
+    }
+    
+}

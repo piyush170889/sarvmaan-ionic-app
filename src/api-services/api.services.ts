@@ -68,8 +68,8 @@ export class ApiService {
              });
     }
 
-    getSarvamList() {
-        return this.http.get(AppSettings.API_ENDPOINT + 'quotation?page=0&quote-type=ALL', this.headers.createHeaderOptions())
+    getSarvamList(page) {
+        return this.http.get(AppSettings.API_ENDPOINT + 'quotation?page='+page+'&quote-type=ALL', this.headers.createHeaderOptions())
             .map(response => response.json())
             .catch((err: Response) => {
                 let details = err.json();
@@ -110,7 +110,7 @@ export class ApiService {
             "logo": argument
         }
 
-        return this.http.post(AppSettings.API_ENDPOINT + 'profile-logo', data, this.headers.createHeaderOptions())
+        return this.http.put(AppSettings.API_ENDPOINT + 'profile-logo', data, this.headers.createHeaderOptions())
             .map(response => response.json())
             .catch((err: Response) => {
                 let details = err.json();
@@ -138,7 +138,7 @@ export class ApiService {
         {
             "emailId": argument
         }        
-        return this.http.post(AppSettings.API_ENDPOINT + 'send-email', data, this.headers.createHeaderOptions())
+        return this.http.post(AppSettings.API_ENDPOINT + 'send-email', data)
             .map(response => response.json())
             .catch((err: Response) => {
                 let details = err.json();
@@ -246,8 +246,7 @@ export class ApiService {
             },
             {
                 "group": "skillset"
-            }
-        ]
+            }]
         })
             .map(response => response.json())
             .catch((err: Response) => {
@@ -281,5 +280,33 @@ export class ApiService {
                 let details = err.json();
                 return Observable.throw(details);
             });
+    }
+	
+	/*code by Vishnu */
+    getStatesAndCities(){
+        return this.http.get(AppSettings.API_ENDPOINT + 'ext/master-data-all')
+            .map(response => response.json())
+            .catch((err: Response) => {
+                let details = err.json();
+                return Observable.throw(details);
+            });
+    }
+
+    addMaterialToQuotation(argument){
+        return this.http.post(AppSettings.API_ENDPOINT + 'quotation/'+ argument.materialId + '/material', argument, this.headers.createHeaderOptions())
+        .map(response => response.json())
+        .catch((err: Response) => {
+            let details = err.json();
+            return Observable.throw(details);
+        });
+    }
+
+    addtQuotationDetail(argument){
+        return this.http.post(AppSettings.API_ENDPOINT + 'quotation',argument, this.headers.createHeaderOptions())
+        .map(response => response.json())
+        .catch((err: Response) => {
+            let details = err.json();
+            return Observable.throw(details);
+        });
     }
 } 

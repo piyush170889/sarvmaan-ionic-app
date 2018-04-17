@@ -1,0 +1,58 @@
+<ion-menu [content]="content">
+    <ion-content>
+        <ion-list no-lines class="custom-item">
+            <ion-row menuClose (click)="openPage('Profile')" class="tabHeadBg" style="background-image: url('assets/imgs/bg.jpg '); height: 175px;">
+                <ion-col col-12>
+                    <div class="profileContainer">
+                        <img [src]="profileData.imageUrl" class="profilePic">
+                        <span class="user-name">{{profileData.name}}
+                            <br>
+                            <p class="profession">{{profileData.profession}}</p>
+                        </span>
+
+                    </div>
+                </ion-col>
+
+            </ion-row>
+
+            <ion-item menuClose (click)="openPage('PriceList')">
+                <ion-thumbnail item-start>
+                    <img src="assets/imgs/price list.svg">
+                </ion-thumbnail>
+                <h2>{{ 'PRICE_LIST' | translate }}</h2>
+            </ion-item>
+
+            <ion-item menuClose (click)="openPage('PriceList')">
+                <ion-thumbnail item-start>
+                    <img src="assets/imgs/Product request.svg">
+                </ion-thumbnail>
+                <h2>{{ 'PRODUCT_REQUEST' | translate }}</h2>
+            </ion-item>
+
+            <ion-item menuClose (click)="openPage('PriceList')">
+                <ion-thumbnail item-start>
+                    <img src="assets/imgs/setting.svg">
+                </ion-thumbnail>
+                <h2>{{ 'SETTINGS' | translate }}</h2>
+            </ion-item>
+
+
+            <ion-item menuClose (click)="openPage('Logout')">
+                <ion-thumbnail item-start>
+                    <img src="assets/imgs/logout.svg">
+                </ion-thumbnail>
+                <h2>{{ 'LOGOUT' | translate }} </h2>
+            </ion-item>
+
+
+            <!-- <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+             {{p.title}}
+            </button> -->
+            <!-- <button menuClose ion-item (click)="openPage('PriceList')">price list</button> -->
+        </ion-list>
+    </ion-content>
+
+</ion-menu>
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

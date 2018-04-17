@@ -122,17 +122,16 @@ modal-wrapper {
 
 .user-name {
     position: absolute;
-    top: 40%;
+    top: 35%;
     left: 112%;
     color: #fff;
     line-height: 7px;
-    font-size: 1.1em;
-    width: 180px;
+    font-size: 1.3em;;
 }
 
 .profession {
     font-weight: 100;
-    font-size: 15px;
+    font-size: 17px;
     margin-left: 3px;
 }
 
@@ -163,6 +162,10 @@ modal-wrapper {
 .custom-item .item-md ion-thumbnail {
     min-width: 30px;
     min-height: 27px;
+}
+.status-draft
+{
+  color: rgb(81, 188, 242) !important;
 }
 // .item-md ion-thumbnail img {
 //     width: 25px;

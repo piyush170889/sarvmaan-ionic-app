@@ -1,0 +1,19 @@
+{
+    "PRICE_LIST": "Price list",
+    "PRODUCT_REQUEST": "Product request",
+    "SETTINGS" : "Setting",
+    "LOGOUT": "Logout",
+    "SIGN_IN": "Sign in",
+    "LOGIN_ERROR": "Invalid username or password",
+    "USER_NAME":"User name",
+    "YOUR_PASSWORD":"Your Password",
+    "USERNAME":"Username",
+    "FORGOT_PASSWORD":"Forgot password",
+    "SIGNUP_INFO":"Don't have an account?",
+    "SIGN_UP":"Sign Up",
+    "RESET_PASSWORD_INFO":"Enter your email address and we will send you a link to reset your password.",
+    "RESET_PASSWORD_SUCESS_INFO":"We have sent an email with instructions for resetting your password. Please check your email for next steps.",
+    "YOUR_EMAIL":"Your e-mail",
+    "RESET_LINK":"Sent reset link",
+    "BACK_TO_LOGIN":"Back to login"
+}

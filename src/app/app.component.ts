@@ -49,6 +49,7 @@ export class MyApp {
     translate.addLangs(["en", "marathi"]);
     translate.setDefaultLang('en');
     translate.use('en');
+	console.log( translate.use('en'))
 
     this.initializeApp();
     this.pages = [
@@ -80,8 +81,8 @@ export class MyApp {
         .subscribe(response => {
           this.loading.dismiss();
           //this.profileData = response;
-          this.profileData.name = response.appUsers.firstName + ' ' + response.appUsers.lastName;
-          this.profileData.profession = response.appUsers.businessDetails.businessName;
+          this.profileData.name = response.appUsers.firstName + '' + response.appUsers.lastName;
+          this.profileData.profession = response.appUsers.businessDetails.skillSet[0].displayText;
           this.profileData.imageUrl = response.appUsers.businessDetails.logo == null ? 'assets/imgs/user.png' : response.appUsers.businessDetails.logo;
           //this.profileData = response;
           this.rootPage = HomePage;
@@ -114,9 +115,6 @@ export class MyApp {
           if (error.error == "invalid_grant") {
             this.rootPage = LoginPage;
             localStorage.clear();
-          }else if(error.error == undefined){
-            alert('NO INTERNET CONNECTION.');
-            this.nav.setRoot(this.pages[3].component);
           }
         });
     });
