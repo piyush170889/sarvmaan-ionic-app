@@ -58,10 +58,11 @@ export class ProfilePage {
            this.userAddress = response.appUsers.address[0];             
          }, error => {
            this.loading.dismiss();
-           setTimeout(()=>{
-            this.navCtrl.pop();
-           }, 10)
-           
+           if(error.error!= 'invalid_token'){
+            setTimeout(()=>{
+              this.navCtrl.pop();
+             }, 10)
+           }                      
            //this.errorMessage = <any>error
          });
    });
@@ -100,7 +101,8 @@ export class ProfilePage {
       this.base64.encodeFile(filePath).then((base64File: string) => {
         let stringData = base64File.split(',')[1];        
         console.log(stringData);
-        this.uploadLogo('data:image/png;base64,' + stringData);
+        //this.uploadLogo('data:image/png;base64,' + stringData);
+        this.uploadLogo(stringData);
       }, (err) => {
         console.log(err);
       });    

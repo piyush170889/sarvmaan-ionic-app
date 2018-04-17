@@ -20,6 +20,7 @@ import { VendorRegistrationPage } from '../pages/vendor-registration/vendor-regi
 import { AddUpdateQuotePage } from '../pages/add-update-quote/add-update-quote';
 import { EditProfilePage } from '../pages/edit-profile/edit-profile';
 import { UpdateUserInfoPage } from '../pages/update-user-info/update-user-info';
+import { SettingsPage } from '../pages/settings/settings';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -46,6 +47,7 @@ export function createTranslateLoader(httpClient: HttpClient) {
     AddUpdateQuotePage,
     EditProfilePage,
     UpdateUserInfoPage,
+    SettingsPage,
     ServerErrorComponent
   ],
   imports: [
@@ -74,6 +76,7 @@ export function createTranslateLoader(httpClient: HttpClient) {
     AddUpdateQuotePage,
     EditProfilePage,
     UpdateUserInfoPage,
+    SettingsPage,
     ServerErrorComponent
   ],
   providers: [

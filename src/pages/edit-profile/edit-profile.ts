@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, Loading, ToastController  } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, Loading, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../api-services/api.services';
 
@@ -15,8 +15,8 @@ export class EditProfilePage {
   // public bussinessDetails: any = {};
   // public skillList: any = []
   // public userAddress: any = [];
-  public errorToast:any;
-  public successToast:any;
+  public errorToast: any;
+  public successToast: any;
   constructor(
     public apiServices: ApiService,
     public navCtrl: NavController,
@@ -42,8 +42,10 @@ export class EditProfilePage {
 
   ionViewDidLoad() {
     //console.log('ionViewDidLoad ProfilePage');
+    this.getAllMasterData();
+    //this.getMasterDataList();
     this.getProfileData();
-    this.getMasterDataList();
+
 
     this.errorToast = this.toastCtrl.create({
       message: 'Unable to update profile data.',
@@ -63,10 +65,10 @@ export class EditProfilePage {
     this.loading.present().then(() => {
       this.apiServices.getUserProfile()
         .subscribe(response => {
-let skillSetData:any = [];
-response.appUsers.businessDetails.skillSet.forEach(element => {
-  skillSetData.push(element.displayText)
-});
+          let skillSetData: any = [];
+          response.appUsers.businessDetails.skillSet.forEach(element => {
+            skillSetData.push(element.displayText)
+          });
           this.editProfileForm.controls['firstName'].setValue(response.appUsers.firstName);
           this.editProfileForm.controls['lastName'].setValue(response.appUsers.lastName);
           this.editProfileForm.controls['businessDetails'].setValue(response.appUsers.businessDetails.businessName);
@@ -74,13 +76,14 @@ response.appUsers.businessDetails.skillSet.forEach(element => {
           this.editProfileForm.controls['streetAddress'].setValue(response.appUsers.address[0].street);
           this.editProfileForm.controls['state'].setValue(response.appUsers.address[0].stateName);
           this.editProfileForm.controls['city'].setValue(response.appUsers.address[0].cityName);
-          this.editProfileForm.controls['skillSet'].setValue(skillSetData);
+          this.editProfileForm.controls['skillSet'].setValue(response.appUsers.businessDetails.skillSet);
           this.editProfileForm.controls['whatsappNo'].setValue(response.appUsers.businessDetails.whatsAppNumber);
           this.editProfileForm.controls['countryName'].setValue(response.appUsers.address[0].countryName);
           // this.userDetails = response.appUsers;
           // this.bussinessDetails = response.appUsers.businessDetails;
           // this.skillList = response.appUsers.businessDetails.skillSet
           // this.userAddress = response.appUsers.address[0];
+
           this.loading.dismiss();
         }, error => {
           this.loading.dismiss();
@@ -91,18 +94,32 @@ response.appUsers.businessDetails.skillSet.forEach(element => {
 
   masterDataList: any = {
     language: [],
-    Skillset: []
+    Skillset: [],
+    stateList: [],
+    cityList: []
   };
 
-  getMasterDataList() {
-    this.apiServices.getMasterDataList('').subscribe((response) => {
-      if((response.masterDataToList !== null)){
-        this.masterDataList.language = response.masterDataToList[0].masterDataList;
-        this.masterDataList.Skillset = response.masterDataToList[1].masterDataList;
+  // getMasterDataList() {
+  //   this.apiServices.getMasterDataList('').subscribe((response) => {
+      
+  //     if ((response.masterDataToList !== null)) {
+  //       this.masterDataList.cityList = response.masterDataToList[0].masterDataList;
+  //       this.masterDataList.stateList = response.masterDataToList[1].masterDataList;
+        
+  //     }
+  //   })
+  // }
+  getAllMasterData() {
+    this.apiServices.getMasterDataLocationList('').subscribe((response) => {
+      if ((response.masterDataList !== null)) {
+        this.masterDataList.cityList = response.locationDtlsTo.cityDtls;
+        this.masterDataList.stateList = response.locationDtlsTo.stateDtls;
+        this.masterDataList.language = response.masterDataList.language;
+        this.masterDataList.Skillset = response.masterDataList.skillset;
       }
     })
+    
   }
-
   createLoader(message: string = "Please wait...") { // Optional Parameter
     this.loading = this.loadingCtrl.create({
       content: message
@@ -141,7 +158,7 @@ response.appUsers.businessDetails.skillSet.forEach(element => {
       this.apiServices.updateProfile(data).subscribe((response) => {
         this.loading.dismiss();
         this.successToast.present();
-        setTimeout(()=>{
+        setTimeout(() => {
           this.navCtrl.pop();
         }, 1000)
       }, (err) => {

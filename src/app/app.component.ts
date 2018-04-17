@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, Events } from 'ionic-angular';
 import { LoadingController, Loading } from 'ionic-angular';
 import { ApiService } from '../api-services/api.services';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -37,8 +37,14 @@ export class MyApp {
     public splashScreen: SplashScreen,
     public apiServices: ApiService,
     private loadingCtrl: LoadingController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    public events: Events
   ) {
+
+    events.subscribe('user:login', () => {
+      this.checkAuthorization();
+    });
+    
 
     translate.addLangs(["en", "marathi"]);
     translate.setDefaultLang('en');
@@ -55,6 +61,8 @@ export class MyApp {
     ];
 
   }
+
+  
 
   initializeApp() {
     this.platform.ready().then(() => {

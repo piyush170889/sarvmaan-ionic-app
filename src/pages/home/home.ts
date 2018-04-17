@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, Loading  } from 'ionic-angular';
+import { NavController, LoadingController, Loading, Events   } from 'ionic-angular';
 import { ApiService } from '../../api-services/api.services';
 import { AddUpdateQuotePage } from '../../pages/add-update-quote/add-update-quote';
 
@@ -13,7 +13,12 @@ export class HomePage {
   quoteList:any = []; 
   allQuoteList:any = []; 
   sarvmaanTab:boolean = true;
-  constructor(public navCtrl: NavController, private loadingCtrl: LoadingController, public apiServices: ApiService) {
+  constructor(
+    public navCtrl: NavController, 
+    private loadingCtrl: LoadingController, 
+    public apiServices: ApiService,
+    public events: Events
+  ) {
 
   }
 
@@ -47,7 +52,8 @@ export class HomePage {
     });
   }
   
-  ionViewDidLoad() {   
+  ionViewWillEnter() {  
+    this.events.publish('user:login');
     this.createLoader(); 
     this.getsarvmanList();
   }

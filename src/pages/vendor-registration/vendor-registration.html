@@ -1,116 +1,155 @@
 <ion-content padding>
 
     <div class="vendorRegistration">
-        <ion-row>
-            <ion-col text-center>
-                <h1 class="topHead">Sign up</h1>
-            </ion-col>
-        </ion-row>
-        <form [formGroup]="PhoneForm" (ngSubmit)="submitPhoneNo()" *ngIf="showPhoneForm">
-            <ion-list text-center>
-                <ion-row *ngIf="otpMessageObj.otpErrorBox">
-                    <ion-col text-left>
-                        <ion-label stacked class="phoneTitle" style="color:#ec6f6a">{{otpMessageObj.msg}}</ion-label>
-                    </ion-col>
-                </ion-row>
-                <ion-row>
-                    <ion-col text-left>
-                        <ion-label stacked class="phoneTitle">YOUR PHONE</ion-label>
-                    </ion-col>
-                </ion-row>
-                <ion-item margin-bottom>
-                    <ion-label color="danger" fixed>+91</ion-label>
-                    <ion-input (input)="phoneFieldChangeEvent($event)" formControlName="phoneNo" type="tel" placeholder="phone no" [ngClass]="showInputLoader?'loading':''"></ion-input>
-                </ion-item>
-                <button class="custom-btn" ion-button [disabled]="!PhoneForm.valid">Submit</button>
-            </ion-list>
-        </form>
-        <!-- otp  form-->
+        <div *ngIf="!showResetPassword">
+            <ion-row>
+                <ion-col text-center>
+                    <h1 class="topHead">Sign up</h1>
+                </ion-col>
+            </ion-row>
+            <form [formGroup]="PhoneForm" (ngSubmit)="submitPhoneNo()" *ngIf="showPhoneForm">
+                <ion-list text-center>
+                    <ion-row *ngIf="otpMessageObj.otpErrorBox">
+                        <ion-col text-left>
+                            <ion-label stacked class="phoneTitle" style="color:#ec6f6a">{{otpMessageObj.msg}}</ion-label>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col text-left>
+                            <ion-label stacked class="phoneTitle">YOUR PHONE</ion-label>
+                        </ion-col>
+                    </ion-row>
+                    <ion-item margin-bottom>
+                        <ion-label color="danger" fixed>+91</ion-label>
+                        <ion-input (input)="phoneFieldChangeEvent($event)" formControlName="phoneNo" type="tel" placeholder="phone no" [ngClass]="showInputLoader?'loading':''"></ion-input>
+                    </ion-item>
+                    <button class="custom-btn" ion-button [disabled]="!PhoneForm.valid">Submit</button>
+                </ion-list>
+            </form>
+            <!-- otp  form-->
 
-        <form [formGroup]="OtpForm" (ngSubmit)="submitOtp()" *ngIf="showOtpForm">
-            <ion-list text-center>
-                <ion-row *ngIf="otpMessageObj.otpSendSuccess">
-                    <ion-col text-left>
-                        <p stacked style="color:#12d812">
-                            <ion-icon name="checkmark-circle"></ion-icon>
-                            An OTP has been sent to your phone.
-                        </p>
-                    </ion-col>
-                </ion-row>
-                <ion-row *ngIf="otpMessageObj.otpErrorBox">
-                    <ion-col text-left>
-                        <ion-label stacked class="phoneTitle" style="color:#ec6f6a">{{otpMessageObj.msg}}</ion-label>
-                    </ion-col>
-                </ion-row>
-                <ion-item margin-bottom>
-                    <ion-label stacked>OTP</ion-label>
-                    <ion-input (input)="otpFieldChangeEvent($event)" type="text" formControlName="otp" placeholder="OTP" [ngClass]="showInputLoader?'loading':''"></ion-input>
-                </ion-item>
-                <button class="custom-btn" ion-button [disabled]="!OtpForm.valid">Submit</button>
+            <form [formGroup]="OtpForm" (ngSubmit)="submitOtp()" *ngIf="showOtpForm">
+                <ion-list text-center>
+                    <ion-row *ngIf="otpMessageObj.otpSendSuccess">
+                        <ion-col text-left>
+                            <p stacked style="color:#12d812">
+                                <ion-icon name="checkmark-circle"></ion-icon>
+                                An OTP has been sent to your phone.
+                            </p>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="otpMessageObj.otpErrorBox">
+                        <ion-col text-left>
+                            <ion-label stacked class="phoneTitle" style="color:#ec6f6a">{{otpMessageObj.msg}}</ion-label>
+                        </ion-col>
+                    </ion-row>
+                    <ion-item margin-bottom>
+                        <ion-label stacked>OTP</ion-label>
+                        <ion-input (input)="otpFieldChangeEvent($event)" type="text" formControlName="otp" placeholder="OTP" [ngClass]="showInputLoader?'loading':''"></ion-input>
+                    </ion-item>
+                    <button class="custom-btn" ion-button [disabled]="!OtpForm.valid">Submit</button>
 
-                <p style="color:#ec6f6a" class="phoneTitle" (click)="submitPhoneNo()">Resend OTP Link</p>
-            </ion-list>
-        </form>
+                    <p style="color:#ec6f6a" class="phoneTitle" (click)="submitPhoneNo()">Resend OTP Link</p>
+                </ion-list>
+            </form>
 
-        <!-- Registration form  [hidden]="!showRegistrationForm"-->
+            <!-- Registration form  [hidden]="!showRegistrationForm"-->
 
-        <form [formGroup]="regForm" (ngSubmit)="submitVendorRegistration()" [hidden]="!showRegistrationForm">
-            <ion-list text-center>
-                <ion-item margin-bottom>
-                    <ion-label stacked>First name*</ion-label>
-                    <ion-input type="text" formControlName="firstName" placeholder="Enter First Name"></ion-input>
-                </ion-item>
-                <ion-item margin-bottom>
-                    <ion-label stacked>Last name</ion-label>
-                    <ion-input type="text" formControlName="lastName" placeholder="Last First Name"></ion-input>
-                </ion-item>
-                <ion-item margin-bottom>
-                    <ion-label stacked>Business*</ion-label>
-                    <ion-input type="text" formControlName="businessDetails" placeholder="Enter Business"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <select-searchable title="Language" formControlName="language" [items]="masterDataList.language" itemValueField="id" itemTextField="displayText"
-                        [canSearch]="true" (onChange)="portChange($event)">
-                    </select-searchable>
-                </ion-item>
-                <ion-row>
-                    <ion-col text-left>
-                        <ion-label stacked class="phoneTitle">Contact Number *</ion-label>
-                    </ion-col>
-                </ion-row>
-                <ion-item margin-bottom>
-                    <ion-label color="primary" fixed>+91</ion-label>
-                    <ion-input [disabled]="true" formControlName="contactNumber" type="tel" placeholder="Tel Input"></ion-input>
-                </ion-item>
+            <form [formGroup]="regForm" (ngSubmit)="submitVendorRegistration()" [hidden]="!showRegistrationForm">
+                <ion-list text-center>
+                    <ion-item margin-bottom>
+                        <ion-label stacked>First name*</ion-label>
+                        <ion-input type="text" formControlName="firstName" placeholder="Enter First Name"></ion-input>
+                    </ion-item>
+                    <ion-item margin-bottom>
+                        <ion-label stacked>Last name</ion-label>
+                        <ion-input type="text" formControlName="lastName" placeholder="Last First Name"></ion-input>
+                    </ion-item>
+                    <ion-item margin-bottom>
+                        <ion-label stacked>Business*</ion-label>
+                        <ion-input type="text" formControlName="businessDetails" placeholder="Enter Business"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <select-searchable title="Language" formControlName="language" [items]="masterDataList.language" itemValueField="id" itemTextField="displayText"
+                            [canSearch]="true" (onChange)="portChange($event)">
+                        </select-searchable>
+                    </ion-item>
+                    <ion-row>
+                        <ion-col text-left>
+                            <ion-label stacked class="phoneTitle">Contact Number *</ion-label>
+                        </ion-col>
+                    </ion-row>
+                    <ion-item margin-bottom>
+                        <ion-label color="primary" fixed>+91</ion-label>
+                        <ion-input [disabled]="true" formControlName="contactNumber" type="tel" placeholder="Tel Input"></ion-input>
+                    </ion-item>
 
-                <ion-item margin-bottom>
-                    <ion-label stacked>E-mail Id*</ion-label>
-                    <ion-input type="email" formControlName="emailId" placeholder="Enter E-mail"></ion-input>
-                </ion-item>
+                    <ion-item margin-bottom>
+                        <ion-label stacked>E-mail Id*</ion-label>
+                        <ion-input type="email" formControlName="emailId" placeholder="Enter E-mail"></ion-input>
+                    </ion-item>
 
 
 
-                <ion-item margin-bottom>
-                    <ion-label stacked>Password</ion-label>
-                    <ion-input type="password" formControlName="password" placeholder="Enter Password"></ion-input>
-                </ion-item>
+                    <ion-item margin-bottom>
+                        <ion-label stacked>Password</ion-label>
+                        <ion-input type="password" formControlName="password" placeholder="Enter Password"></ion-input>
+                    </ion-item>
 
-                <ion-item margin-bottom>
-                    <ion-label stacked>Confirm Password</ion-label>
-                    <ion-input type="password" formControlName="ConfirmPass" placeholder="Enter Password"></ion-input>
-                </ion-item>
+                    <ion-item margin-bottom>
+                        <ion-label stacked>Confirm Password</ion-label>
+                        <ion-input type="password" formControlName="ConfirmPass" placeholder="Enter Password"></ion-input>
+                    </ion-item>
 
-                <ion-row>
-                    <ion-col text-left>
-                        <div id="parent">
-                            <input class="input-checkbox" type="checkbox" formControlName="termsAndCondition" required />
-                            <div (click)="openTermNconditionModal()" class="forget" id="child">Terms and conditions</div>
-                        </div>
-                    </ion-col>
-                </ion-row>
-                <button class="custom-btn" ion-button [disabled]="!regForm.valid">Submit</button>
-            </ion-list>
-        </form>
+                    <ion-row>
+                        <ion-col text-left>
+                            <div id="parent">
+                                <input class="input-checkbox" type="checkbox" formControlName="termsAndCondition" required />
+                                <div (click)="openTermNconditionModal()" class="forget" id="child">Terms and conditions</div>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                    <button class="custom-btn" ion-button [disabled]="!regForm.valid">Submit</button>
+                </ion-list>
+            </form>
+        </div>
+        <!-- <div > -->
+        <div *ngIf="showResetPassword">
+            <ion-row>
+                <ion-col text-center>
+                    <h3 class="topHead">Forgot Password</h3>
+                </ion-col>
+            </ion-row>
+
+            <form [formGroup]="passwordUpdateForm" (ngSubmit)="updatePassword()">
+                <ion-list text-center>
+                    <ion-row *ngIf="showPasswordMatch">
+                        <ion-col text-center>
+                            <p style="color:#36e430">Password Matched.</p>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="showPasswordMismatch">
+                        <ion-col text-center>
+                            <p style="color:#e2531a">Password Mismatched.</p>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="passwordChangeError.show">
+                        <ion-col text-center>
+                            <p style="color:#e2531a">{{passwordChangeError.msg}}</p>
+                        </ion-col>
+                    </ion-row>                    
+                    <ion-item margin-bottom>
+                        <ion-label stacked>Your New Password</ion-label>
+                        <ion-input (input)="passwordChange($event)" type="password" formControlName="newPassword" placeholder="***********"></ion-input>
+                    </ion-item>
+                    <ion-item margin-bottom>
+                        <ion-label stacked>Confirm Password</ion-label>
+                        <ion-input (input)="passwordChange($event)" type="password" formControlName="confirmPassword" placeholder="***********"></ion-input>
+                    </ion-item>
+
+                    <button ion-button block large color="danger" [disabled]="validateChangePasswordForm==false">UPDATE</button>
+                </ion-list>
+            </form>
+        </div>
     </div>
-
 </ion-content>

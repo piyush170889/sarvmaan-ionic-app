@@ -162,7 +162,22 @@ export class ApiService {
             "newPassword":argument.newPassword
         }
         
-        return this.http.put(AppSettings.API_ENDPOINT + 'change-password', data, this.headers.createHeaderOptions())
+        return this.http.put(AppSettings.API_ENDPOINT + 'v1/change-password', data, this.headers.createHeaderOptions())
+            .map(response => response.json())
+            .catch((err: Response) => {
+                let details = err.json();
+                return Observable.throw(details);
+            });
+    }
+
+    forgotPassword(argument) {        
+        let data = {
+            "otp":argument.otp,
+            "deviceInfo":"abcd",
+            "newPassword": argument.newPassword        
+        }
+        
+        return this.http.post(AppSettings.API_ENDPOINT + 'ext/forget-password', data)
             .map(response => response.json())
             .catch((err: Response) => {
                 let details = err.json();
@@ -234,6 +249,15 @@ export class ApiService {
             }
         ]
         })
+            .map(response => response.json())
+            .catch((err: Response) => {
+                let details = err.json();
+                return Observable.throw(details);
+            });
+    }
+
+    getMasterDataLocationList(argument) {
+        return this.http.get(AppSettings.API_ENDPOINT + '/ext/master-data-all')
             .map(response => response.json())
             .catch((err: Response) => {
                 let details = err.json();

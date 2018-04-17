@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ToastController, IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { ToastController, IonicPage, NavController, NavParams, ModalController, LoadingController, Loading, } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { SelectSearchable } from 'ionic-select-searchable';
@@ -17,9 +17,16 @@ export class VendorRegistrationPage {
     show: false,
     message: ''
   };
+  public requestedPage: any;
+  public showResetPassword:boolean = false;
+  public showPasswordMatch: boolean = false;
+  public showPasswordMismatch: boolean = false;
+  public validateChangePasswordForm: boolean = false;
+
   public PhoneForm: FormGroup;
   public OtpForm: FormGroup;
   public regForm: FormGroup;
+  public passwordUpdateForm: FormGroup;
   public showPhoneForm: boolean = true;
   public showRegistrationForm: boolean = false;
   public showOtpForm: boolean = false;
@@ -37,8 +44,10 @@ export class VendorRegistrationPage {
     public navParams: NavParams,
     public modalCtrl: ModalController,
     public apiService: ApiService,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    private loadingCtrl: LoadingController,
   ) {
+    this.requestedPage = navParams.get("id");
     this.PhoneForm = this._FORMBUILDER.group({
       'phoneNo': ['', 
         [
@@ -71,10 +80,57 @@ export class VendorRegistrationPage {
       'password': ['', Validators.required],
       'ConfirmPass': ['', Validators.required],
       'termsAndCondition': [false, Validators.required],
-
-
+    });
+    this.passwordUpdateForm = this._FORMBUILDER.group({      
+      'newPassword': ['', Validators.required],
+      'confirmPassword': ['', Validators.required]
     });
   }
+
+
+  passwordChange() {   
+      if (this.passwordUpdateForm.controls['newPassword'].value == this.passwordUpdateForm.controls['confirmPassword'].value) {
+        if (this.passwordUpdateForm.controls['newPassword'].value != '' && this.passwordUpdateForm.controls['confirmPassword'].value != '') {
+          this.showPasswordMatch = true;
+          this.showPasswordMismatch = false;       
+            this.validateChangePasswordForm = true;
+        }
+      } else {
+        this.showPasswordMatch = false;
+        this.showPasswordMismatch = true;
+        this.validateChangePasswordForm = false;
+      }
+  }
+  passwordChangeError:any = {
+    show: false,
+    msg: ''
+  }
+  passwordUpdateSuccessToast:any;
+  updatePassword() {
+    let data = {
+      'otp': this.OtpForm.controls['otp'].value,
+      'newPassword': this.passwordUpdateForm.controls['newPassword'].value
+    }
+    this.createLoader();
+    this.loading.present().then(() => {
+      this.apiService.forgotPassword(data).subscribe((response) => {
+        this.loading.dismiss();
+        this.passwordUpdateSuccessToast.present();
+        setTimeout(() => {
+          this.navCtrl.pop();
+        }, 1000)
+      }, (err) => {
+        //this.errorToast.present();
+        this.passwordChangeError.show= true;
+        this.showPasswordMatch = false;
+        this.showPasswordMismatch = false;
+        this.passwordChangeError.msg= 'Server response: '+ err.responseMessage.message;
+        //alert(err.responseMessage.message)
+        this.loading.dismiss();
+      })
+    })
+  }
+
 
   public toast:any; 
   ionViewDidLoad() {
@@ -82,7 +138,12 @@ export class VendorRegistrationPage {
     this.toast = this.toastCtrl.create({
       message: 'Registration successfully',
       duration: 3000
-    });    
+    });  
+    this.passwordUpdateSuccessToast = this.toastCtrl.create({
+      message: 'Password updated sucessfully..',
+      duration: 700,
+      position: 'bottom'
+    });  
     console.log('ionViewDidLoad VendorRegistrationPage');
   }
 
@@ -90,9 +151,7 @@ export class VendorRegistrationPage {
     console.log('port:', event.value);
   }
 
-  submitPhoneNo() {    
-    // this.showPhoneForm = false;
-    // this.showOtpForm = true;
+  submitPhoneNo() {        
     this.showInputLoader = true;
     let data = {
       "cellNumber": this.PhoneForm.controls['phoneNo'].value,
@@ -131,11 +190,18 @@ export class VendorRegistrationPage {
       "deviceInfo":"abc",
       "otp" : this.OtpForm.controls['otp'].value
     }
+    // if(this.requestedPage == 'forgot'){          
+    //   this.showResetPassword = true;
+    // }
     
     this.apiService.verifyOtp(data).subscribe((response) => {
       if (response.responseMessage.status == "200" && response.responseMessage.message == "OK") {
-        this.showOtpForm = false;
-        this.showRegistrationForm = true;
+        if(this.requestedPage == 'forgot'){          
+          this.showResetPassword = true;
+        }else{
+          this.showRegistrationForm = true;
+        }
+        this.showOtpForm = false;        
         this.showInputLoader = false;
         this.regForm.controls['contactNumber'].setValue(this.PhoneForm.controls['phoneNo'].value);
       } else {
@@ -197,12 +263,19 @@ export class VendorRegistrationPage {
     Skillset: []
   };
   getMasterDataList() {
-    this.apiService.getMasterDataList('').subscribe((response) => {
-      if((response.masterDataToList !== null)){
-        this.masterDataList.language = response.masterDataToList[0].masterDataList;
-        this.masterDataList.Skillset = response.masterDataToList[1].masterDataList;
+    this.apiService.getMasterDataLocationList('').subscribe((response) => {
+      if((response.masterDataList !== null)){
+        this.masterDataList.language = response.masterDataList.language;
+        this.masterDataList.Skillset = response.masterDataList.skillset;
       }
     }, )
+  }
+  loading: Loading;
+  loadingConfig: any;
+  createLoader(message: string = "Please wait...") { // Optional Parameter
+    this.loading = this.loadingCtrl.create({
+      content: message
+    });
   }
 
 }

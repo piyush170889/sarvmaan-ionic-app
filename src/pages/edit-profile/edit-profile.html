@@ -37,14 +37,14 @@
             </ion-item>
             <ion-item>
                 <ion-label stacked>State*</ion-label>
-                <ion-select placeholder="Select State" formControlName="state">
-                    <ion-option value="Maharashtra">Maharashtra</ion-option>
+                <ion-select multiple="false" placeholder="Select State" formControlName="state">
+                    <ion-option [value]="id" *ngFor="let item of masterDataList.stateList">{{item.stateName}}</ion-option>
                 </ion-select>
             </ion-item>
             <ion-item>
                 <ion-label stacked>City*</ion-label>
                 <ion-select placeholder="Select City" formControlName="city">
-                    <ion-option value="Pune">Pune</ion-option>
+                        <ion-option [value]="id" *ngFor="let item of masterDataList.cityList">{{item.cityName}}</ion-option>
                 </ion-select>
             </ion-item>
             <ion-item>
