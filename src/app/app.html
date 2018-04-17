@@ -1,6 +1,16 @@
 <ion-menu [content]="content">
+    <!-- <ion-header>
+        <ion-toolbar>
+            <ion-title>Menu</ion-title>
+        </ion-toolbar>
+    </ion-header> -->
+
     <ion-content>
         <ion-list no-lines class="custom-item">
+            <!-- <div class="item item-avatar" style="background-image: url('assets/imgs/bg.jpg ')">
+                <img src="assets/imgs/logo.png">
+                <p>Sameer Gupta</p>
+            </div> -->
             <ion-row menuClose (click)="openPage('Profile')" class="tabHeadBg" style="background-image: url('assets/imgs/bg.jpg '); height: 175px;">
                 <ion-col col-12>
                     <div class="profileContainer">
@@ -19,21 +29,21 @@
                 <ion-thumbnail item-start>
                     <img src="assets/imgs/price list.svg">
                 </ion-thumbnail>
-                <h2>{{ 'PRICE_LIST' | translate }}</h2>
+               <!--  <h2>{{ 'PRICE_LIST' | translate }}</h2> -->
             </ion-item>
 
             <ion-item menuClose (click)="openPage('PriceList')">
                 <ion-thumbnail item-start>
                     <img src="assets/imgs/Product request.svg">
                 </ion-thumbnail>
-                <h2>{{ 'PRODUCT_REQUEST' | translate }}</h2>
+                <!-- <h2>{{ 'PRODUCT_REQUEST' | translate }}</h2> -->
             </ion-item>
 
             <ion-item menuClose (click)="openPage('PriceList')">
                 <ion-thumbnail item-start>
                     <img src="assets/imgs/setting.svg">
                 </ion-thumbnail>
-                <h2>{{ 'SETTINGS' | translate }}</h2>
+<!--                 <h2>{{ 'SETTINGS' | translate }}</h2> -->
             </ion-item>
 
 
@@ -41,7 +51,7 @@
                 <ion-thumbnail item-start>
                     <img src="assets/imgs/logout.svg">
                 </ion-thumbnail>
-                <h2>{{ 'LOGOUT' | translate }} </h2>
+                <!-- <h2>{{ 'LOGOUT' | translate }} </h2> -->
             </ion-item>
 
 

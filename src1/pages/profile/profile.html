@@ -1,0 +1,202 @@
+<ion-header>
+    <ion-navbar color="danger">
+        <ion-title>Profile</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content parallax-header no-bounce class="bg-modal">
+    <ion-fab right bottom #fab>
+        <button ion-fab color="danger" style="border-radius: 50%;">
+            <ion-icon name="create"></ion-icon>
+        </button>
+        <ion-fab-list side="top">
+            <button ion-fab color="danger" (click)="editProfile()">
+                Update profile
+            </button>
+            <button ion-fab color="danger" (click)="changeProfilePicture()">
+                Update Logo
+            </button>
+            <button ion-fab color="danger" (click)="updateProfile('CONTACT')">
+                Update contact
+            </button>
+            <button ion-fab color="danger" (click)="updateProfile('EMAIL')">
+                Update e-mail
+            </button>
+            <button ion-fab color="danger" (click)="updateProfile('PASSWORD')">
+                Update password
+            </button>
+        </ion-fab-list>
+    </ion-fab>
+    <!-- <div class="header-image"></div>
+    <div class="main-content" text-wrap text-center>
+        <div class="circular" [style.background]="'url('+ bussinessDetails.logo == null ? 'assets/imgs/user.png' : bussinessDetails.logo + ')'"></div>
+        <h2>{{userDetails.firstName}}</h2>
+        <p>{{bussinessDetails.businessName}} &bull; location</p>
+        <p class="profile-description">
+            <span *ngFor="let skill of skillList">
+                {{skill.displayText}},
+            </span>
+        </p>
+        <hr> -->
+
+    <div id="profile-bg" [ngStyle]="{'background-image': 'url(assets/imgs/bg.jpg)'}"></div>
+    <div id="content">
+        <div id="profile-info">
+            <img id="profile-image" [src]="bussinessDetails.logo == null ? 'assets/imgs/user.png' : bussinessDetails.logo">
+            <h3 id="profile-name">{{userDetails.firstName + ' ' + userDetails.lastName}}</h3>
+            <hr>
+            <span id="profile-description">
+                {{bussinessDetails.businessName}}
+            </span>
+            <hr>
+            <p>
+                <span *ngFor="let skill of skillList">
+                    {{skill.displayText}},
+                </span>
+            </p>
+        </div>
+        <hr>
+        <ion-list no-lines>
+            <ion-item>
+                <ion-icon name="mail" color="danger" item-start></ion-icon>
+                <p>Email</p>
+                {{userDetails.emailId}}                
+            </ion-item>
+            <ion-item>
+                <ion-icon item-start name="call" color="danger"></ion-icon>
+                <p>Mobile</p>
+                {{bussinessDetails.whatsAppNumber}}                
+            </ion-item>
+            <ion-item>
+                <ion-icon item-start name="logo-whatsapp" color="secondary"></ion-icon>
+                <p>Whatsapp</p>
+                {{userDetails.contactNumber}}                
+            </ion-item>
+            <ion-item>
+                <ion-icon item-start name="pin" color="twitter"></ion-icon>
+                <p>Address</p>
+                <p>{{userAddress.street}}, {{userAddress.cityName}}, {{userAddress.stateName}}, {{userAddress.countryName}}</p>
+            </ion-item>
+            <ion-item>
+                <ion-icon item-start name="megaphone" color="danger"></ion-icon>
+                <p>Language</p>
+                {{userDetails.language}}                
+            </ion-item>
+        </ion-list>
+    </div>
+
+</ion-content>
+<ion-footer>
+    <ion-toolbar class="footer">
+        <div text-center>
+            <span>
+                <strong>
+                    <a [href]="bussinessDetails.webSite">{{bussinessDetails.webSite}}</a>
+                </strong>.</span>
+        </div>
+    </ion-toolbar>
+</ion-footer>
+
+
+
+
+<!--<ion-content>
+    <ion-fab right bottom #fab>
+        <button ion-fab color="danger" style="border-radius: 50%;">
+            <ion-icon name="create"></ion-icon>
+        </button>
+        <ion-fab-list side="top">
+            <button ion-fab color="danger" (click)="editProfile()">
+                Update profile
+            </button>
+            <button ion-fab color="danger" (click)="changeProfilePicture()">
+                Update Logo
+            </button>
+            <button ion-fab color="danger" (click)="updateProfile('CONTACT')">
+                Update contact
+            </button>
+            <button ion-fab color="danger" (click)="updateProfile('EMAIL')">
+                Update e-mail
+            </button>
+            <button ion-fab color="danger" (click)="updateProfile('PASSWORD')">
+                Update password
+            </button>
+        </ion-fab-list>
+    </ion-fab>
+    <ion-list no-lines>
+        <ion-row class="tabHeadBg" style="background-image: url('assets/imgs/bg.jpg '); height: 175px;">
+            <ion-col col-12>
+                <div class="profile-pic-container">
+                    <img [src]="bussinessDetails.logo == null ? 'assets/imgs/user.png' : bussinessDetails.logo" class="profilePic">
+                </div>
+                <div class="text-container">
+                    <span class="user-name">
+                        {{userDetails.firstName}}
+                        <br>
+                        <p class="profession">{{bussinessDetails.businessName}}</p>
+                    </span>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-list>
+    <br>
+    <ion-list>
+        <ion-item class="item-list">
+            <p item-start class="title-text">
+                Skill
+            </p>
+            <p item-end>
+                <span *ngFor="let skill of skillList">
+                    {{skill.displayText}},
+                </span>
+            </p>
+
+        </ion-item>
+        <ion-item class="item-list">
+            <p item-start class="title-text">
+                Language
+            </p>
+            <p item-end>
+                <span>
+                    {{userDetails.language}}
+                </span>
+            </p>
+
+        </ion-item>
+        <ion-item class="item-list">
+            <p item-start class="title-text">
+                Contact
+            </p>
+            <p item-end>
+                <span>
+                    {{userDetails.contactNumber}}
+                   
+                    <br>
+                    <span class="contact-identifier">Calling</span>
+                </span>
+                <br>
+                <br>
+                <span>
+                    {{bussinessDetails.whatsAppNumber}}
+                    
+                    <br>
+                    <span class="contact-identifier">Whatsapp</span>
+                </span>
+            </p>
+        </ion-item>
+        <ion-item class="item-list">
+            <p item-start class="title-text">
+                Address
+            </p>
+            <p item-end>
+                <span>
+                    {{userAddress.street}}, {{userAddress.cityName}}, {{userAddress.stateName}}, {{userAddress.countryName}}
+                </span>
+            </p>
+        </ion-item>
+        <br>
+        <div text-center>
+            <a text-center [href]="bussinessDetails.webSite">{{bussinessDetails.webSite}}</a>
+        </div>
+
+    </ion-list>
+</ion-content> -->

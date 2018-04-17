@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { FabContainer, NavController, NavParams, LoadingController, Loading, ToastController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, Loading, ToastController } from 'ionic-angular';
 import { ImagePicker } from '@ionic-native/image-picker';
-import { Base64 } from '@ionic-native/base64';
 import { ApiService } from '../../api-services/api.services';
 import { EditProfilePage } from '../../pages/edit-profile/edit-profile';
 import { UpdateUserInfoPage } from '../../pages/update-user-info/update-user-info';
@@ -24,27 +23,18 @@ export class ProfilePage {
     public navCtrl: NavController, 
     public navParams: NavParams, 
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController,
-    private base64: Base64) {
+    private toastCtrl: ToastController) {
   }
 
   ionViewDidLoad() {
     //console.log('ionViewDidLoad ProfilePage');
-    // this.getProfileData();
-    // this.successToast = this.toastCtrl.create({
-    //   message: 'Profile Updated Successfully.',
-    //   duration: 700,
-    //   position: 'bottom'
-    // });
-  }
-  ionViewWillEnter() {
     this.getProfileData();
     this.successToast = this.toastCtrl.create({
       message: 'Profile Updated Successfully.',
       duration: 700,
       position: 'bottom'
     });
-}
+  }
 
   getProfileData(){
     this.createLoader();
@@ -58,10 +48,6 @@ export class ProfilePage {
            this.userAddress = response.appUsers.address[0];             
          }, error => {
            this.loading.dismiss();
-           setTimeout(()=>{
-            this.navCtrl.pop();
-           }, 10)
-           
            //this.errorMessage = <any>error
          });
    });
@@ -93,26 +79,16 @@ export class ProfilePage {
   changeProfilePicture(){
     let options = {
       maximumImagesCount: 1,
-      outputType: 0
+      outputType: 1
     }
-    this.imagePicker.getPictures(options).then((results) => {     
-      let filePath: string =  results[0];
-      this.base64.encodeFile(filePath).then((base64File: string) => {
-        let stringData = base64File.split(',')[1];        
-        console.log(stringData);
-        this.uploadLogo('data:image/png;base64,' + stringData);
-      }, (err) => {
-        console.log(err);
-      });    
-    }, (err) => {
-      alert('Unable to pic image from device.')
-     });
-    }
+    this.imagePicker.getPictures(options).then((results) => {
+      // for (var i = 0; i < results.length; i++) {
+      //     console.log('Image URI: ' + results[i]);
+      // }
 
-    uploadLogo(stringData){
       this.createLoader();
       this.loading.present().then(() => {
-      this.apiServices.updateLogo(stringData).subscribe(response => {
+      this.apiServices.updateLogo(results[0]).subscribe(response => {
           this.successToast.present();
                this.loading.dismiss();
                this.getProfileData();
@@ -122,6 +98,9 @@ export class ProfilePage {
              //this.errorMessage = <any>error
            });
      });
-    }
+    }, (err) => {
+      alert('Unable to pic image from device.')
+     });
+  }
 
 }

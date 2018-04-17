@@ -1,0 +1,25 @@
+
+
+<ion-content padding>
+    <ion-row>
+        <ion-col text-center>            
+            <img  class="logo" src="assets/imgs/logo.png">
+        </ion-col>
+    </ion-row> 
+    <ion-row>
+        <ion-col text-center>
+            <h2>How would you like to log in as..</h2>
+        </ion-col>
+    </ion-row>  
+    <ion-row>
+        <ion-col text-center>
+            <button (click)="navigateToLogin('VENDOR')" class="btnGap" ion-button color="secondary" round block large>VENDOR</button>
+            <button (click)="navigateToLogin('CUSTOMER')" ion-button round block large>CUSTOMER</button> 
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col text-center>
+            <h6 class="help">Need help?</h6>
+        </ion-col>
+    </ion-row> 
+</ion-content>

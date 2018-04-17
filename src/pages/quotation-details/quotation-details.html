@@ -1,0 +1,117 @@
+<ion-header>
+  <ion-navbar color="danger">
+      <ion-title>Quotation Details</ion-title>
+  </ion-navbar>
+  <ion-toolbar class="sub-header-content">
+      <ion-title>
+          <ion-row>
+              <ion-col text-left>
+                  <span class="cardTitle">
+                      {{quotationDetailsData?.quoteNumber}}
+                  </span>
+                  <p class="date-print"> {{quotationDetailsData?.createdTs | date: 'dd-MM-yyyy'}}</p>
+              </ion-col>
+              <ion-col text-right class="status-img">
+                 <!-- <ion-icon name="checkmark-circle" style="color: rgb(50, 219, 100);"></ion-icon>-->
+                
+                        <img src="assets/imgs/approved.svg" *ngIf="quotationDetailsData?.quoteStatus == 'APPROVED'">
+                        <img src="assets/imgs/pending.svg"  *ngIf="quotationDetailsData?.quoteStatus == 'PENDING'">
+                        <img src="assets/imgs/reject.svg"  *ngIf="quotationDetailsData?.quoteStatus == 'DISCARDED'">
+                        <ion-icon class="status-draft" name="bookmark"  *ngIf="quotationDetailsData?.quoteStatus == 'DRAFT'"></ion-icon>
+                         <!-- <ion-icon name="checkmark-circle" [style.color]="item.quoteStatus=='DRAFT' ? 'orange': 'red'"></ion-icon> {{item.quoteStatus}} -->
+                   
+              </ion-col>
+          </ion-row>
+      </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+  <div class="Quotation-head">
+      <p>{{quotationDetailsData?.workTitle}}</p>
+      <p>{{quotationDetailsData?.clientName}}</p>
+  </div>
+  <div class="quotation-block">
+    <div class="patch-btn" (click)="expandList(quotationId)">
+        <ion-icon name="expand"></ion-icon>
+    </div>
+    <ion-list class="Quotation-list">
+      <ion-item class="Quotation-item">
+            <ion-row class="no-padding" *ngFor="let list of quotationDetailsData.materialList">
+                <ion-col col-8 text-left>
+                <p> {{list.productName}}</p>
+                <span>( {{list.notes}} )</span>
+                </ion-col>
+                <ion-col col-4 text-right>
+                <span>{{list.quantity}} ml</span>
+                <p style="color: #000;">{{list.totalAmt}} /-</p>
+                </ion-col>
+            </ion-row>
+        </ion-item>
+    </ion-list>
+  </div>
+  <div class="total-block">
+        <ion-row >
+                <ion-col col-8 text-left>
+                  <span>Grant Total</span>
+                </ion-col>
+                <ion-col col-4 text-right>
+                  <p>{{quotationDetailsData?.grandTotal}} /-</p>
+              </ion-col>
+        </ion-row>
+        <ion-row >
+                <ion-col col-8 text-left>
+                  <span>Discount</span>
+                </ion-col>
+                <ion-col col-4 text-right>
+                  <p>{{quotationDetailsData?.discount}} /-</p>
+              </ion-col>
+        </ion-row>
+        <ion-row  class="grant-total">
+                <ion-col col-8 text-left>
+                  <p>Total</p>
+                </ion-col>
+                <ion-col col-4 text-right>
+                  <p>{{quotationDetailsData?.totalAmount}} /-</p>
+              </ion-col>
+        </ion-row>    
+                
+    </div>
+    <div class="address-block">
+        <ion-row>
+            <ion-col col-3>
+                <span>Contact</span>
+            </ion-col>
+            <ion-col col-9>
+                 <p>{{quotationDetailsData?.contactNumber}}</p>
+            </ion-col>
+        </ion-row>   
+        <ion-row>
+                <ion-col col-3>
+                    <span>Address</span>
+                </ion-col>
+                <ion-col col-9 *ngFor="let item of quotationDetailsData.address">
+                     <p>{{item.street}},{{item.cityName}},{{item.stateName}},{{item.countryName}}</p>
+                </ion-col>
+            </ion-row> 
+    </div>
+    <div class="submited-block">
+        <p> Submited on:  {{quotationDetailsData?.modifiedTs | date: 'dd-MM-yyyy'}}</p>
+        <span (click)="openTermsModal(quotationDetailsData?.termsAndCondition)">*Terms and condition:</span>
+    </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+      <ion-title>
+          <ion-row>
+              <ion-col text-center>
+                  <button ion-button class="full-btn" color="primary" round>Cancel</button>
+              </ion-col>
+              <ion-col text-center>
+                  <button ion-button class="full-btn" color="secondary" round>Save</button>
+              </ion-col>
+          </ion-row>
+      </ion-title>
+  </ion-toolbar>
+</ion-footer>
