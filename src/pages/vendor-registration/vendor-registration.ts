@@ -18,6 +18,7 @@ export class VendorRegistrationPage {
     message: ''
   };
   public requestedPage: any;
+  public errorToast: any;
   public showResetPassword:boolean = false;
   public showPasswordMatch: boolean = false;
   public showPasswordMismatch: boolean = false;
@@ -31,6 +32,8 @@ export class VendorRegistrationPage {
   public showRegistrationForm: boolean = false;
   public showOtpForm: boolean = false;
   public showInputLoader = false;
+  public showHeader:boolean = false;
+  public pageHeading:any = 'Sign up';
   public otpMessageObj:any ={
     otpErrorBox: false,
     msg: '',
@@ -48,6 +51,12 @@ export class VendorRegistrationPage {
     private loadingCtrl: LoadingController,
   ) {
     this.requestedPage = navParams.get("id");
+    if(this.requestedPage == "changePassword"){
+        this.showHeader = true;
+        this.pageHeading = 'Change password';
+    }else if(this.requestedPage == "forgot"){
+      this.pageHeading = 'Reset password'
+    }
     this.PhoneForm = this._FORMBUILDER.group({
       'phoneNo': ['', 
         [
@@ -134,6 +143,11 @@ export class VendorRegistrationPage {
 
   public toast:any; 
   ionViewDidLoad() {
+    this.errorToast = this.toastCtrl.create({
+      message: 'Server error occured: Unable to update profile data.',
+      duration: 3000,
+      position: 'bottom'
+    });
     this.getMasterDataList();
     this.toast = this.toastCtrl.create({
       message: 'Registration successfully',
@@ -247,6 +261,9 @@ export class VendorRegistrationPage {
       } else {
         alert(response.responseMessage.message);
       }
+    }, (err) => {
+      this.errorToast.present();
+      //this.loading.dismiss();
     })    
   }
 

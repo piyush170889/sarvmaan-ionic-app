@@ -1,10 +1,17 @@
+<ion-header *ngIf="showHeader">
+        
+          <ion-navbar color="danger">
+            <ion-title>Settings</ion-title>
+          </ion-navbar>
+        
+</ion-header>
 <ion-content padding>
 
     <div class="vendorRegistration">
         <div *ngIf="!showResetPassword">
             <ion-row>
                 <ion-col text-center>
-                    <h1 class="topHead">Sign up</h1>
+                    <h1 class="topHead">{{pageHeading}}</h1>
                 </ion-col>
             </ion-row>
             <form [formGroup]="PhoneForm" (ngSubmit)="submitPhoneNo()" *ngIf="showPhoneForm">

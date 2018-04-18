@@ -12,8 +12,6 @@ import { ApiService } from '../../api-services/api.services';
 })
 export class LoginPage {
       
-  public showForgotPassword:boolean = true;
-  public vendorSignUp = VendorRegistrationPage;
   public selectedLoginType: any;
   public form: FormGroup;  
   public showInputLoader = false;  

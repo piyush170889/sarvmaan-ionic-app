@@ -45,6 +45,7 @@ export class UpdateUserInfoPage {
     this.emailUpdateForm = this._FORMBUILDER.group({
       'emailId': ['', [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]]
     });
+
     this.contactUpdateForm = this._FORMBUILDER.group({
       'cellNumber': ['', [
         Validators.required,
@@ -101,7 +102,9 @@ export class UpdateUserInfoPage {
       this.pageListToShow.updateEmail = true;
     } else if (this.requestedPage == 'CONTACT') {
       this.pageListToShow.updateContact = true;
-    } else {
+    } else if(this.requestedPage == 'LANGUAGE'){
+
+    }else {
       this.pageListToShow.updatePassword = true;
     }
 

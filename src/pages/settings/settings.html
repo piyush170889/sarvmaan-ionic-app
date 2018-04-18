@@ -1,13 +1,7 @@
-<!--
-  Generated template for the SettingsPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>settings</ion-title>
+  <ion-navbar color="danger">
+    <ion-title>Settings</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -15,4 +9,36 @@
 
 <ion-content padding>
 
+    <ion-list>                                                
+            <ion-item>
+              <ion-toggle [(ngModel)]="quotationNotification" (ionChange)="updateNotification()" checked="false" color="danger"></ion-toggle>
+              <ion-label>
+                Quotation Notification
+              </ion-label>
+              <ion-icon color="danger" name='notifications' item-start></ion-icon>
+            </ion-item> 
+
+            <ion-item (click)="naviagateToRegistration('changePassword')">
+                <ion-icon color="danger" name='md-arrow-dropright' item-end></ion-icon>
+                <ion-label>
+                  Change Password
+                </ion-label>
+                <ion-icon color="danger" name='md-lock' item-start></ion-icon>
+              </ion-item> 
+
+              <ion-item (click)="updateProfile('LANGUAGE')">
+                  <ion-icon color="danger" name='md-arrow-dropright' item-end></ion-icon>
+                  <ion-label>
+                    Language Preferences
+                  </ion-label>
+                  <ion-icon color="danger" name='ios-globe-outline' item-start></ion-icon>
+                </ion-item> 
+                <ion-item (click)="logout()">                    
+                    <ion-label>
+                      Logout
+                    </ion-label>
+                    <ion-icon color="danger" name='md-log-out' item-start></ion-icon>
+                  </ion-item> 
+                  
+          </ion-list>
 </ion-content>

@@ -4,6 +4,7 @@ import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { ImagePicker } from '@ionic-native/image-picker';
+import { Base64 } from '@ionic-native/base64';
 
 
 import { SelectSearchableModule } from 'ionic-select-searchable';
@@ -98,6 +99,7 @@ export function createTranslateLoader(httpClient: HttpClient) {
   ],
   providers: [
     ImagePicker,
+    Base64,
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },

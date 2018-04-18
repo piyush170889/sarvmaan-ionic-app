@@ -10,10 +10,10 @@
 <ion-content padding>
     <ion-row>
         <ion-col text-center>
-            <h3 class="topHead">PROFILE DETAILS</h3>
+            <h3 class="topHead">{{pageHeading}}</h3>
         </ion-col>
     </ion-row>
-    <form [formGroup]="editProfileForm" (ngSubmit)="submitEditProfile()">
+    <form [formGroup]="editProfileForm" (ngSubmit)="submitEditProfile()" *ngIf="!updateLanguage">
         <ion-list text-center>
             <ion-item margin-bottom>
                 <ion-label stacked>First name*</ion-label>
@@ -66,4 +66,18 @@
             <button class="custom-btn" ion-button [disabled]="!editProfileForm.valid">Submit</button>
         </ion-list>
     </form>
+
+    <form [formGroup]="languageUpdateForm" (ngSubmit)="submitUpdateLanguage()" *ngIf="updateLanguage">
+        <br><br><br>
+            <ion-list text-center>                
+                <ion-item>
+                    <ion-label stacked>State*</ion-label>
+                    <ion-select multiple="false" placeholder="Select language" formControlName="language">
+                        <ion-option [value]="id" *ngFor="let item of masterDataList.language">{{item.displayText}}</ion-option>
+                    </ion-select>
+                </ion-item>                               
+    <br><br>
+                <button class="custom-btn" ion-button [disabled]="!languageUpdateForm.valid">Submit</button>
+            </ion-list>
+        </form>
 </ion-content>

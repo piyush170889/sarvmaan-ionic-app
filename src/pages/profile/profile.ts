@@ -52,10 +52,12 @@ export class ProfilePage {
     this.apiServices.getUserProfile()
          .subscribe(response => {
            this.loading.dismiss();
-           this.userDetails = response.appUsers;
-           this.bussinessDetails = response.appUsers.businessDetails;
-           this.skillList = response.appUsers.businessDetails.skillSet
-           this.userAddress = response.appUsers.address[0];             
+           if(response.appUsers.businessDetails != null){
+            this.bussinessDetails = response.appUsers.businessDetails;
+            this.skillList = response.appUsers.businessDetails.skillSet
+            this.userAddress = response.appUsers.address[0];     
+          }
+           this.userDetails = response.appUsers;                              
          }, error => {
            this.loading.dismiss();
            if(error.error!= 'invalid_token'){
@@ -83,8 +85,8 @@ export class ProfilePage {
     }
   }
 
-  editProfile(){
-    this.navCtrl.push(EditProfilePage);
+  editProfile(requestedPage){
+    this.navCtrl.push(EditProfilePage, {id : requestedPage});
   }
 
   updateProfile(requestedPage){

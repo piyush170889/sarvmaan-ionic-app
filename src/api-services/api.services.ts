@@ -82,6 +82,34 @@ export class ApiService {
             });
     }
 
+    updateLanguage(data) {
+        return this.http.put(AppSettings.API_ENDPOINT + 'language?language='+data, '', this.headers.createHeaderOptions())
+            .map(response => response.json())
+            .catch((err: Response) => {
+                let details = err.json();
+                if(details.hasOwnProperty('error') && details['error'] == 'invalid_grant'){
+                    this.refreshToken();
+                  }else{
+                    alert('server error occoured.')
+                }
+                return Observable.throw(details);
+            });
+    }
+
+    updateQuoteNotificationPrefrences(data) {
+        return this.http.put(AppSettings.API_ENDPOINT + 'quotation-notification?isNotifyQuoation='+data, '', this.headers.createHeaderOptions())
+            .map(response => response.json())
+            .catch((err: Response) => {
+                let details = err.json();
+                if(details.hasOwnProperty('error') && details['error'] == 'invalid_grant'){
+                    this.refreshToken();
+                  }else{
+                    alert('server error occoured.')
+                }
+                return Observable.throw(details);
+            });
+    }
+
     getUserProfile() {
         return this.http.get(AppSettings.API_ENDPOINT + 'profile', this.headers.createHeaderOptions())
             .map(response => response.json())

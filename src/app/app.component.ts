@@ -7,11 +7,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
 import { PriceListPage } from '../pages/price-list/price-list';
 import { ProfilePage } from '../pages/profile/profile';
-import { VendorRegistrationPage } from '../pages/vendor-registration/vendor-registration';
+import { SettingsPage } from '../pages/settings/settings';
 import { AuthProvider } from '../providers/auth/auth';
 
 @Component({
@@ -49,16 +48,14 @@ export class MyApp {
     translate.addLangs(["en", "marathi"]);
     translate.setDefaultLang('en');
     translate.use('en');
-	console.log( translate.use('en'))
 
     this.initializeApp();
     this.pages = [
       { title: 'Home', component: HomePage },
-      { title: 'PriceList', component: PriceListPage },
-      { title: 'List', component: ListPage },
-      { title: 'Login', component: LoginPage },
-      { title: 'SignUp', component: VendorRegistrationPage },
-      { title: 'Profile', component: ProfilePage }
+      { title: 'PriceList', component: PriceListPage },     
+      { title: 'Login', component: LoginPage },      
+      { title: 'Profile', component: ProfilePage },
+      { title: 'Settings', component: SettingsPage}
     ];
 
   }
@@ -81,9 +78,17 @@ export class MyApp {
         .subscribe(response => {
           this.loading.dismiss();
           //this.profileData = response;
-          this.profileData.name = response.appUsers.firstName + '' + response.appUsers.lastName;
-          this.profileData.profession = response.appUsers.businessDetails.skillSet[0].displayText;
-          this.profileData.imageUrl = response.appUsers.businessDetails.logo == null ? 'assets/imgs/user.png' : response.appUsers.businessDetails.logo;
+          localStorage.setItem('quoteNotification', response.appUsers.isNotifyQuotation);
+          this.profileData.name = response.appUsers.firstName + ' ' + response.appUsers.lastName;
+          if(response.appUsers.businessDetails != null){
+            this.profileData.imageUrl = response.appUsers.businessDetails.logo;
+            this.profileData.profession = response.appUsers.businessDetails.businessName;
+          }else{
+            this.profileData.profession = '';
+            this.profileData.imageUrl =  'assets/imgs/user.png';
+          }
+          
+          
           //this.profileData = response;
           this.rootPage = HomePage;
         }, (error) => {
@@ -115,6 +120,9 @@ export class MyApp {
           if (error.error == "invalid_grant") {
             this.rootPage = LoginPage;
             localStorage.clear();
+          }else if(error.error == undefined){
+            alert('NO INTERNET CONNECTION.');
+            this.nav.setRoot(LoginPage);
           }
         });
     });
@@ -138,7 +146,7 @@ export class MyApp {
 
      if (page == 'Logout') {
       localStorage.clear();
-      this.nav.setRoot(this.pages[3].component);
+      this.nav.setRoot(LoginPage);
     }
     else {
       this.nav.push(getSelectedIndex.component);

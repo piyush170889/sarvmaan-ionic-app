@@ -10,7 +10,11 @@ import { ApiService } from '../../api-services/api.services';
 export class EditProfilePage {
   loading: Loading;
   loadingConfig: any;
+  public requestedPage: any;
   public editProfileForm: FormGroup;
+  public languageUpdateForm:FormGroup;
+  public updateLanguage:boolean = false;
+  public pageHeading:any = 'PROFILE DETAILS';  
   // public userDetails: any = {};
   // public bussinessDetails: any = {};
   // public skillList: any = []
@@ -25,7 +29,7 @@ export class EditProfilePage {
     private _FORMBUILDER: FormBuilder,
     private toastCtrl: ToastController
   ) {
-
+    this.requestedPage = navParams.get("id");
     this.editProfileForm = this._FORMBUILDER.group({
       'firstName': ['', Validators.required],
       'lastName': [''],
@@ -38,6 +42,10 @@ export class EditProfilePage {
       'whatsappNo': [''],
       'countryName': ['']
     });
+
+    this.languageUpdateForm = this._FORMBUILDER.group({
+      'language': ['', Validators.required]
+    });
   }
 
   ionViewDidLoad() {
@@ -48,7 +56,7 @@ export class EditProfilePage {
 
 
     this.errorToast = this.toastCtrl.create({
-      message: 'Unable to update profile data.',
+      message: 'Server error occured: Unable to update profile data.',
       duration: 3000,
       position: 'bottom'
     });
@@ -57,6 +65,14 @@ export class EditProfilePage {
       duration: 700,
       position: 'bottom'
     });
+
+    if(this.requestedPage == 'LANGUAGE'){
+        this.updateLanguage = true;
+        this.pageHeading = 'Update Language';
+    }else {
+      this.updateLanguage = false;
+      this.pageHeading = 'PROFILE DETAILS';
+    }
   }
 
 
@@ -65,29 +81,27 @@ export class EditProfilePage {
     this.loading.present().then(() => {
       this.apiServices.getUserProfile()
         .subscribe(response => {
-          let skillSetData: any = [];
-          response.appUsers.businessDetails.skillSet.forEach(element => {
-            skillSetData.push(element.displayText)
-          });
+          if(response.appUsers.businessDetails != null){
+            let skillSetData: any = [];
+            response.appUsers.businessDetails.skillSet.forEach(element => {
+              skillSetData.push(element.displayText)
+            });
+            
+            this.editProfileForm.controls['businessDetails'].setValue(response.appUsers.businessDetails.businessName);
+            this.editProfileForm.controls['website'].setValue(response.appUsers.businessDetails.webSite);
+            this.editProfileForm.controls['streetAddress'].setValue(response.appUsers.address[0].street);
+            this.editProfileForm.controls['state'].setValue(response.appUsers.address[0].stateName);
+            this.editProfileForm.controls['city'].setValue(response.appUsers.address[0].cityName);
+            this.editProfileForm.controls['skillSet'].setValue(skillSetData);
+            this.editProfileForm.controls['whatsappNo'].setValue(response.appUsers.businessDetails.whatsAppNumber);
+            this.editProfileForm.controls['countryName'].setValue(response.appUsers.address[0].countryName);              
+          }
           this.editProfileForm.controls['firstName'].setValue(response.appUsers.firstName);
           this.editProfileForm.controls['lastName'].setValue(response.appUsers.lastName);
-          this.editProfileForm.controls['businessDetails'].setValue(response.appUsers.businessDetails.businessName);
-          this.editProfileForm.controls['website'].setValue(response.appUsers.businessDetails.webSite);
-          this.editProfileForm.controls['streetAddress'].setValue(response.appUsers.address[0].street);
-          this.editProfileForm.controls['state'].setValue(response.appUsers.address[0].stateName);
-          this.editProfileForm.controls['city'].setValue(response.appUsers.address[0].cityName);
-          this.editProfileForm.controls['skillSet'].setValue(response.appUsers.businessDetails.skillSet);
-          this.editProfileForm.controls['whatsappNo'].setValue(response.appUsers.businessDetails.whatsAppNumber);
-          this.editProfileForm.controls['countryName'].setValue(response.appUsers.address[0].countryName);
-          // this.userDetails = response.appUsers;
-          // this.bussinessDetails = response.appUsers.businessDetails;
-          // this.skillList = response.appUsers.businessDetails.skillSet
-          // this.userAddress = response.appUsers.address[0];
-
+          this.languageUpdateForm.controls['language'].setValue(response.appUsers.language);            
           this.loading.dismiss();
         }, error => {
           this.loading.dismiss();
-          //this.errorMessage = <any>error
         });
     });
   }
@@ -99,16 +113,6 @@ export class EditProfilePage {
     cityList: []
   };
 
-  // getMasterDataList() {
-  //   this.apiServices.getMasterDataList('').subscribe((response) => {
-      
-  //     if ((response.masterDataToList !== null)) {
-  //       this.masterDataList.cityList = response.masterDataToList[0].masterDataList;
-  //       this.masterDataList.stateList = response.masterDataToList[1].masterDataList;
-        
-  //     }
-  //   })
-  // }
   getAllMasterData() {
     this.apiServices.getMasterDataLocationList('').subscribe((response) => {
       if ((response.masterDataList !== null)) {
@@ -120,7 +124,7 @@ export class EditProfilePage {
     })
     
   }
-  createLoader(message: string = "Please wait...") { // Optional Parameter
+  createLoader(message: string = "Please wait...") { 
     this.loading = this.loadingCtrl.create({
       content: message
     });
@@ -167,6 +171,23 @@ export class EditProfilePage {
       })
     })
 
+  }
+
+  submitUpdateLanguage(){
+
+    this.createLoader();
+    this.loading.present().then(() => {
+      this.apiServices.updateLanguage(this.languageUpdateForm.controls['language'].value).subscribe((response) => {
+        this.loading.dismiss();
+        this.successToast.present();
+        setTimeout(() => {
+          this.navCtrl.pop();
+        }, 1000)
+      }, (err) => {
+        this.errorToast.present();
+        this.loading.dismiss();
+      })
+    })
   }
 
 }
