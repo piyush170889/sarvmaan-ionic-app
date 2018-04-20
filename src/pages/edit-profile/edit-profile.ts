@@ -12,9 +12,9 @@ export class EditProfilePage {
   loadingConfig: any;
   public requestedPage: any;
   public editProfileForm: FormGroup;
-  public languageUpdateForm:FormGroup;
-  public updateLanguage:boolean = false;
-  public pageHeading:any = 'PROFILE DETAILS';  
+  public languageUpdateForm: FormGroup;
+  public updateLanguage: boolean = false;
+  public pageHeading: any = 'PROFILE DETAILS';
   // public userDetails: any = {};
   // public bussinessDetails: any = {};
   // public skillList: any = []
@@ -66,10 +66,10 @@ export class EditProfilePage {
       position: 'bottom'
     });
 
-    if(this.requestedPage == 'LANGUAGE'){
-        this.updateLanguage = true;
-        this.pageHeading = 'Update Language';
-    }else {
+    if (this.requestedPage == 'LANGUAGE') {
+      this.updateLanguage = true;
+      this.pageHeading = 'Update Language';
+    } else {
       this.updateLanguage = false;
       this.pageHeading = 'PROFILE DETAILS';
     }
@@ -81,24 +81,26 @@ export class EditProfilePage {
     this.loading.present().then(() => {
       this.apiServices.getUserProfile()
         .subscribe(response => {
-          if(response.appUsers.businessDetails != null){
+          if (response.appUsers.businessDetails != null) {
             let skillSetData: any = [];
-            response.appUsers.businessDetails.skillSet.forEach(element => {
-              skillSetData.push(element.displayText)
-            });
-            
+            if ((response.appUsers.businessDetails.skillSet != null) && (response.appUsers.address !== null)) {
+              response.appUsers.businessDetails.skillSet.forEach(element => {
+                skillSetData.push(element.displayText)
+              });
+              this.editProfileForm.controls['streetAddress'].setValue(response.appUsers.address[0].street);
+              this.editProfileForm.controls['state'].setValue(response.appUsers.address[0].stateName);
+              this.editProfileForm.controls['city'].setValue(response.appUsers.address[0].cityName);
+              this.editProfileForm.controls['countryName'].setValue(response.appUsers.address[0].countryName);
+            }
             this.editProfileForm.controls['businessDetails'].setValue(response.appUsers.businessDetails.businessName);
-            this.editProfileForm.controls['website'].setValue(response.appUsers.businessDetails.webSite);
-            this.editProfileForm.controls['streetAddress'].setValue(response.appUsers.address[0].street);
-            this.editProfileForm.controls['state'].setValue(response.appUsers.address[0].stateName);
-            this.editProfileForm.controls['city'].setValue(response.appUsers.address[0].cityName);
+            this.editProfileForm.controls['website'].setValue(response.appUsers.businessDetails.webSite);            
             this.editProfileForm.controls['skillSet'].setValue(skillSetData);
             this.editProfileForm.controls['whatsappNo'].setValue(response.appUsers.businessDetails.whatsAppNumber);
-            this.editProfileForm.controls['countryName'].setValue(response.appUsers.address[0].countryName);              
+            
           }
           this.editProfileForm.controls['firstName'].setValue(response.appUsers.firstName);
           this.editProfileForm.controls['lastName'].setValue(response.appUsers.lastName);
-          this.languageUpdateForm.controls['language'].setValue(response.appUsers.language);            
+          this.languageUpdateForm.controls['language'].setValue(response.appUsers.language);
           this.loading.dismiss();
         }, error => {
           this.loading.dismiss();
@@ -122,9 +124,9 @@ export class EditProfilePage {
         this.masterDataList.Skillset = response.masterDataList.skillset;
       }
     })
-    
+
   }
-  createLoader(message: string = "Please wait...") { 
+  createLoader(message: string = "Please wait...") {
     this.loading = this.loadingCtrl.create({
       content: message
     });
@@ -173,7 +175,7 @@ export class EditProfilePage {
 
   }
 
-  submitUpdateLanguage(){
+  submitUpdateLanguage() {
 
     this.createLoader();
     this.loading.present().then(() => {

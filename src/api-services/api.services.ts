@@ -138,7 +138,7 @@ export class ApiService {
             "logo": argument
         }
 
-        return this.http.put(AppSettings.API_ENDPOINT + 'profile-logo', data, this.headers.createHeaderOptions())
+        return this.http.post(AppSettings.API_ENDPOINT + 'profile-logo', data, this.headers.createHeaderOptions())
             .map(response => response.json())
             .catch((err: Response) => {
                 let details = err.json();
@@ -190,7 +190,7 @@ export class ApiService {
             "newPassword":argument.newPassword
         }
         
-        return this.http.put(AppSettings.API_ENDPOINT + 'v1/change-password', data, this.headers.createHeaderOptions())
+        return this.http.post(AppSettings.API_ENDPOINT + 'v1/change-password', data, this.headers.createHeaderOptions())
             .map(response => response.json())
             .catch((err: Response) => {
                 let details = err.json();

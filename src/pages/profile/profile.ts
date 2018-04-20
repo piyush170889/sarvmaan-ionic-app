@@ -54,8 +54,11 @@ export class ProfilePage {
            this.loading.dismiss();
            if(response.appUsers.businessDetails != null){
             this.bussinessDetails = response.appUsers.businessDetails;
-            this.skillList = response.appUsers.businessDetails.skillSet
-            this.userAddress = response.appUsers.address[0];     
+            this.skillList = response.appUsers.businessDetails.skillSet;
+            if(response.appUsers.address != null){
+              this.userAddress = response.appUsers.address[0];
+            }
+                 
           }
            this.userDetails = response.appUsers;                              
          }, error => {
@@ -77,14 +80,6 @@ export class ProfilePage {
     });
   }
 
-  editContact(argu){
-    if(argu == 'contact'){
-      alert('Requested edit primary no.');
-    }else{
-      alert('Requested edit whatsappNo no.');
-    }
-  }
-
   editProfile(requestedPage){
     this.navCtrl.push(EditProfilePage, {id : requestedPage});
   }
@@ -96,7 +91,8 @@ export class ProfilePage {
   changeProfilePicture(){
     let options = {
       maximumImagesCount: 1,
-      outputType: 0
+      outputType: 0,
+      destinationType: 0
     }
     this.imagePicker.getPictures(options).then((results) => {     
       let filePath: string =  results[0];
@@ -127,5 +123,6 @@ export class ProfilePage {
            });
      });
     }
+    
 
 }

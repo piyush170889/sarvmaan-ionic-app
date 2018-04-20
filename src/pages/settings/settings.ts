@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, NavController, NavParams, LoadingController, Loading, ToastController } from 'ionic-angular';
 import { VendorRegistrationPage } from '../vendor-registration/vendor-registration';
+import { UpdateUserInfoPage } from '../../pages/update-user-info/update-user-info';
 import { EditProfilePage } from '../../pages/edit-profile/edit-profile';
 import { ApiService } from '../../api-services/api.services';
 import { LoginPage } from '../../pages/login/login';
@@ -65,7 +66,11 @@ export class SettingsPage {
   } 
 
   updateProfile(requestedPage){
-    this.navCtrl.push(EditProfilePage, {id : requestedPage});
+    if(requestedPage == 'LANGUAGE'){
+      this.navCtrl.push(EditProfilePage, {id : requestedPage});
+    }else{
+      this.navCtrl.push(UpdateUserInfoPage, {id : requestedPage});
+    }    
   }
   createLoader(message: string = "Please wait...") { 
     this.loading = this.loadingCtrl.create({

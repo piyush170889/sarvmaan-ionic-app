@@ -7,9 +7,9 @@
         </ion-row>
         <form [formGroup]="form" (ngSubmit)="logIn()">
             <ion-list text-center>
-                <ion-row *ngIf="loginErrorShow">
+                <ion-row *ngIf="loginError.show">
                     <ion-col text-center>
-                        <p style="color:#ec6f6a">{{ 'LOGIN_ERROR' | translate }}</p>
+                        <p style="color:#ec6f6a">{{ loginError.msg }}</p>
                     </ion-col>
                 </ion-row>
 

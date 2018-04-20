@@ -104,7 +104,7 @@
         </ion-row>
         <ion-item margin-bottom>
           <ion-label stacked>OTP</ion-label>
-          <ion-input type="text" formControlName="otp" placeholder="OTP"></ion-input>
+          <ion-input (input)="otpChange($event)" type="text" formControlName="otp" placeholder="OTP"></ion-input>
         </ion-item>
         <!-- <button ion-button block large color="danger" [disabled]="!OtpForm.valid">Submit</button> -->
         <button class="custom-btn" ion-button [disabled]="!otpForm.valid">Submit</button>

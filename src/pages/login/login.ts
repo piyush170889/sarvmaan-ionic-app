@@ -5,55 +5,82 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HomePage } from '../home/home';
 import { VendorRegistrationPage } from '../vendor-registration/vendor-registration';
 import { ApiService } from '../../api-services/api.services';
+import { ApiServiceProvider } from '../../api-services/globalApi.services';
 
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
 })
 export class LoginPage {
-      
+
   public selectedLoginType: any;
-  public form: FormGroup;  
-  public showInputLoader = false;  
-  public loginErrorShow:boolean = false;
+  public form: FormGroup;
+  public showInputLoader = false;
+  //public loginErrorShow: boolean = false;
+  public loginError: any = {
+    show: false,
+    msg: ''
+  }
   constructor(
     private _FORMBUILDER: FormBuilder,
     public navCtrl: NavController,
     public navParams: NavParams,
     private _AUTH: AuthProvider,
-    private services: ApiService
+    private services: ApiService,
+    private apiService: ApiServiceProvider
   ) {
     this.form = this._FORMBUILDER.group({
       'username': ['', Validators.required],
       'password': ['', Validators.required]
-    });    
+    });
   }
 
 
-  logIn(): void {    
+  logIn(): void {
     let data = {
       username: this.form.controls['username'].value,
       password: this.form.controls['password'].value
     }
-    this.services.login(data).subscribe((response) => {      
-      if(response){
+
+    this.apiService.saveDataRequest('oauth/token?username=' + data.username + '&password=' + data.password + '&grant_type=password', '', true).subscribe((response) => {
+      if (response) {
+        //let res = response.json();
+        localStorage.setItem('token', response.access_token);
+        localStorage.setItem('refreshToken', response.refresh_token);
+        localStorage.setItem('isLogin', 'true');
         this.navCtrl.setRoot(HomePage);
-      }else{
-        alert('Login error.');
-      }      
-    }, (err)=>{
-        if(err.error == "invalid_grant"){
-          this.loginErrorShow = true;
-        }
-    }) 
+      } else {
+        this.loginError.show = true;
+        this.loginError.msg = 'An server error occured.';
+      }
+    }, (err) => {
+      if (err.error == "invalid_grant") {
+        this.loginError.show = true;
+        this.loginError.msg = 'Invalid username and password.';
+      }
+    })
+
+
+    // this.services.login(data).subscribe((response) => {
+    //   if (response) {
+    //     this.navCtrl.setRoot(HomePage);
+    //   } else {
+    //     alert('Login error.');
+    //   }
+    // }, (err) => {
+    //   if (err.error == "invalid_grant") {
+    //     this.loginErrorShow = true;
+    //   }
+    // })
   }
 
-  naviagateToRegistration(requestedPage){
-    this.navCtrl.push(VendorRegistrationPage, {id : requestedPage});
-  }  
+  naviagateToRegistration(requestedPage) {
+    this.navCtrl.push(VendorRegistrationPage, { id: requestedPage });
+  }
 
-  fieldChangeEvent(){
-    this.loginErrorShow = false;
+  fieldChangeEvent() {
+    this.loginError.show = false;
+    this.loginError.msg = '';
   }
 
 

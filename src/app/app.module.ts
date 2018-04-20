@@ -31,6 +31,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthProvider } from '../providers/auth/auth';
 import { ApiService } from '../api-services/api.services';
+import { ApiServiceProvider } from '../api-services/globalApi.services';
 import { HelperService } from '../api-services/helperServices';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -105,7 +106,8 @@ export function createTranslateLoader(httpClient: HttpClient) {
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
     ApiService,
-    HelperService
+    HelperService,
+    ApiServiceProvider
   ]
 })
 export class AppModule { }

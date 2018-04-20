@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, LoadingController, Loading, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../api-services/api.services';
+import { ApiServiceProvider } from '../../api-services/globalApi.services';
 
 //@IonicPage()
 @Component({
@@ -34,7 +35,13 @@ export class UpdateUserInfoPage {
     otp: false
   }
 
-  constructor(public apiServices: ApiService, public navCtrl: NavController, public navParams: NavParams, private loadingCtrl: LoadingController, private toastCtrl: ToastController, private _FORMBUILDER: FormBuilder) {
+  constructor(
+    private apiService: ApiServiceProvider, 
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    private loadingCtrl: LoadingController, 
+    private toastCtrl: ToastController, 
+    private _FORMBUILDER: FormBuilder) {
     this.requestedPage = navParams.get("id");
 
     this.passwordUpdateForm = this._FORMBUILDER.group({
@@ -63,9 +70,7 @@ export class UpdateUserInfoPage {
       ]]
     });
   }
-  passwordChange() {
-    //setTimeout(()=>{
-    //if (this.passwordUpdateForm.controls['newPassword'].value != '' && this.passwordUpdateForm.controls['confirmPassword'].value != '') {
+  passwordChange() {    
       if (this.passwordUpdateForm.controls['newPassword'].value == this.passwordUpdateForm.controls['confirmPassword'].value) {
         if (this.passwordUpdateForm.controls['newPassword'].value != '' && this.passwordUpdateForm.controls['confirmPassword'].value != '') {
           this.showPasswordMatch = true;
@@ -74,8 +79,7 @@ export class UpdateUserInfoPage {
             this.validateChangePasswordForm = true;
           }
         }
-      } else {
-        //this.passwordUpdateForm.valid = true
+      } else {       
         this.showPasswordMatch = false;
         this.showPasswordMismatch = true;
         this.validateChangePasswordForm = false;
@@ -83,9 +87,12 @@ export class UpdateUserInfoPage {
           this.validateChangePasswordForm = true;
         }
       }
-    //}
-    // }, 200)
   }
+  
+  otpChange(){
+    this.otpMessageObj.otpErrorBox = false;
+  }
+  
   ionViewDidLoad() {
     this.successToast = this.toastCtrl.create({
       message: 'Profile Updated Successfully.',
@@ -121,7 +128,7 @@ export class UpdateUserInfoPage {
     }
     this.createLoader();
     this.loading.present().then(() => {
-      this.apiServices.changePassword(data).subscribe((response) => {
+      this.apiService.updateDataRequest('change-password', data).subscribe((response) => {
         this.loading.dismiss();
         this.successToast.present();
         setTimeout(() => {
@@ -140,10 +147,14 @@ export class UpdateUserInfoPage {
   }
 
   updateEmail() {
-    let data =  this.emailUpdateForm.controls['emailId'].value;
+    let data =
+    {
+        "emailId": this.emailUpdateForm.controls['emailId'].value
+    } 
+    //let data =  this.emailUpdateForm.controls['emailId'].value;
     this.createLoader();
     this.loading.present().then(() => {
-      this.apiServices.sendEmail(data).subscribe((response) => {
+      this.apiService.saveDataRequest('send-email', data, false).subscribe((response) => {
         this.loading.dismiss();
         this.emailSendSuccess.present();
         setTimeout(() => {
@@ -160,10 +171,11 @@ export class UpdateUserInfoPage {
     let data = {
       "cellNumber": this.contactUpdateForm.controls['cellNumber'].value,
       "deviceInfo": "abc"
+
     }
     this.createLoader();
     this.loading.present().then(() => {
-      this.apiServices.verifyContactAndSendOtp(data).subscribe((response) => {
+      this.apiService.saveDataRequest('ext/send-otp', data, true).subscribe((response) => {
         this.loading.dismiss();
         this.pageListToShow.otp = true;
         this.pageListToShow.updateContact = false;
@@ -186,11 +198,12 @@ export class UpdateUserInfoPage {
   updateContact() {
     let data = {
       'cellNumber': this.contactUpdateForm.controls['cellNumber'].value,
-      'otp': this.otpForm.controls['otp'].value
+      'otp': this.otpForm.controls['otp'].value,
+      "deviceInfo":"abc",      
     }
     this.createLoader();
     this.loading.present().then(() => {
-      this.apiServices.updateContact(data).subscribe((response) => {
+      this.apiService.updateDataRequest('contact-number', data).subscribe((response) => {
         this.loading.dismiss();
         this.successToast.present();
         setTimeout(() => {

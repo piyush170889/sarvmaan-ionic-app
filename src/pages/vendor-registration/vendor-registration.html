@@ -1,12 +1,9 @@
 <ion-header *ngIf="showHeader">
-        
-          <ion-navbar color="danger">
-            <ion-title>Settings</ion-title>
-          </ion-navbar>
-        
+    <ion-navbar color="danger">
+        <ion-title>Settings</ion-title>
+    </ion-navbar>
 </ion-header>
 <ion-content padding>
-
     <div class="vendorRegistration">
         <div *ngIf="!showResetPassword">
             <ion-row>
@@ -66,19 +63,19 @@
                 <ion-list text-center>
                     <ion-item margin-bottom>
                         <ion-label stacked>First name*</ion-label>
-                        <ion-input type="text" formControlName="firstName" placeholder="Enter First Name"></ion-input>
+                        <ion-input (input)="regPasswordChange($event)" type="text" formControlName="firstName" placeholder="Enter First Name"></ion-input>
                     </ion-item>
                     <ion-item margin-bottom>
                         <ion-label stacked>Last name</ion-label>
-                        <ion-input type="text" formControlName="lastName" placeholder="Last First Name"></ion-input>
+                        <ion-input (input)="regPasswordChange($event)" type="text" formControlName="lastName" placeholder="Last First Name"></ion-input>
                     </ion-item>
                     <ion-item margin-bottom>
                         <ion-label stacked>Business*</ion-label>
-                        <ion-input type="text" formControlName="businessDetails" placeholder="Enter Business"></ion-input>
+                        <ion-input type="text" (input)="regPasswordChange($event)" formControlName="businessDetails" placeholder="Enter Business"></ion-input>
                     </ion-item>
                     <ion-item>
                         <select-searchable title="Language" formControlName="language" [items]="masterDataList.language" itemValueField="id" itemTextField="displayText"
-                            [canSearch]="true" (onChange)="portChange($event)">
+                            [canSearch]="true" (onChange)="regPasswordChange($event)">
                         </select-searchable>
                     </ion-item>
                     <ion-row>
@@ -88,35 +85,36 @@
                     </ion-row>
                     <ion-item margin-bottom>
                         <ion-label color="primary" fixed>+91</ion-label>
-                        <ion-input [disabled]="true" formControlName="contactNumber" type="tel" placeholder="Tel Input"></ion-input>
+                        <!-- [disabled]="true" -->
+                        <ion-input (input)="regPasswordChange($event)" [disabled]="true"  formControlName="contactNumber" type="tel" placeholder="Tel Input"></ion-input>
                     </ion-item>
 
                     <ion-item margin-bottom>
                         <ion-label stacked>E-mail Id*</ion-label>
-                        <ion-input type="email" formControlName="emailId" placeholder="Enter E-mail"></ion-input>
+                        <ion-input (input)="regPasswordChange($event)" type="email" formControlName="emailId" placeholder="Enter E-mail"></ion-input>
                     </ion-item>
 
 
 
                     <ion-item margin-bottom>
                         <ion-label stacked>Password</ion-label>
-                        <ion-input type="password" formControlName="password" placeholder="Enter Password"></ion-input>
+                        <ion-input (input)="regPasswordChange($event)" type="password" formControlName="password" placeholder="Enter Password"></ion-input>
                     </ion-item>
 
                     <ion-item margin-bottom>
                         <ion-label stacked>Confirm Password</ion-label>
-                        <ion-input type="password" formControlName="ConfirmPass" placeholder="Enter Password"></ion-input>
+                        <ion-input (input)="regPasswordChange($event)" type="password" formControlName="ConfirmPass" placeholder="Enter Password"></ion-input>
                     </ion-item>
 
                     <ion-row>
                         <ion-col text-left>
                             <div id="parent">
-                                <input class="input-checkbox" type="checkbox" formControlName="termsAndCondition" required />
+                                <input (change)="regPasswordChange($event)" class="input-checkbox" type="checkbox" formControlName="termsAndCondition" required />
                                 <div (click)="openTermNconditionModal()" class="forget" id="child">Terms and conditions</div>
                             </div>
                         </ion-col>
                     </ion-row>
-                    <button class="custom-btn" ion-button [disabled]="!regForm.valid">Submit</button>
+                    <button class="custom-btn" ion-button [disabled]="!isValidRegForm">Submit</button>
                 </ion-list>
             </form>
         </div>
@@ -144,7 +142,7 @@
                         <ion-col text-center>
                             <p style="color:#e2531a">{{passwordChangeError.msg}}</p>
                         </ion-col>
-                    </ion-row>                    
+                    </ion-row>
                     <ion-item margin-bottom>
                         <ion-label stacked>Your New Password</ion-label>
                         <ion-input (input)="passwordChange($event)" type="password" formControlName="newPassword" placeholder="***********"></ion-input>

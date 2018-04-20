@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, Loading, Events   } from 'ionic-angular';
-import { ApiService } from '../../api-services/api.services';
+import { ApiServiceProvider } from '../../api-services/globalApi.services';
 import { AddUpdateQuotePage } from '../../pages/add-update-quote/add-update-quote';
 import { QuotationDetailsPage } from '../../pages/quotation-details/quotation-details';
 
@@ -22,7 +22,7 @@ export class HomePage {
   quoteListCust:any = [];
   quoteListSarv:any = [];
 
-  constructor(public navCtrl: NavController, private loadingCtrl: LoadingController, public apiServices: ApiService, public events:Events) {
+  constructor(public navCtrl: NavController, private loadingCtrl: LoadingController, public apiService: ApiServiceProvider, public events:Events) {
     this.sarvmaanTab = false;
     
   }
@@ -44,7 +44,7 @@ export class HomePage {
     this.quoteList = [];
     this.createLoader();
     this.loading.present().then(() => {
-    this.apiServices.getSarvamList(this.page)
+    this.apiService.getDataRequest('quotation?page='+this.page+'&quote-type=ALL', false)
          .subscribe(response => {
            this.allQuoteList = response;
            //this.quoteList = response.sarvMaanQuotationDtlsList;
@@ -62,7 +62,7 @@ export class HomePage {
     this.quoteList = [];
     this.createLoader();
     this.loading.present().then(() => {
-    this.apiServices.getSarvamList(this.page)
+    this.apiService.getDataRequest('quotation?page='+this.page+'&quote-type=ALL', false)
          .subscribe(response => {
            this.allQuoteList = response;
            this.quoteList = response.sarvMaanQuotationDtlsList;
@@ -103,7 +103,7 @@ export class HomePage {
 
   setFilteredItems(ev: any) {
  
-    this.apiServices.getSarvamList(this.page)
+    this.apiService.getDataRequest('quotation?page='+this.page+'&quote-type=ALL', false)
     .subscribe(response => {
       this.allQuoteList = response;
       if(this.searchStatus == 2){
@@ -134,7 +134,7 @@ doInfinite(infiniteScroll) {
       content: 'Please wait...'
     });*/
     //this.showSpinner = true;
-    this.apiServices.getSarvamList(this.page)
+    this.apiService.getDataRequest('quotation?page='+this.page+'&quote-type=ALL', false)
     .subscribe(response => {
       this.allQuoteList = response;
       this.quoteListCust = response.selfQuotationDtlsList;
