@@ -3,7 +3,7 @@ import { Nav, NavController, NavParams, LoadingController, Loading, ToastControl
 import { VendorRegistrationPage } from '../vendor-registration/vendor-registration';
 import { UpdateUserInfoPage } from '../../pages/update-user-info/update-user-info';
 import { EditProfilePage } from '../../pages/edit-profile/edit-profile';
-import { ApiService } from '../../api-services/api.services';
+import { ApiServiceProvider } from '../../api-services/globalApi.services';
 import { LoginPage } from '../../pages/login/login';
 
 @Component({
@@ -17,7 +17,7 @@ export class SettingsPage {
   public errorToast: any;
   public successToast: any;
   
-  constructor(public apiServices: ApiService,
+  constructor(public apiService: ApiServiceProvider,
     public navCtrl: NavController,
     public navParams: NavParams,
     private loadingCtrl: LoadingController,
@@ -43,15 +43,16 @@ export class SettingsPage {
     let data = this.quotationNotification ? 1: 0;
     this.createLoader();
     this.loading.present().then(() => {
-      this.apiServices.updateQuoteNotificationPrefrences(data).subscribe((response) => {
+      this.apiService.updateDataRequest('quotation-notification?isNotifyQuoation='+data, '')
+      .subscribe((response) => {
         this.loading.dismiss();
         this.successToast.present();
         setTimeout(() => {
           this.navCtrl.pop();
         }, 1000)
-      }, (err) => {
-        this.errorToast.present();
+      }, (error) => {
         this.loading.dismiss();
+        this.errorToast.present();       
       })
     })
   }

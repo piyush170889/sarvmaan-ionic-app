@@ -1,6 +1,6 @@
 <ion-header>
 
-    <ion-navbar>
+    <ion-navbar color="danger">
         <ion-title>Edit profile</ion-title>
     </ion-navbar>
 
@@ -73,7 +73,7 @@
                 <ion-item>
                     <ion-label stacked>State*</ion-label>
                     <ion-select multiple="false" placeholder="Select language" formControlName="language">
-                        <ion-option [value]="id" *ngFor="let item of masterDataList.language">{{item.displayText}}</ion-option>
+                        <ion-option [value]="code" *ngFor="let item of masterDataList.language">{{item.displayText}}</ion-option>
                     </ion-select>
                 </ion-item>                               
     <br><br>

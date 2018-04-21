@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule, Http } from '@angular/http';
+import { HttpModule } from '@angular/http';
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -12,7 +12,6 @@ import { SelectSearchableModule } from 'ionic-select-searchable';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
-import { TermModalPage } from '../pages/term-modal/term-modal';
 import { LoginPage } from '../pages/login/login';
 import { PriceListPage } from '../pages/price-list/price-list';
 import { ProfilePage } from '../pages/profile/profile';
@@ -56,7 +55,6 @@ export function createTranslateLoader(httpClient: HttpClient) {
     UpdateUserInfoPage,
     SettingsPage,
     QuotationDetailsPage,
-    TermModalPage,
     EditMaterialListPage,
     AddMaterialPage,
     AddMaterialListPage
@@ -93,7 +91,6 @@ export function createTranslateLoader(httpClient: HttpClient) {
     UpdateUserInfoPage,
     SettingsPage,
     QuotationDetailsPage,
-    TermModalPage,
     EditMaterialListPage,
     AddMaterialPage,
     AddMaterialListPage

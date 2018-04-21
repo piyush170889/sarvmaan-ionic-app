@@ -42,12 +42,8 @@ export class LoginPage {
       password: this.form.controls['password'].value
     }
 
-    this.apiService.saveDataRequest('oauth/token?username=' + data.username + '&password=' + data.password + '&grant_type=password', '', true).subscribe((response) => {
+    this.apiService.doLoginRequest('oauth/token?username=' + data.username + '&password=' + data.password + '&grant_type=password').subscribe((response) => {
       if (response) {
-        //let res = response.json();
-        localStorage.setItem('token', response.access_token);
-        localStorage.setItem('refreshToken', response.refresh_token);
-        localStorage.setItem('isLogin', 'true');
         this.navCtrl.setRoot(HomePage);
       } else {
         this.loginError.show = true;
@@ -59,19 +55,6 @@ export class LoginPage {
         this.loginError.msg = 'Invalid username and password.';
       }
     })
-
-
-    // this.services.login(data).subscribe((response) => {
-    //   if (response) {
-    //     this.navCtrl.setRoot(HomePage);
-    //   } else {
-    //     alert('Login error.');
-    //   }
-    // }, (err) => {
-    //   if (err.error == "invalid_grant") {
-    //     this.loginErrorShow = true;
-    //   }
-    // })
   }
 
   naviagateToRegistration(requestedPage) {

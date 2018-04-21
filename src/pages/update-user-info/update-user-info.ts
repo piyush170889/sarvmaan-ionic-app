@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../api-services/api.services';
 import { ApiServiceProvider } from '../../api-services/globalApi.services';
 
-//@IonicPage()
 @Component({
   selector: 'page-update-user-info',
   templateUrl: 'update-user-info.html',
@@ -134,14 +133,12 @@ export class UpdateUserInfoPage {
         setTimeout(() => {
           this.navCtrl.pop();
         }, 1000)
-      }, (err) => {
-        //this.errorToast.present();
+      }, (error) => {                
+        this.loading.dismiss();
         this.passwordChangeError.show= true;
         this.showPasswordMatch = false;
         this.showPasswordMismatch = false;
-        this.passwordChangeError.msg= err.responseMessage.message;
-        //alert(err.responseMessage.message)
-        this.loading.dismiss();
+        this.passwordChangeError.msg= error.responseMessage.message;
       })
     })
   }
@@ -151,7 +148,6 @@ export class UpdateUserInfoPage {
     {
         "emailId": this.emailUpdateForm.controls['emailId'].value
     } 
-    //let data =  this.emailUpdateForm.controls['emailId'].value;
     this.createLoader();
     this.loading.present().then(() => {
       this.apiService.saveDataRequest('send-email', data, false).subscribe((response) => {
@@ -160,9 +156,9 @@ export class UpdateUserInfoPage {
         setTimeout(() => {
           this.navCtrl.pop();
         }, 1000)
-      }, (err) => {
-        alert(err.responseMessage.message)
+      }, (error) => {
         this.loading.dismiss();
+        alert('Server error occured.');
       })
     })
   }
@@ -179,17 +175,12 @@ export class UpdateUserInfoPage {
         this.loading.dismiss();
         this.pageListToShow.otp = true;
         this.pageListToShow.updateContact = false;
-        // this.successToast.present();
-        // setTimeout(()=>{
-        //   this.navCtrl.pop();
-        // }, 1000)
-      }, (err) => {
-        if (err.hasOwnProperty('responseMessage')) {
-          this.otpMessageObj.otpErrorBox = true;
-          this.otpMessageObj.msg = err.responseMessage.message;
-        }
-        //this.errorToast.present();
+      }, (error) => {
         this.loading.dismiss();
+          if (error.hasOwnProperty('responseMessage')) {
+            this.otpMessageObj.otpErrorBox = true;
+            this.otpMessageObj.msg = error.responseMessage.message;
+        }
       })
     })
 
@@ -209,12 +200,12 @@ export class UpdateUserInfoPage {
         setTimeout(() => {
           this.navCtrl.pop();
         }, 1000)
-      }, (err) => {
-        if (err.hasOwnProperty('responseMessage')) {
-          this.otpMessageObj.otpErrorBox = true;
-          this.otpMessageObj.msg = err.responseMessage.message;
-        }
+      }, (error) => {
         this.loading.dismiss();
+          if (error.hasOwnProperty('responseMessage')) {
+            this.otpMessageObj.otpErrorBox = true;
+            this.otpMessageObj.msg = error.responseMessage.message;
+        }
       })
     })
 

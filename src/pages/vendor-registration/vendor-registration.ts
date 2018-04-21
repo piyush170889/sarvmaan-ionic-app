@@ -125,7 +125,7 @@ export class VendorRegistrationPage {
 
     let data = {
       "otp": this.OtpForm.controls['otp'].value,
-      "deviceInfo": "abcd",
+      "deviceInfo": "abc",
       "newPassword": this.passwordUpdateForm.controls['newPassword'].value
     }
     this.createLoader();
@@ -137,14 +137,12 @@ export class VendorRegistrationPage {
         setTimeout(() => {
           this.navCtrl.pop();
         }, 1000)
-      }, (err) => {
-        //this.errorToast.present();
-        this.passwordChangeError.show = true;
-        this.showPasswordMatch = false;
-        this.showPasswordMismatch = false;
-        this.passwordChangeError.msg = 'Server response: ' + err.responseMessage.message;
-        //alert(err.responseMessage.message)
+      }, (error) => {
         this.loading.dismiss();
+          this.passwordChangeError.show = true;
+          this.showPasswordMatch = false;
+          this.showPasswordMismatch = false;
+          this.passwordChangeError.msg = 'Server response: ' + error.responseMessage.message;  
       })
     })
   }
@@ -176,12 +174,9 @@ export class VendorRegistrationPage {
 
   submitPhoneNo() {
     if (this.requestedPage == 'forgot') {
-      //this.showResetPassword = true;
       this.submitPhoneForForgotPassword();
     } else {
       this.submitPhoneForRegistration();
-
-      //this.showRegistrationForm = true;
     }
   }
 
@@ -203,11 +198,11 @@ export class VendorRegistrationPage {
         alert(response.responseMessage.message);
       }
     }, (error) => {
-      if (error.hasOwnProperty('responseMessage')) {
-        this.otpMessageObj.otpErrorBox = true;
-        this.otpMessageObj.msg = error.responseMessage.message;
-        this.showInputLoader = false;
-      }
+        if (error.hasOwnProperty('responseMessage')) {
+          this.otpMessageObj.otpErrorBox = true;
+          this.otpMessageObj.msg = error.responseMessage.message;
+          this.showInputLoader = false;
+      }      
     })
   }
 
@@ -229,11 +224,13 @@ export class VendorRegistrationPage {
         alert(response.responseMessage.message);
       }
     }, (error) => {
-      if (error.hasOwnProperty('responseMessage')) {
-        this.otpMessageObj.otpErrorBox = true;
-        this.otpMessageObj.msg = error.responseMessage.message;
-        this.showInputLoader = false;
+      
+        if (error.hasOwnProperty('responseMessage')) {
+          this.otpMessageObj.otpErrorBox = true;
+          this.otpMessageObj.msg = error.responseMessage.message;
+          this.showInputLoader = false;
       }
+      
     })
   }
 
@@ -242,18 +239,13 @@ export class VendorRegistrationPage {
   }
 
   submitOtp() {
-    // this.showOtpForm = false;
-    // this.showRegistrationForm = true;
-    // this.regForm.controls['contactNumber'].setValue(this.PhoneForm.controls['phoneNo'].value);
+
     this.showInputLoader = true;
     let data = {
       "cellNumber": this.PhoneForm.controls['phoneNo'].value,
       "deviceInfo": "abc",
       "otp": this.OtpForm.controls['otp'].value
     }
-    // if(this.requestedPage == 'forgot'){          
-    //   this.showResetPassword = true;
-    // }
 
     this.apiService.saveDataRequest('ext/verify-otp', data, true).subscribe((response) => {
       if (response.responseMessage.status == "200" && response.responseMessage.message == "OK") {
@@ -268,15 +260,15 @@ export class VendorRegistrationPage {
       } else {
         this.otpMessageObj.otpErrorBox = true;
         this.otpMessageObj.msg = response.responseMessage.message;
-        //alert(response.responseMessage.message);
       }
-    }, (err) => {
-      if (err.hasOwnProperty('responseMessage')) {
-        this.otpMessageObj.otpErrorBox = true;
-        this.otpMessageObj.msg = err.responseMessage.message;
-        this.otpMessageObj.otpSendSuccess = false;
-        this.showInputLoader = false;
+    }, (error) => {
+        if (error.hasOwnProperty('responseMessage')) {
+          this.otpMessageObj.otpErrorBox = true;
+          this.otpMessageObj.msg = error.responseMessage.message;
+          this.otpMessageObj.otpSendSuccess = false;
+          this.showInputLoader = false;
       }
+      
     })
   }
   otpFieldChangeEvent() {
@@ -298,7 +290,6 @@ export class VendorRegistrationPage {
     this.regForm.get('termsAndCondition').valid)
     {
       this.isValidRegForm = true;
-      //this.regForm.valid = true
     }else {
       this.isValidRegForm = false;
     }    
@@ -312,7 +303,7 @@ export class VendorRegistrationPage {
       "contactNumber": this.regForm.controls['contactNumber'].value,
       "emailId": this.regForm.controls['emailId'].value,
       "password": this.regForm.controls['password'].value,
-      "language": 'EN',
+      "language": this.regForm.controls.language.value.code,
       "termsAndCondition": 1,
       "businessDetails": {
         "businessName": this.regForm.controls['businessDetails'].value
@@ -321,17 +312,14 @@ export class VendorRegistrationPage {
 
 
     this.apiService.saveDataRequest('register/vendor-reg', data, true).subscribe((response) => {
-      if (response.responseMessage.status == "200" && response.responseMessage.message == "OK") {
-        //alert('registration success');
-        this.toast.present();
-        //this.navCtrl.push();
+      if (response.responseMessage.status == "200" && response.responseMessage.message == "OK") {        
+        this.toast.present();        
         this.navCtrl.setRoot(LoginPage);
       } else {
         alert(response.responseMessage.message);
       }
-    }, (err) => {
-      this.errorToast.present();
-      //this.loading.dismiss();
+    }, (error) => {
+        this.errorToast.present();
     })
   }
 
@@ -357,7 +345,7 @@ export class VendorRegistrationPage {
   }
   loading: Loading;
   loadingConfig: any;
-  createLoader(message: string = "Please wait...") { // Optional Parameter
+  createLoader(message: string = "Please wait...") { 
     this.loading = this.loadingCtrl.create({
       content: message
     });

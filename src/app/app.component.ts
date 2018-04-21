@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, Events } from 'ionic-angular';
+import { Nav, Platform, Events, ToastController } from 'ionic-angular';
 import { LoadingController, Loading } from 'ionic-angular';
 import { ApiService } from '../api-services/api.services';
 
@@ -14,7 +14,7 @@ import { LoginPage } from '../pages/login/login';
 import { PriceListPage } from '../pages/price-list/price-list';
 import { ProfilePage } from '../pages/profile/profile';
 import { SettingsPage } from '../pages/settings/settings';
-import { AuthProvider } from '../providers/auth/auth';
+//import { AuthProvider } from '../providers/auth/auth';
 
 @Component({
   templateUrl: 'app.html'
@@ -25,6 +25,7 @@ export class MyApp {
   rootPage: any;
   loading: Loading;
   loadingConfig: any;
+  sessionErrorToast:any;
   profileData: any = {
     name: '',
     profession: '',
@@ -41,10 +42,30 @@ export class MyApp {
     public apiService: ApiServiceProvider,
     private loadingCtrl: LoadingController,
     private translate: TranslateService,
+    public toastCtrl: ToastController,
     public events: Events
   ) {
 
     events.subscribe('user:login', () => {
+      this.getSideMenuData();
+    });
+
+    
+
+    events.subscribe('user:loginFail', () => { 
+      this.sessionErrorToast = this.toastCtrl.create({
+        message: 'Unable to authenticate user. Please login.',
+        duration: 3000,
+        position: 'top'
+      });
+      setTimeout(()=>{
+        localStorage.clear();
+        this.rootPage = LoginPage;
+      }, 1000) 
+      this.sessionErrorToast.present();          
+    });
+
+    events.subscribe('user:tokenRefreshed', () => {
       this.checkAuthorization();
     });
 
@@ -61,26 +82,27 @@ export class MyApp {
       { title: 'Profile', component: ProfilePage },
       { title: 'Settings', component: SettingsPage }
     ];
-
   }
 
-
+  ionViewDidLoad() {
+    this.sessionErrorToast = this.toastCtrl.create({
+      message: 'Unable to authenticate user. Please login to proceed.',
+      duration: 700,
+      position: 'top'
+    });
+  }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-      this.splashScreen.hide();
+      this.splashScreen.hide();      
       this.checkAuthorization();
-
     });
   }
 
-  checkAuthorization() {
-
+  checkAuthorization() {    
     this.createLoader();
     this.loading.present().then(() => {
-
-
       this.apiService.getDataRequest('profile', false)
         .subscribe(response => {
           this.loading.dismiss();
@@ -100,59 +122,30 @@ export class MyApp {
           this.rootPage = HomePage;
         }, (error) => {
           this.loading.dismiss();
-          if (error.error == "invalid_token") {
-            localStorage.clear();
-            this.rootPage = LoginPage;
-          } else {
-            this.rootPage = LoginPage;
-            localStorage.clear();
-          }
+          //alert('Server error occured.');         
         });
     })
   }
 
 
-  // refreshToken() {
-  //   this.createLoader();
-  //   this.loading.present().then(() => {
-  //     this.apiServices.refreshToken()
-  //       .subscribe(response => {
-  //         this.apiServices.getUserProfile()
-  //           .subscribe(response => {
-  //             this.loading.dismiss();
-  //             localStorage.setItem('quoteNotification', response.appUsers.isNotifyQuotation);
-  //             this.profileData.name = response.appUsers.firstName + ' ' + response.appUsers.lastName;
-  //             if (response.appUsers.businessDetails != null) {
-  //               this.profileData.imageUrl = response.appUsers.businessDetails.logo;
-  //               this.profileData.profession = response.appUsers.businessDetails.businessName;
-  //             } else {
-  //               this.profileData.profession = '';
-  //               this.profileData.imageUrl = 'assets/imgs/user.png';
-  //             }
-  //             this.rootPage = HomePage;
-  //           }, (error) => {
-  //             this.loading.dismiss();
-  //             if (error.error == "invalid_token") {
-  //               this.refreshToken();
-  //               localStorage.clear();
-  //             } else {
-  //               this.rootPage = LoginPage;
-  //               localStorage.clear();
-  //             }
-  //           });
-
-  //       }, (error) => {
-  //         this.loading.dismiss();
-  //         if (error.error == "invalid_grant") {
-  //           this.rootPage = LoginPage;
-  //           localStorage.clear();
-  //         } else if (error.error == undefined) {
-  //           alert('NO INTERNET CONNECTION.');
-  //           this.nav.setRoot(LoginPage);
-  //         }
-  //       });
-  //   });
-  // }
+  getSideMenuData(){
+    this.apiService.getDataRequest('profile', false)
+    .subscribe(response => {
+      localStorage.setItem('quoteNotification', response.appUsers.isNotifyQuotation);
+      this.profileData.name = response.appUsers.firstName + ' ' + response.appUsers.lastName;
+      if (response.appUsers.businessDetails != null) {
+        if (response.appUsers.businessDetails.logo == null) {
+          this.profileData.imageUrl = 'assets/imgs/user.png';
+        } else {
+          this.profileData.imageUrl = response.appUsers.businessDetails.logo;
+        }
+        this.profileData.profession = response.appUsers.businessDetails.businessName;
+      } else {
+        this.profileData.profession = '';
+        this.profileData.imageUrl = 'assets/imgs/user.png';
+      }
+    })
+  }
 
   createLoader(message: string = "Checking authentication..") {
     this.loading = this.loadingCtrl.create({

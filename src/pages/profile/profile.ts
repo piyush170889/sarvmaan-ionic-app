@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FabContainer, NavController, NavParams, LoadingController, Loading, ToastController } from 'ionic-angular';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Base64 } from '@ionic-native/base64';
-import { ApiService } from '../../api-services/api.services';
+import { ApiServiceProvider } from '../../api-services/globalApi.services';
 import { EditProfilePage } from '../../pages/edit-profile/edit-profile';
 import { UpdateUserInfoPage } from '../../pages/update-user-info/update-user-info';
 
@@ -13,30 +13,21 @@ import { UpdateUserInfoPage } from '../../pages/update-user-info/update-user-inf
 export class ProfilePage {
   loading: Loading;
   loadingConfig: any;
-  public successToast:any;
-  public userDetails:any = {};
-  public bussinessDetails:any = {};
-  public skillList:any = []
-  public userAddress:any = [];
+  public successToast: any;
+  public userDetails: any = {};
+  public bussinessDetails: any = {};
+  public skillList: any = []
+  public userAddress: any = [];
   constructor(
-    private imagePicker: ImagePicker, 
-    public apiServices: ApiService, 
-    public navCtrl: NavController, 
-    public navParams: NavParams, 
+    private imagePicker: ImagePicker,
+    public apiService: ApiServiceProvider,
+    public navCtrl: NavController,
+    public navParams: NavParams,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private base64: Base64) {
   }
 
-  ionViewDidLoad() {
-    //console.log('ionViewDidLoad ProfilePage');
-    // this.getProfileData();
-    // this.successToast = this.toastCtrl.create({
-    //   message: 'Profile Updated Successfully.',
-    //   duration: 700,
-    //   position: 'bottom'
-    // });
-  }
   ionViewWillEnter() {
     this.getProfileData();
     this.successToast = this.toastCtrl.create({
@@ -44,33 +35,27 @@ export class ProfilePage {
       duration: 700,
       position: 'bottom'
     });
-}
+  }
 
-  getProfileData(){
+  getProfileData() {
     this.createLoader();
     this.loading.present().then(() => {
-    this.apiServices.getUserProfile()
-         .subscribe(response => {
-           this.loading.dismiss();
-           if(response.appUsers.businessDetails != null){
+      this.apiService.getDataRequest('profile', false)
+        .subscribe(response => {
+          this.loading.dismiss();
+          if (response.appUsers.businessDetails != null) {
             this.bussinessDetails = response.appUsers.businessDetails;
             this.skillList = response.appUsers.businessDetails.skillSet;
-            if(response.appUsers.address != null){
+            if (response.appUsers.address != null) {
               this.userAddress = response.appUsers.address[0];
             }
-                 
           }
-           this.userDetails = response.appUsers;                              
-         }, error => {
-           this.loading.dismiss();
-           if(error.error!= 'invalid_token'){
-            setTimeout(()=>{
-              this.navCtrl.pop();
-             }, 10)
-           }                      
-           //this.errorMessage = <any>error
-         });
-   });
+          this.userDetails = response.appUsers;
+        }, error => {
+          this.loading.dismiss();
+          alert('Server error occured.') 
+        });
+    });
 
   }
 
@@ -80,49 +65,48 @@ export class ProfilePage {
     });
   }
 
-  editProfile(requestedPage){
-    this.navCtrl.push(EditProfilePage, {id : requestedPage});
+  editProfile(requestedPage) {
+    this.navCtrl.push(EditProfilePage, { id: requestedPage });
   }
 
-  updateProfile(requestedPage){
-    this.navCtrl.push(UpdateUserInfoPage, {id : requestedPage});
+  updateProfile(requestedPage) {
+    this.navCtrl.push(UpdateUserInfoPage, { id: requestedPage });
   }
 
-  changeProfilePicture(){
+  changeProfilePicture() {
     let options = {
       maximumImagesCount: 1,
       outputType: 0,
       destinationType: 0
     }
-    this.imagePicker.getPictures(options).then((results) => {     
-      let filePath: string =  results[0];
+    this.imagePicker.getPictures(options).then((results) => {
+      let filePath: string = results[0];
       this.base64.encodeFile(filePath).then((base64File: string) => {
-        let stringData = base64File.split(',')[1];        
-        console.log(stringData);
-        //this.uploadLogo('data:image/png;base64,' + stringData);
+        let stringData = base64File.split(',')[1];
         this.uploadLogo(stringData);
       }, (err) => {
         console.log(err);
-      });    
+      });
     }, (err) => {
       alert('Unable to pic image from device.')
-     });
-    }
+    });
+  }
 
-    uploadLogo(stringData){
-      this.createLoader();
-      this.loading.present().then(() => {
-      this.apiServices.updateLogo(stringData).subscribe(response => {
-          this.successToast.present();
-               this.loading.dismiss();
-               this.getProfileData();
-           }, error => {
-             this.loading.dismiss();
-             alert('Server error occured'+error)
-             //this.errorMessage = <any>error
-           });
-     });
+  uploadLogo(stringData) {
+    this.createLoader();
+    let data = {
+      "logo": stringData
     }
-    
+    this.loading.present().then(() => {
+      this.apiService.saveDataRequest('profile-logo', data, false).subscribe(response => {
+        this.successToast.present();
+        this.loading.dismiss();
+        this.getProfileData();
+      }, error => {
+        this.loading.dismiss();
+        alert('Server error occured.') 
+      });
+    });
+  }
 
 }

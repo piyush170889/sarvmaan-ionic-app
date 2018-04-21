@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, Loading, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApiService } from '../../api-services/api.services';
+import { ApiServiceProvider } from '../../api-services/globalApi.services';
 
 @Component({
   selector: 'page-edit-profile',
@@ -15,14 +15,10 @@ export class EditProfilePage {
   public languageUpdateForm: FormGroup;
   public updateLanguage: boolean = false;
   public pageHeading: any = 'PROFILE DETAILS';
-  // public userDetails: any = {};
-  // public bussinessDetails: any = {};
-  // public skillList: any = []
-  // public userAddress: any = [];
   public errorToast: any;
   public successToast: any;
   constructor(
-    public apiServices: ApiService,
+    public apiService: ApiServiceProvider,
     public navCtrl: NavController,
     public navParams: NavParams,
     private loadingCtrl: LoadingController,
@@ -48,13 +44,9 @@ export class EditProfilePage {
     });
   }
 
-  ionViewDidLoad() {
-    //console.log('ionViewDidLoad ProfilePage');
+  ionViewDidLoad() {    
     this.getAllMasterData();
-    //this.getMasterDataList();
     this.getProfileData();
-
-
     this.errorToast = this.toastCtrl.create({
       message: 'Server error occured: Unable to update profile data.',
       duration: 3000,
@@ -79,7 +71,7 @@ export class EditProfilePage {
   getProfileData() {
     this.createLoader();
     this.loading.present().then(() => {
-      this.apiServices.getUserProfile()
+      this.apiService.getDataRequest('profile', false)
         .subscribe(response => {
           if (response.appUsers.businessDetails != null) {
             let skillSetData: any = [];
@@ -96,14 +88,20 @@ export class EditProfilePage {
             this.editProfileForm.controls['website'].setValue(response.appUsers.businessDetails.webSite);            
             this.editProfileForm.controls['skillSet'].setValue(skillSetData);
             this.editProfileForm.controls['whatsappNo'].setValue(response.appUsers.businessDetails.whatsAppNumber);
+            this.masterDataList.language.forEach(element => {
+              if(element.code == response.appUsers.language){
+                this.languageUpdateForm.controls['language'].setValue(element.displayText);
+              }
+            });
             
           }
           this.editProfileForm.controls['firstName'].setValue(response.appUsers.firstName);
           this.editProfileForm.controls['lastName'].setValue(response.appUsers.lastName);
-          this.languageUpdateForm.controls['language'].setValue(response.appUsers.language);
+          
           this.loading.dismiss();
         }, error => {
           this.loading.dismiss();
+          alert('Server error occured.') 
         });
     });
   }
@@ -116,7 +114,7 @@ export class EditProfilePage {
   };
 
   getAllMasterData() {
-    this.apiServices.getMasterDataLocationList('').subscribe((response) => {
+    this.apiService.getDataRequest('ext/master-data-all', true).subscribe((response) => {
       if ((response.masterDataList !== null)) {
         this.masterDataList.cityList = response.locationDtlsTo.cityDtls;
         this.masterDataList.stateList = response.locationDtlsTo.stateDtls;
@@ -161,15 +159,15 @@ export class EditProfilePage {
     }
     this.createLoader();
     this.loading.present().then(() => {
-      this.apiServices.updateProfile(data).subscribe((response) => {
+      this.apiService.updateDataRequest('profile', data).subscribe((response) => {
         this.loading.dismiss();
         this.successToast.present();
         setTimeout(() => {
           this.navCtrl.pop();
         }, 1000)
-      }, (err) => {
-        this.errorToast.present();
+      }, (error) => {
         this.loading.dismiss();
+        alert('Server error occured.') 
       })
     })
 
@@ -179,15 +177,16 @@ export class EditProfilePage {
 
     this.createLoader();
     this.loading.present().then(() => {
-      this.apiServices.updateLanguage(this.languageUpdateForm.controls['language'].value).subscribe((response) => {
+      this.apiService.updateDataRequest('language?language=' + this.languageUpdateForm.controls['language'].value, '')
+      .subscribe((response) => {
         this.loading.dismiss();
         this.successToast.present();
         setTimeout(() => {
           this.navCtrl.pop();
         }, 1000)
-      }, (err) => {
-        this.errorToast.present();
+      }, (error) => {
         this.loading.dismiss();
+        alert('Server error occured.') 
       })
     })
   }

@@ -52,8 +52,8 @@ export class HomePage {
            this.sarvmaanTab= false;
            this.loading.dismiss();
          }, error => {
-           this.loading.dismiss();
-           //this.errorMessage = <any>error
+          this.loading.dismiss();
+          alert('Server error occured.') 
          });
    });
   }
@@ -70,8 +70,8 @@ export class HomePage {
           // this.quoteList = response.selfQuotationDtlsList;
             this.loading.dismiss();
          }, error => {
-           this.loading.dismiss();
-           //this.errorMessage = <any>error
+          this.loading.dismiss();
+          alert('Server error occured.') 
          });
    });
   }
@@ -120,8 +120,7 @@ export class HomePage {
       } 
         //this.loading.dismiss();
     }, error => {
-     // this.loading.dismiss();
-      //this.errorMessage = <any>error
+      alert('Server error occured.') 
     });
 }
 
@@ -163,8 +162,8 @@ doInfinite(infiniteScroll) {
 
       
     }, error => {
-      this.loading.dismiss();
-      //this.errorMessage = <any>error
+      //this.loading.dismiss();
+      alert('Server error occured.') 
     });
 
       
