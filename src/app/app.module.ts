@@ -5,6 +5,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Base64 } from '@ionic-native/base64';
+import { TreeModule } from 'ng2-tree';
 
 
 import { SelectSearchableModule } from 'ionic-select-searchable';
@@ -14,6 +15,8 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
 import { PriceListPage } from '../pages/price-list/price-list';
+import { AddProductPricePage } from '../pages/add-product-price/add-product-price';
+import { SelectProductListPage } from '../pages/select-product-list/select-product-list';
 import { ProfilePage } from '../pages/profile/profile';
 import { VendorRegistrationPage } from '../pages/vendor-registration/vendor-registration';
 import { AddUpdateQuotePage } from '../pages/add-update-quote/add-update-quote';
@@ -49,6 +52,8 @@ export function createTranslateLoader(httpClient: HttpClient) {
     LoginPage,
     VendorRegistrationPage,
     PriceListPage,
+    AddProductPricePage,
+    SelectProductListPage,
     ProfilePage,
     AddUpdateQuotePage,
     EditProfilePage,
@@ -61,6 +66,7 @@ export function createTranslateLoader(httpClient: HttpClient) {
   ],
   imports: [
     BrowserModule,
+    TreeModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
     SelectSearchableModule,
@@ -85,6 +91,8 @@ export function createTranslateLoader(httpClient: HttpClient) {
     LoginPage,
     VendorRegistrationPage,
     PriceListPage,
+    AddProductPricePage,
+    SelectProductListPage,
     ProfilePage,
     AddUpdateQuotePage,
     EditProfilePage,

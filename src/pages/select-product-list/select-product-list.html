@@ -1,0 +1,34 @@
+<ion-header>
+
+  <ion-navbar color="danger">
+    <ion-title>Product Name</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let p of pages; let i=index" text-wrap (click)="toggleLevel1('idx'+i)" [ngClass]="{active: isLevel1Shown('idx'+i)}">
+      <span>
+        {{p.category}}
+        <ion-icon color="danger" style="float: right;" [name]="isLevel1Shown('idx'+i) ? 'ios-remove-circle-outline' : ''" item-right></ion-icon>
+      </span>
+      <ion-icon color="danger" [name]="isLevel1Shown('idx'+i) ? '' : 'ios-add-circle-outline'" item-end></ion-icon>
+      <ion-list *ngIf="isLevel1Shown('idx'+i)">
+        <ion-item *ngFor="let s of p.subs; let i2=index" text-wrap (click)="toggleLevel2('idx'+i+'idx'+i2)" [ngClass]="{active: isLevel2Shown('idx'+i+'idx'+i2)}">
+          <span>
+            {{s.subcategory}}
+            <ion-icon style="float: right;" color="danger" item-right [name]="isLevel2Shown('idx'+i+'idx'+i2) ? 'ios-remove-circle-outline' : ''"></ion-icon>
+          </span>
+          <ion-icon color="danger" item-end [name]="isLevel2Shown('idx'+i+'idx'+i2) ? '' : 'ios-add-circle-outline'"></ion-icon>
+          <ion-list *ngIf="isLevel2Shown('idx'+i+'idx'+i2)">
+            <ion-item *ngFor="let m of s.manufactures" text-wrap>
+              {{m.manufacture}}
+            </ion-item>
+          </ion-list>
+        </ion-item>
+      </ion-list>
+    </ion-item>
+  </ion-list>
+</ion-content>

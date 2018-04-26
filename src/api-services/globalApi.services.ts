@@ -129,7 +129,7 @@ export class ApiServiceProvider {
 
         }, (err) => {
             let details = err.json();
-            if (details.hasOwnProperty('error') && details['error'] == 'invalid_grant') {
+            if (details.hasOwnProperty('error') && details['error'] == 'invalid_grant' || details.error == "unauthorized") {
                 this.events.publish('user:loginFail');
             }
         })
