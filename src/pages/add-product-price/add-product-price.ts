@@ -17,6 +17,24 @@ export class AddProductPricePage {
   updateRequestData: any;
   public newPriceAddSuccess: any;
   public updatePriceAddSuccess: any;
+  productNameList: any = [
+    {
+      productId: 'asdasds1',
+      productName: 'Product One' 
+    },
+    {
+      productId: 'asdasds2',
+      productName: 'Product Two' 
+    },
+    {
+      productId: 'asdasds3',
+      productName: 'Product Three' 
+    },
+    {
+      productId: 'asdasds4',
+      productName: 'Product Four' 
+    }
+ ];
 
   constructor(
     public navCtrl: NavController,
@@ -27,7 +45,7 @@ export class AddProductPricePage {
     private toastCtrl: ToastController
   ) {
     this.addProductForm = this._FORMBUILDER.group({
-      'productName': ['', Validators.required],
+      'formProductName': ['', Validators.required],
       'p1': ['', Validators.required],
       'p2': ['', Validators.required],
       'p3': ['', Validators.required],
@@ -45,23 +63,29 @@ export class AddProductPricePage {
     this.updatePriceAddSuccess = this.toastCtrl.create({
       message: 'Product price updated successfully.',
       duration: 900,
-      position: 'bottom'
+      position: 'top'
     });
 
     this.newPriceAddSuccess = this.toastCtrl.create({
       message: 'New product price add successfully.',
       duration: 900,
-      position: 'bottom'
+      position: 'top'
     });
     console.log('ionViewDidLoad AddProductPricePage');
-    if (this.requestType == 'UPDATE') {
-      this.addProductForm.controls['productName'].setValue(this.updateRequestData.product.productName);
-      this.addProductForm.controls['p1'].setValue(this.updateRequestData.firstPrice);
-      this.addProductForm.controls['p2'].setValue(this.updateRequestData.secondPrice);
-      this.addProductForm.controls['p3'].setValue(this.updateRequestData.thirdPrice);
-      this.addProductForm.controls['notes'].setValue(this.updateRequestData.info);
-    }
+    
 
+  }
+  ionViewDidEnter(){
+    setTimeout(()=>{
+      if (this.requestType == 'UPDATE') {
+        this.addProductForm.controls['formProductName'].setValue(this.updateRequestData.product.productId);
+        this.addProductForm.controls['p1'].setValue(this.updateRequestData.firstPrice);
+        this.addProductForm.controls['p2'].setValue(this.updateRequestData.secondPrice);
+        this.addProductForm.controls['p3'].setValue(this.updateRequestData.thirdPrice);
+        this.addProductForm.controls['notes'].setValue(this.updateRequestData.info);
+      }
+    }, 10)
+    
   }
 
   saveProductPrice() {
@@ -73,22 +97,7 @@ export class AddProductPricePage {
   }
 
   updateProductPrice(){
-    let data = {
-      "product": {
-        "productId": "asdasds",
-        "productName": "Electrsjkha"
-      },
-      "firstPrice": this.addProductForm.controls['p1'].value,
-      "secondPrice": this.addProductForm.controls['p2'].value,
-      "thirdPrice": this.addProductForm.controls['p3'].value,
-      "info": this.addProductForm.controls['notes'].value,
-      "isActive": 1,
-      "createdTs": "",
-      "modifiedTs": "",
-      "createdBy": "",
-      "modifiedBy": ""
-    }
-
+    let data = this.getSaveUpdateData();
     this.createLoader();
     this.loading.present().then(() => {
       this.apiService.updateDataRequest('vendor/'+ this.updateRequestData.id, data)
@@ -106,22 +115,7 @@ export class AddProductPricePage {
   }
 
   addNewProductPrice(){
-    let data = {
-      "product": {
-        "productId": "asdasds",
-        "productName": "Electrsjkha"
-      },
-      "firstPrice": this.addProductForm.controls['p1'].value,
-      "secondPrice": this.addProductForm.controls['p2'].value,
-      "thirdPrice": this.addProductForm.controls['p3'].value,
-      "info": this.addProductForm.controls['notes'].value,
-      "isActive": 1,
-      "createdTs": "",
-      "modifiedTs": "",
-      "createdBy": "",
-      "modifiedBy": ""
-    }
-
+    let data = this.getSaveUpdateData();
     this.createLoader();
     this.loading.present().then(() => {
       this.apiService.saveDataRequest('vendor', data, false)
@@ -136,6 +130,31 @@ export class AddProductPricePage {
           alert('Server error occured.')
         });
     });
+  }
+
+  getSaveUpdateData(){
+    let selectedProduct
+    this.productNameList.forEach(element => {
+      if(element.productId == this.addProductForm.controls['formProductName'].value){
+        selectedProduct = element;
+      }
+    });
+    let data = {
+      "product": {
+        "productId": selectedProduct.productId,
+        "productName": selectedProduct.productName
+      },
+      "firstPrice": this.addProductForm.controls['p1'].value,
+      "secondPrice": this.addProductForm.controls['p2'].value,
+      "thirdPrice": this.addProductForm.controls['p3'].value,
+      "info": this.addProductForm.controls['notes'].value,
+      "isActive": 1,
+      "createdTs": "",
+      "modifiedTs": "",
+      "createdBy": "",
+      "modifiedBy": ""
+    }
+return data;
   }
 
   createLoader(message: string = "Please wait...") { // Optional Parameter

@@ -96,12 +96,12 @@ export class UpdateUserInfoPage {
     this.successToast = this.toastCtrl.create({
       message: 'Profile Updated Successfully.',
       duration: 700,
-      position: 'bottom'
+      position: 'top'
     });
     this.emailSendSuccess = this.toastCtrl.create({
       message: 'An email has been sent to provided email id.',
       duration: 900,
-      position: 'bottom'
+      position: 'top'
     });
 
     if (this.requestedPage == 'EMAIL') {

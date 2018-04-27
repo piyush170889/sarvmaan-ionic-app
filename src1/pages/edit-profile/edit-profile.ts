@@ -48,12 +48,12 @@ export class EditProfilePage {
     this.errorToast = this.toastCtrl.create({
       message: 'Unable to update profile data.',
       duration: 3000,
-      position: 'bottom'
+      position: 'top'
     });
     this.successToast = this.toastCtrl.create({
       message: 'Profile Updated Successfully.',
       duration: 700,
-      position: 'bottom'
+      position: 'top'
     });
   }
 

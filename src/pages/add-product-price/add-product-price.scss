@@ -6,4 +6,8 @@ page-add-product-price {
         display: inline-block;
         font-size: 2.2em;
     }
+    .item-input .label-md, .item-select .label-md, .item-datetime .label-md {
+        color: #fb5b5b;
+        font-weight: bold;
+    }
 }

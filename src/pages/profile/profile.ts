@@ -33,7 +33,7 @@ export class ProfilePage {
     this.successToast = this.toastCtrl.create({
       message: 'Profile Updated Successfully.',
       duration: 700,
-      position: 'bottom'
+      position: 'top'
     });
   }
 

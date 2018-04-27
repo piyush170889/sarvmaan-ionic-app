@@ -153,7 +153,7 @@ export class VendorRegistrationPage {
     this.errorToast = this.toastCtrl.create({
       message: 'Server error occured: Unable to update profile data.',
       duration: 3000,
-      position: 'bottom'
+      position: 'top'
     });
     this.getMasterDataList();
     this.toast = this.toastCtrl.create({
@@ -163,7 +163,7 @@ export class VendorRegistrationPage {
     this.passwordUpdateSuccessToast = this.toastCtrl.create({
       message: 'Password updated sucessfully..',
       duration: 700,
-      position: 'bottom'
+      position: 'top'
     });
     console.log('ionViewDidLoad VendorRegistrationPage');
   }

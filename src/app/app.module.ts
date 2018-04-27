@@ -15,6 +15,7 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
 import { PriceListPage } from '../pages/price-list/price-list';
+import { ProductRequestPage } from '../pages/product-request/product-request';
 import { AddProductPricePage } from '../pages/add-product-price/add-product-price';
 import { SelectProductListPage } from '../pages/select-product-list/select-product-list';
 import { ProfilePage } from '../pages/profile/profile';
@@ -52,6 +53,7 @@ export function createTranslateLoader(httpClient: HttpClient) {
     LoginPage,
     VendorRegistrationPage,
     PriceListPage,
+    ProductRequestPage,
     AddProductPricePage,
     SelectProductListPage,
     ProfilePage,
@@ -91,6 +93,7 @@ export function createTranslateLoader(httpClient: HttpClient) {
     LoginPage,
     VendorRegistrationPage,
     PriceListPage,
+    ProductRequestPage,
     AddProductPricePage,
     SelectProductListPage,
     ProfilePage,

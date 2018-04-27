@@ -1,0 +1,52 @@
+<ion-header>
+
+  <ion-navbar color="danger">
+    <ion-title>Product Request</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <form [formGroup]="productRequestForm" (ngSubmit)="submitProductRequest()">
+        <ion-list text-center>
+            <!-- <ion-item margin-bottom>
+                <ion-label stacked> Product Name </ion-label>
+                <ion-input disabled type="text" formControlName="productName" placeholder="Add Product">
+                </ion-input>
+                <button ion-button clear color="danger" type="button" item-right (click)="navigateToSelectProduct()">
+                  <ion-icon name="ios-add-circle-outline"> </ion-icon>
+                </button>
+              </ion-item> -->
+
+              <ion-item margin-bottom>
+                  <ion-label stacked>Hierarchy</ion-label>
+                  <ion-select multiple="false" formControlName="hierarchy">
+                      <ion-option [value]="product.productId" *ngFor="let product of productNameList">{{product.productName}}</ion-option>
+                  </ion-select>
+                </ion-item>
+                <ion-item margin-bottom>
+                    <ion-label stacked>Product Name</ion-label>
+                    <ion-input type="text" formControlName="productName" placeholder="Enter Product Name"></ion-input>
+                  </ion-item>
+                  <ion-item margin-bottom>
+                      <ion-label stacked>Notes</ion-label>
+                    <ion-textarea formControlName="notes" name="note" autocomplete="on" autocorrect="on"></ion-textarea>
+                  </ion-item>
+        </ion-list>
+        </form>
+</ion-content>
+<ion-footer>
+    <ion-toolbar>
+        <ion-title>
+            <ion-row>
+                <ion-col text-center>
+                    <button class="full-btn" ion-button color="primary" round (click)="cancelClicked()">Cancel</button>
+                </ion-col>
+                <ion-col text-center>
+                    <button [disabled]="!productRequestForm.valid" class="full-btn" (click)="submitProductRequest()" ion-button color="secondary" round>Save</button>
+                </ion-col>
+            </ion-row>
+        </ion-title>
+    </ion-toolbar>
+  </ion-footer>

@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { PriceListPage } from '../pages/price-list/price-list';
+import { ProductRequestPage } from '../pages/product-request/product-request';
 import { ProfilePage } from '../pages/profile/profile';
 import { SettingsPage } from '../pages/settings/settings';
 //import { AuthProvider } from '../providers/auth/auth';
@@ -78,6 +79,7 @@ export class MyApp {
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: 'PriceList', component: PriceListPage },
+      { title: 'ProductRequest', component: ProductRequestPage },
       { title: 'Login', component: LoginPage },
       { title: 'Profile', component: ProfilePage },
       { title: 'Settings', component: SettingsPage }
