@@ -3,7 +3,7 @@ import { ToastController, IonicPage, NavController, NavParams, ModalController, 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { SelectSearchable } from 'ionic-select-searchable';
-import { TermModalPage } from '../term-modal/term-modal';
+import { TermModalPage } from './term-modal/term-modal';
 import { LoginPage } from '../login/login';
 import { ApiService } from '../../api-services/api.services';
 import { ApiServiceProvider } from '../../api-services/globalApi.services';

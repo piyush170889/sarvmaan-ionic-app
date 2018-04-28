@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AuthProvider } from '../../providers/auth/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HomePage } from '../home/home';
 import { VendorRegistrationPage } from '../vendor-registration/vendor-registration';
@@ -24,8 +23,7 @@ export class LoginPage {
   constructor(
     private _FORMBUILDER: FormBuilder,
     public navCtrl: NavController,
-    public navParams: NavParams,
-    private _AUTH: AuthProvider,
+    public navParams: NavParams,    
     private services: ApiService,
     private apiService: ApiServiceProvider
   ) {

@@ -14,15 +14,15 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
-import { PriceListPage } from '../pages/price-list/price-list';
-import { ProductRequestPage } from '../pages/product-request/product-request';
-import { AddProductPricePage } from '../pages/add-product-price/add-product-price';
-import { SelectProductListPage } from '../pages/select-product-list/select-product-list';
-import { ProfilePage } from '../pages/profile/profile';
+import { PriceListPage } from '../pages/price-list-module/price-list/price-list';
+import { ProductRequestPage } from '../pages/product-request-module/product-request/product-request';
+import { AddProductPricePage } from '../pages/price-list-module/add-product-price/add-product-price';
+import { SelectProductListPage } from '../pages/price-list-module/select-product-list/select-product-list';
+import { ProfilePage } from '../pages/profile-module/profile/profile';
 import { VendorRegistrationPage } from '../pages/vendor-registration/vendor-registration';
 import { AddUpdateQuotePage } from '../pages/add-update-quote/add-update-quote';
-import { EditProfilePage } from '../pages/edit-profile/edit-profile';
-import { UpdateUserInfoPage } from '../pages/update-user-info/update-user-info';
+import { EditProfilePage } from '../pages/profile-module/edit-profile/edit-profile';
+import { UpdateUserInfoPage } from '../pages/profile-module/update-user-info/update-user-info';
 import { SettingsPage } from '../pages/settings/settings';
 import { QuotationDetailsPage } from '../pages/quotation-details/quotation-details';
 import { EditMaterialListPage } from '../pages/edit-material-list/edit-material-list';
@@ -32,7 +32,6 @@ import { AddMaterialListPage } from '../pages/add-material-list/add-material-lis
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { AuthProvider } from '../providers/auth/auth';
 import { ApiService } from '../api-services/api.services';
 import { ApiServiceProvider } from '../api-services/globalApi.services';
 import { HelperService } from '../api-services/helperServices';
@@ -111,8 +110,7 @@ export function createTranslateLoader(httpClient: HttpClient) {
     Base64,
     StatusBar,
     SplashScreen,
-    { provide: ErrorHandler, useClass: IonicErrorHandler },
-    AuthProvider,
+    { provide: ErrorHandler, useClass: IonicErrorHandler },    
     ApiService,
     HelperService,
     ApiServiceProvider

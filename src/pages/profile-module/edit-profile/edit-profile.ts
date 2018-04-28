@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, Loading, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApiServiceProvider } from '../../api-services/globalApi.services';
+import { ApiServiceProvider } from '../../../api-services/globalApi.services';
 
 @Component({
   selector: 'page-edit-profile',

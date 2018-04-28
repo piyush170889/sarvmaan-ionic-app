@@ -11,9 +11,9 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
-import { PriceListPage } from '../pages/price-list/price-list';
-import { ProductRequestPage } from '../pages/product-request/product-request';
-import { ProfilePage } from '../pages/profile/profile';
+import { PriceListPage } from '../pages/price-list-module/price-list/price-list';
+import { ProductRequestPage } from '../pages/product-request-module/product-request/product-request';
+import { ProfilePage } from '../pages/profile-module/profile/profile';
 import { SettingsPage } from '../pages/settings/settings';
 //import { AuthProvider } from '../providers/auth/auth';
 
@@ -50,6 +50,10 @@ export class MyApp {
     events.subscribe('user:login', () => {
       this.getSideMenuData();
     });
+    
+    events.subscribe('user:tokenRefreshed', () => {
+      this.checkAuthorization();
+    });
 
     
 
@@ -66,9 +70,7 @@ export class MyApp {
       this.sessionErrorToast.present();          
     });
 
-    events.subscribe('user:tokenRefreshed', () => {
-      this.checkAuthorization();
-    });
+    
 
 
     translate.addLangs(["en", "marathi"]);

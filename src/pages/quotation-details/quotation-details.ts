@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, Loading, ModalController } from 'ionic-angular';
 import { ApiService } from '../../api-services/api.services';
-import { TermModalPage } from '../../pages/term-modal/term-modal';
+import { TermModalPage } from '../../pages/vendor-registration/term-modal/term-modal';
 import { EditMaterialListPage } from '../../pages/edit-material-list/edit-material-list';
 
 @IonicPage()

@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { FabContainer, NavController, NavParams, LoadingController, Loading, ToastController } from 'ionic-angular';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Base64 } from '@ionic-native/base64';
-import { ApiServiceProvider } from '../../api-services/globalApi.services';
-import { EditProfilePage } from '../../pages/edit-profile/edit-profile';
-import { UpdateUserInfoPage } from '../../pages/update-user-info/update-user-info';
+import { ApiServiceProvider } from '../../../api-services/globalApi.services';
+import { EditProfilePage } from '../../../pages/profile-module/edit-profile/edit-profile';
+import { UpdateUserInfoPage } from '../../../pages/profile-module/update-user-info/update-user-info';
 
 @Component({
   selector: 'page-profile',

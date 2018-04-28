@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, LoadingController, Loading, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApiService } from '../../api-services/api.services';
-import { ApiServiceProvider } from '../../api-services/globalApi.services';
+import { ApiServiceProvider } from '../../../api-services/globalApi.services';
 
 @Component({
   selector: 'page-update-user-info',

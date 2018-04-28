@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, Loading, NavParams, ToastController } from 'ionic-angular';
-import { ApiServiceProvider } from '../../api-services/globalApi.services';
+import { ApiServiceProvider } from '../../../api-services/globalApi.services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectProductListPage } from '../select-product-list/select-product-list'
 

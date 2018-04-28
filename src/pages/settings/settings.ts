@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, NavController, NavParams, LoadingController, Loading, ToastController } from 'ionic-angular';
 import { VendorRegistrationPage } from '../vendor-registration/vendor-registration';
-import { UpdateUserInfoPage } from '../../pages/update-user-info/update-user-info';
-import { EditProfilePage } from '../../pages/edit-profile/edit-profile';
+import { UpdateUserInfoPage } from '../../pages/profile-module/update-user-info/update-user-info';
+import { EditProfilePage } from '../../pages/profile-module/edit-profile/edit-profile';
 import { ApiServiceProvider } from '../../api-services/globalApi.services';
 import { LoginPage } from '../../pages/login/login';
 

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, Loading, ToastController   } from 'ionic-angular';
-import { ApiServiceProvider } from '../../api-services/globalApi.services';
-import { AddProductPricePage } from '../../pages/add-product-price/add-product-price';
+import { ApiServiceProvider } from '../../../api-services/globalApi.services';
+import { AddProductPricePage } from '../../../pages/price-list-module/add-product-price/add-product-price';
 
 @Component({
   selector: 'page-price-list',
