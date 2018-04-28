@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, Loading   } from 'ionic-angular';
+import { NavController, LoadingController, Loading, ToastController   } from 'ionic-angular';
 import { ApiServiceProvider } from '../../api-services/globalApi.services';
 import { AddProductPricePage } from '../../pages/add-product-price/add-product-price';
 
@@ -12,15 +12,22 @@ export class PriceListPage {
   constructor(
     public navCtrl: NavController, 
     public apiService: ApiServiceProvider,
-    private loadingCtrl: LoadingController) {
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController) {
   }
   loading: Loading;
   loadingConfig: any;
   priceList:any = []; 
+  deleteSuccess:any;
 
   ionViewWillEnter() {
     console.log('ionViewDidLoad PriceListPage');
     this.getVendorPriceList();
+    this.deleteSuccess = this.toastCtrl.create({
+      message: 'Product deleted successfully.',
+      duration: 900,
+      position: 'top',      
+    });
   }
 
   getVendorPriceList(){
@@ -31,6 +38,25 @@ export class PriceListPage {
          .subscribe(response => {
            this.priceList = response.vendorPriceList;           
            this.loading.dismiss();
+         }, error => {
+          this.loading.dismiss();
+          alert('Server error occured.') 
+         });
+   });
+  }
+
+  deleteVendorPrice(item){
+    this.createLoader();
+    this.loading.present().then(() => {
+    this.apiService.deleteDataRequest('vendor/'+ item.id)
+         .subscribe(response => {
+          this.loading.dismiss();
+          this.deleteSuccess.present(); 
+          
+           setTimeout(() => {
+            this.getVendorPriceList();
+          }, 1400)         
+           
          }, error => {
           this.loading.dismiss();
           alert('Server error occured.') 

@@ -54,22 +54,28 @@ export class ProductRequestPage {
   }
 
   submitProductRequest(){
-    // this.createLoader();
-    // this.loading.present().then(() => {
-    //   this.apiService.saveDataRequest('vendor/'+ this.updateRequestData.id, data, false)
-    //     .subscribe(response => {
-    //       this.loading.dismiss();
-    //       this.updatePriceAddSuccess.present();
-    //       setTimeout(() => {
-    //         this.navCtrl.pop();
-    //       }, 1000)
-    //     }, error => {
-    //       this.loading.dismiss();
-    //       alert('Server error occured.')
-    //     });
-    // });
+    let data = {
+      "productCategoryId":"5ab4f3990a975a39156999ef",
+      "productName": this.productRequestForm.controls['productName'].value,
+      "notes": this.productRequestForm.controls['notes'].value
+  }
+  
+    this.createLoader();
+    this.loading.present().then(() => {
+      this.apiService.saveDataRequest('product-request', data, false)
+        .subscribe(response => {
+          this.loading.dismiss();
+          this.addProductRequestSuccess.present();
+          setTimeout(() => {
+            this.navCtrl.pop();
+          }, 2000)
+        }, error => {
+          this.loading.dismiss();
+          alert('Server error occured.')
+        });
+    });
 
-    alert('API required.')
+    //alert('API required.')
   }
 
 
