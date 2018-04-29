@@ -12,6 +12,7 @@ import { HelperService } from './helperServices'
 @Injectable()
 
 export class ApiService {
+	materialData: any;
     constructor(private http: Http, private headers: HelperService) {
 
     }
@@ -258,8 +259,17 @@ export class ApiService {
         });
     }
 
-    editMaterialInQuotation(argument){
-        return this.http.put(AppSettings.API_ENDPOINT + 'quotation/'+argument.id, argument.data, this.headers.createHeaderOptions())
+     editMaterialInQuotation(quoteID, data){
+        let materialData = {
+            "materialId": data.materialId,
+            "notes": data.notes,
+            "quantity": data.quantity,
+            "perUnitRate": data.perUnitRate,
+            "totalAmt": data.totalAmt,
+            "productName": data.productName,
+            "productId": data.productId
+        }
+        return this.http.put(AppSettings.API_ENDPOINT + 'quotation/'+ quoteID + '/material', materialData, this.headers.createHeaderOptions())
         .map(response => response.json())
         .catch((err: Response) => {
             let details = err.json();
@@ -320,8 +330,17 @@ export class ApiService {
             });
     }
 
-    addMaterialToQuotation(argument){
-        return this.http.post(AppSettings.API_ENDPOINT + 'quotation/'+ argument.materialId + '/material', argument, this.headers.createHeaderOptions())
+     addMaterialToQuotation(quoteID, data){
+        let materialData = {
+            "materialId": data.materialId,
+            "productName": data.productName,
+            "notes": data.notes,
+            "quantity": data.quantity,
+            "perUnitRate": data.perUnitRate,
+            "totalAmt": data.totalAmt,
+            'productId': data.productId
+        }
+        return this.http.post(AppSettings.API_ENDPOINT + 'quotation/'+ quoteID + '/material', materialData, this.headers.createHeaderOptions())
         .map(response => response.json())
         .catch((err: Response) => {
             let details = err.json();
@@ -337,4 +356,41 @@ export class ApiService {
             return Observable.throw(details);
         });
     }
+	
+	getAllCategoryList(){
+        return this.http.get(AppSettings.API_ENDPOINT + 'getAllCategories', this.headers.createHeaderOptions())
+        .map(response => response.json())
+        .catch((err: Response) => {
+            let details = err.json();
+            return Observable.throw(details);
+        });
+    }
+
+    getProductsByCatId(argument){
+        return this.http.get(AppSettings.API_ENDPOINT + 'productsFetchUsingParentId?parentId='+argument, this.headers.createHeaderOptions())
+        .map(response => response.json())
+        .catch((err: Response) => {
+            let details = err.json();
+            return Observable.throw(details);
+        });
+    }
+
+    deleteMaterialInQuotation(id,argument){
+        return this.http.post(AppSettings.API_ENDPOINT + 'quotation/'+ id + '/material-delete', argument, this.headers.createHeaderOptions())
+        .map(response => response.json())
+        .catch((err: Response) => {
+            let details = err.json();
+            return Observable.throw(details);
+        });
+    }
+
+    getRateListByProductId(argument){
+        return this.http.get(AppSettings.API_ENDPOINT + 'ratelist?productId='+argument, this.headers.createHeaderOptions())
+        .map(response => response.json())
+        .catch((err: Response) => {
+            let details = err.json();
+            return Observable.throw(details);
+        });
+    }
+	
 } 

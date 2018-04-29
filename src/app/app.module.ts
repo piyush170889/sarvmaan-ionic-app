@@ -5,14 +5,12 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Base64 } from '@ionic-native/base64';
-import { TreeModule } from 'ng2-tree';
 
 
 import { SelectSearchableModule } from 'ionic-select-searchable';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
 import { PriceListPage } from '../pages/price-list-module/price-list/price-list';
 import { ProductRequestPage } from '../pages/product-request-module/product-request/product-request';
@@ -28,7 +26,8 @@ import { QuotationDetailsPage } from '../pages/quotation-details/quotation-detai
 import { EditMaterialListPage } from '../pages/edit-material-list/edit-material-list';
 import { AddMaterialPage } from '../pages/add-material/add-material';
 import { AddMaterialListPage } from '../pages/add-material-list/add-material-list';
-
+import { ProductListPage } from '../pages/product-list-page/product-list-page';
+import { EditQuotePage } from '../pages/edit-quotation-page/edit-quotation-page';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -39,6 +38,7 @@ import { HelperService } from '../api-services/helperServices';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AgmCoreModule } from '@agm/core';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 export function createTranslateLoader(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -48,7 +48,6 @@ export function createTranslateLoader(httpClient: HttpClient) {
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
     LoginPage,
     VendorRegistrationPage,
     PriceListPage,
@@ -63,11 +62,12 @@ export function createTranslateLoader(httpClient: HttpClient) {
     QuotationDetailsPage,
     EditMaterialListPage,
     AddMaterialPage,
-    AddMaterialListPage
+    AddMaterialListPage,
+    ProductListPage,
+    EditQuotePage
   ],
   imports: [
     BrowserModule,
-    TreeModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
     SelectSearchableModule,
@@ -88,7 +88,6 @@ export function createTranslateLoader(httpClient: HttpClient) {
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
     LoginPage,
     VendorRegistrationPage,
     PriceListPage,
@@ -103,16 +102,19 @@ export function createTranslateLoader(httpClient: HttpClient) {
     QuotationDetailsPage,
     EditMaterialListPage,
     AddMaterialPage,
-    AddMaterialListPage
+    AddMaterialListPage,
+    ProductListPage,
+    EditQuotePage
   ],
   providers: [
     ImagePicker,
     Base64,
     StatusBar,
     SplashScreen,
-    { provide: ErrorHandler, useClass: IonicErrorHandler },    
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     ApiService,
     HelperService,
+    SQLite,
     ApiServiceProvider
   ]
 })

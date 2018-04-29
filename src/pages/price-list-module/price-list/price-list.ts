@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, Loading, ToastController   } from 'ionic-angular';
+import { NavController, LoadingController, Loading, ToastController } from 'ionic-angular';
 import { ApiServiceProvider } from '../../../api-services/globalApi.services';
 import { AddProductPricePage } from '../../../pages/price-list-module/add-product-price/add-product-price';
 
@@ -10,15 +10,15 @@ import { AddProductPricePage } from '../../../pages/price-list-module/add-produc
 export class PriceListPage {
 
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public apiService: ApiServiceProvider,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController) {
   }
   loading: Loading;
   loadingConfig: any;
-  priceList:any = []; 
-  deleteSuccess:any;
+  priceList: any = [];
+  deleteSuccess: any;
 
   ionViewWillEnter() {
     console.log('ionViewDidLoad PriceListPage');
@@ -26,59 +26,62 @@ export class PriceListPage {
     this.deleteSuccess = this.toastCtrl.create({
       message: 'Product deleted successfully.',
       duration: 900,
-      position: 'top',      
+      position: 'top',
     });
+
   }
 
-  getVendorPriceList(){
+  getVendorPriceList() {
     this.priceList = [];
     this.createLoader();
     this.loading.present().then(() => {
-    this.apiService.getDataRequest('vendors', false)
-         .subscribe(response => {
-           this.priceList = response.vendorPriceList;           
-           this.loading.dismiss();
-         }, error => {
+      this.apiService.getDataRequest('vendors', false)
+        .subscribe(response => {          
+          this.priceList = response.vendorPriceList;
           this.loading.dismiss();
-          alert('Server error occured.') 
-         });
-   });
+        }, error => {
+          this.loading.dismiss();
+          alert('Unable to fetch price list. An server error occured.');
+          this.navCtrl.pop();
+        });
+    });
   }
 
-  deleteVendorPrice(item){
+  deleteVendorPrice(item) {
     this.createLoader();
     this.loading.present().then(() => {
-    this.apiService.deleteDataRequest('vendor/'+ item.id)
-         .subscribe(response => {
+      this.apiService.deleteDataRequest('vendor/' + item.id)
+        .subscribe(response => {
           this.loading.dismiss();
-          this.deleteSuccess.present(); 
-          
-           setTimeout(() => {
+          this.deleteSuccess.present();
+
+          setTimeout(() => {
             this.getVendorPriceList();
-          }, 1400)         
-           
-         }, error => {
+          }, 800)
+
+        }, error => {
           this.loading.dismiss();
-          alert('Server error occured.') 
-         });
-   });
+          alert('Unable to delete. An server Error occured')
+        });
+    });
   }
 
   createLoader(message: string = "Please wait...") { // Optional Parameter
     this.loading = this.loadingCtrl.create({
-      content: message
+      content: message,
+      dismissOnPageChange: true
     });
   }
 
-  addProductPrice(){
-    this.navCtrl.push(AddProductPricePage, { id: 'ADD_NEW'});
+  addProductPrice() {
+    this.navCtrl.push(AddProductPricePage, { id: 'ADD_NEW' });
   }
-  
-  updateProductPrice(selectedProduct){
+
+  updateProductPrice(selectedProduct) {
     let dataSet = {
       product: selectedProduct.product,
       id: selectedProduct.id,
-      info: selectedProduct.info, 
+      info: selectedProduct.info,
       firstPrice: selectedProduct.firstPrice,
       secondPrice: selectedProduct.secondPrice,
       thirdPrice: selectedProduct.thirdPrice

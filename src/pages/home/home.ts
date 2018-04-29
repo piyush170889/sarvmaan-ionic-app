@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, Loading, Events   } from 'ionic-angular';
-import { ApiServiceProvider } from '../../api-services/globalApi.services';
+import { NavController, LoadingController, Loading } from 'ionic-angular';
+import { ApiService } from '../../api-services/api.services';
 import { AddUpdateQuotePage } from '../../pages/add-update-quote/add-update-quote';
 import { QuotationDetailsPage } from '../../pages/quotation-details/quotation-details';
 
@@ -22,7 +22,11 @@ export class HomePage {
   quoteListCust:any = [];
   quoteListSarv:any = [];
 
-  constructor(public navCtrl: NavController, private loadingCtrl: LoadingController, public apiService: ApiServiceProvider, public events:Events) {
+  constructor(
+    public navCtrl: NavController, 
+    private loadingCtrl: LoadingController, 
+    public apiServices: ApiService
+  ) {
     this.sarvmaanTab = false;
     
   }
@@ -44,16 +48,15 @@ export class HomePage {
     this.quoteList = [];
     this.createLoader();
     this.loading.present().then(() => {
-    this.apiService.getDataRequest('quotation?page='+this.page+'&quote-type=ALL', false)
+    this.apiServices.getSarvamList(this.page)
          .subscribe(response => {
            this.allQuoteList = response;
-           //this.quoteList = response.sarvMaanQuotationDtlsList;
            this.quoteList = response.selfQuotationDtlsList;
            this.sarvmaanTab= false;
            this.loading.dismiss();
          }, error => {
-          this.loading.dismiss();
-          alert('Server error occured.') 
+           this.loading.dismiss();
+           //this.errorMessage = <any>error
          });
    });
   }
@@ -62,16 +65,15 @@ export class HomePage {
     this.quoteList = [];
     this.createLoader();
     this.loading.present().then(() => {
-    this.apiService.getDataRequest('quotation?page='+this.page+'&quote-type=ALL', false)
+    this.apiServices.getSarvamList(this.page)
          .subscribe(response => {
            this.allQuoteList = response;
            this.quoteList = response.sarvMaanQuotationDtlsList;
            this.sarvmaanTab= true;
-          // this.quoteList = response.selfQuotationDtlsList;
-            this.loading.dismiss();
+           this.loading.dismiss();
          }, error => {
-          this.loading.dismiss();
-          alert('Server error occured.') 
+           this.loading.dismiss();
+           //this.errorMessage = <any>error
          });
    });
   }
@@ -82,11 +84,12 @@ export class HomePage {
     });
   }
   
-  ionViewWillEnter() {  
-    this.events.publish('user:login');
+  ionViewDidLoad() {   
     this.createLoader(); 
     this.getsarvmanList();
   }
+
+  
   
   addNewQuote(){
     this.navCtrl.push(AddUpdateQuotePage);
@@ -103,7 +106,7 @@ export class HomePage {
 
   setFilteredItems(ev: any) {
  
-    this.apiService.getDataRequest('quotation?page='+this.page+'&quote-type=ALL', false)
+    this.apiServices.getSarvamList(this.page)
     .subscribe(response => {
       this.allQuoteList = response;
       if(this.searchStatus == 2){
@@ -118,9 +121,9 @@ export class HomePage {
           return (item.workTitle.toLowerCase().indexOf(val.toLowerCase()) > -1 || item.clientName.toLowerCase().indexOf(val.toLowerCase()) > -1 );
         })
       } 
-        //this.loading.dismiss();
+        
     }, error => {
-      alert('Server error occured.') 
+     //this.errorMessage = <any>error
     });
 }
 
@@ -129,11 +132,7 @@ doInfinite(infiniteScroll) {
   this.page = this.page + 1;
  
   setTimeout(() => {
-    /*const loading = this.loadingCtrl.create({
-      content: 'Please wait...'
-    });*/
-    //this.showSpinner = true;
-    this.apiService.getDataRequest('quotation?page='+this.page+'&quote-type=ALL', false)
+    this.apiServices.getSarvamList(this.page)
     .subscribe(response => {
       this.allQuoteList = response;
       this.quoteListCust = response.selfQuotationDtlsList;
@@ -162,8 +161,8 @@ doInfinite(infiniteScroll) {
 
       
     }, error => {
-      //this.loading.dismiss();
-      alert('Server error occured.') 
+      this.loading.dismiss();
+      //this.errorMessage = <any>error
     });
 
       

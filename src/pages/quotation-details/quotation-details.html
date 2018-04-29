@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="danger">
+  <ion-navbar color="danger" hideBackButton="true">
       <ion-title>Quotation Details</ion-title>
   </ion-navbar>
   <ion-toolbar class="sub-header-content">
@@ -12,14 +12,12 @@
                   <p class="date-print"> {{quotationDetailsData?.createdTs | date: 'dd-MM-yyyy'}}</p>
               </ion-col>
               <ion-col text-right class="status-img">
-                 <!-- <ion-icon name="checkmark-circle" style="color: rgb(50, 219, 100);"></ion-icon>-->
-                
-                        <img src="assets/imgs/approved.svg" *ngIf="quotationDetailsData?.quoteStatus == 'APPROVED'">
-                        <img src="assets/imgs/pending.svg"  *ngIf="quotationDetailsData?.quoteStatus == 'PENDING'">
-                        <img src="assets/imgs/reject.svg"  *ngIf="quotationDetailsData?.quoteStatus == 'DISCARDED'">
-                        <ion-icon class="status-draft" name="bookmark"  *ngIf="quotationDetailsData?.quoteStatus == 'DRAFT'"></ion-icon>
-                         <!-- <ion-icon name="checkmark-circle" [style.color]="item.quoteStatus=='DRAFT' ? 'orange': 'red'"></ion-icon> {{item.quoteStatus}} -->
-                   
+                <!-- <ion-icon name="checkmark-circle" style="color: rgb(50, 219, 100);"></ion-icon>-->
+                <img src="assets/imgs/approved.svg" *ngIf="quotationDetailsData?.quoteStatus == 'APPROVED'">
+                <img src="assets/imgs/pending.svg"  *ngIf="quotationDetailsData?.quoteStatus == 'PENDING'">
+                <img src="assets/imgs/reject.svg"  *ngIf="quotationDetailsData?.quoteStatus == 'DISCARDED'">
+                <ion-icon class="status-draft" name="bookmark"  *ngIf="quotationDetailsData?.quoteStatus == 'DRAFT'"></ion-icon>
+                 <!-- <ion-icon name="checkmark-circle" [style.color]="item.quoteStatus=='DRAFT' ? 'orange': 'red'"></ion-icon> {{item.quoteStatus}} -->
               </ion-col>
           </ion-row>
       </ion-title>
@@ -32,25 +30,30 @@
       <p>{{quotationDetailsData?.workTitle}}</p>
       <p>{{quotationDetailsData?.clientName}}</p>
   </div>
+
   <div class="quotation-block">
     <div class="patch-btn" (click)="expandList(quotationId)">
         <ion-icon name="expand"></ion-icon>
     </div>
-    <ion-list class="Quotation-list">
-      <ion-item class="Quotation-item">
-            <ion-row class="no-padding" *ngFor="let list of quotationDetailsData.materialList">
-                <ion-col col-8 text-left>
-                <p> {{list.productName}}</p>
-                <span>( {{list.notes}} )</span>
-                </ion-col>
-                <ion-col col-4 text-right>
-                <span>{{list.quantity}} ml</span>
-                <p style="color: #000;">{{list.totalAmt}} /-</p>
-                </ion-col>
-            </ion-row>
-        </ion-item>
-    </ion-list>
+    <div class="Quotation-container">
+        <ion-list class="Quotation-list">
+            <ion-item class="Quotation-item">
+                  <ion-row class="no-padding" *ngFor="let list of quotationDetailsData.materialList">
+                      <ion-col col-8 text-left>
+                      <p> {{list.productName}}</p>
+                      <span>( {{list.notes}} )</span>
+                      </ion-col>
+                      <ion-col col-4 text-right>
+                      <span>{{list.quantity}} ml</span>
+                      <p style="color: #000;">{{list.totalAmt}} /-</p>
+                      </ion-col>
+                  </ion-row>
+              </ion-item>
+          </ion-list>  
+    </div>
+    
   </div>
+  
   <div class="total-block">
         <ion-row >
                 <ion-col col-8 text-left>
@@ -106,10 +109,10 @@
       <ion-title>
           <ion-row>
               <ion-col text-center>
-                  <button ion-button class="full-btn" color="primary" round>Cancel</button>
+                  <button ion-button class="full-btn" color="primary" round (click)="cancelPage()">Cancel</button>
               </ion-col>
               <ion-col text-center>
-                  <button ion-button class="full-btn" color="secondary" round>Save</button>
+                  <button ion-button class="full-btn" color="secondary" round (click)="editQuotation()">Edit</button>
               </ion-col>
           </ion-row>
       </ion-title>

@@ -87,5 +87,6 @@
     </plugin>
     <allow-navigation href="http://192.168.1.36:8100" />
     <plugin name="com-badrit-base64" spec="^0.2.0" />
+    <plugin name="cordova-sqlite-storage" spec="^2.3.1" />
     <engine name="android" spec="7.0.0" />
 </widget>

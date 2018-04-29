@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-navbar color="danger">
-      <ion-title>4500</ion-title>
+  <ion-navbar color="danger" hideBackButton="true">
+      <ion-title>Add Material</ion-title>
   </ion-navbar>
   <ion-toolbar class="sub-header-content">
       <ion-title>
@@ -22,78 +22,57 @@
 <ion-content padding>
   <h3 class="page-title">Add Quotation Price List</h3>
   <ion-list class="add-material-item">  
- <!--   <ion-item class="input_cust_border show-select-text" (click)="gotoProductlist()">
-    <ion-label class="showing-text" style="display: none" stacked></ion-label>    
-      <ion-select  >
-        <ion-option value="Product_1">Product 1</ion-option>
-        <ion-option value="Product_2">Product 2</ion-option>
-        <ion-option value="Product_3">Product 3</ion-option>
-        <ion-option value="Product_4">Product 4</ion-option>
-        <ion-option value="Product_5">Product 5</ion-option>
-        <ion-option value="Product_6">Product 6</ion-option>
-      </ion-select> 
-     
-    </ion-item> -->
     <ion-item class="cust-border-bottom">
             <ion-label class="note-title" stacked>Sr.No</ion-label>
-            <ion-input placeholder="001" [(ngModel)]= "materialId"></ion-input>
+            <ion-input placeholder="001" [(ngModel)]= "materialId" disabled="{{disabled}}"></ion-input>
     </ion-item>
-    <div  class="product-name-content" (click)="gotoProductlist()" >
-         <!--<span>Enter Product Name</span>
-       <div class="dropdown-cust-icon">
-            <ion-icon color="" name="arrow-dropdown"></ion-icon>
-        </div>-->
-        <ion-item class="product-select"> 
-            <ion-select [(ngModel)]= "productName" (ionChange)="getProductName(productName)">
-                <ion-option *ngFor="let productName of productNameList">{{productName}}</ion-option>
-                <!--<ion-option value="15000">Product Two</ion-option>
-                <ion-option value="1800">Product Three</ion-option>
-                <ion-option value="2000">Product Four</ion-option> -->          
+    <div  class="product-name-content"  *ngIf="pageName != 'edit'" (click)="gotoProductlist()"><!--(click)="gotoProductlist()"-->
+       <ion-item class="product-select"> 
+            <ion-select [(ngModel)]= "productName"  disabled="{{true}}"> 
+                <ion-option *ngFor="let productName of productNameList">{{productName.name}}</ion-option>
             </ion-select>
-          </ion-item>
+        </ion-item>
+    </div>
+    <div class="product-name-content" *ngIf="pageName == 'edit'">
+         <ion-item class="product-select"> 
+            <ion-select [(ngModel)]= "productName"  disabled="{{disabled}}" (ionChange)="getProductName(productName)"> 
+                   <ion-option *ngFor="let productName of productNameList">{{productName.name}}</ion-option>
+            </ion-select>
+        </ion-item>
     </div>
     
    <ion-row>
      <ion-col col-5 text-left class="cust-left-border" >
        <p class="cust-item-title">Quantity</p>
-      <ion-input placeholder="Enter quantity" [(ngModel)]= "quantity"></ion-input>
+      <ion-input placeholder="Enter quantity" [(ngModel)]= "quantity" (ngModelChange)="getTotalCalculate()"></ion-input>
      </ion-col>
-     <ion-col col-6 text-right class="cust-right-border unit-select-box"> 
-       <ion-item class="unit-select">      
-        <ion-select [(ngModel)]= "unit" (ionChange)="getUnit(unit)">
-            <ion-option *ngFor="let unit of unitList">{{unit}}</ion-option>
-           <!-- <ion-option value="Thousands">Thousands</ion-option>
-            <ion-option value="lacs">lacs</ion-option>
-            <ion-option value="core">core</ion-option>  -->         
-        </ion-select>
-      </ion-item>
+     <ion-col col-6 text-right class="cust-right-border unit-select-box" *ngIf="pageName != 'edit' && pageName != 'editMaterialLocally'"> 
+        <p class="cust-item-title" style="text-align: left;">Discount</p>
+        <ion-input placeholder="Enter Discount" [(ngModel)]= "discount"></ion-input>
       </ion-col>
    </ion-row>
    <ion-row class="rate-row">
       <ion-col col-6 text-left class="cust-right-border"> 
           <p class="amount-rate-title">Rate</p> 
-          <ion-item class="rate-select">                
-           <ion-select [(ngModel)]= "rate" (ionChange)="getRate(rate)">
+          <ion-item class="rate-select" (click)="showRateStatusMsg()">                
+           <ion-select [(ngModel)]= "rate" (ionChange)="getRate()" [disabled]="disableRateList">
                <ion-option *ngFor="let rate of rateList">{{rate}}/-</ion-option>
-              <!-- <ion-option value="15000">15000/-</ion-option>
-               <ion-option value="1800">1800/-</ion-option>
-               <ion-option value="2000">2000/-</ion-option> -->          
-           </ion-select>
+            </ion-select>
          </ion-item>
       </ion-col>
       <ion-col col-5  text-right class="cust-left-border margin-right-side " >
         <p class="amount-rate-title">Custome Rate</p>
-       <ion-input class="margin-top-input" placeholder="Enter Rate" [(ngModel)]= "custRate" (change)="getCustRate(custRate)"></ion-input>     
+       <ion-input class="margin-top-input" placeholder="Enter Rate" [(ngModel)]= "custRate" (ngModelChange)="getCustRate()"></ion-input>     
       </ion-col>
       <span class="add-or"></span>
       </ion-row>
       <ion-item class="cust-border-bottom">
         <ion-label class="note-title" stacked>Total</ion-label>
-        <ion-input placeholder="000" [(ngModel)]= "total"></ion-input>
+        <ion-input placeholder="000" [(ngModel)]= "total" disabled></ion-input>
      </ion-item>
     <ion-item class="note-box" no-border>
       <ion-label class="note-title" stacked>Notes</ion-label>
-      <ion-textarea class="cust-ion-textarea"placeholder="Write here" [(ngModel)]= "notes"></ion-textarea>
+      <ion-textarea class="cust-ion-textarea"placeholder="Write here" [(ngModel)]= "notes" disabled="{{disabled}}"></ion-textarea>
     </ion-item>
   </ion-list>
 </ion-content>
@@ -102,7 +81,7 @@
       <ion-title>
           <ion-row>
               <ion-col text-center>
-                  <button class="full-btn" ion-button color="primary" round>Cancel</button>
+                  <button class="full-btn" ion-button color="primary" round (click)="cancelPage()">Cancel</button>
               </ion-col>
               <ion-col text-center>
                   <button class="full-btn" (click)="gotoaddMateriallist()" ion-button color="secondary" round>Save</button>

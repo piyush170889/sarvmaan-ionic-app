@@ -105,6 +105,7 @@ export class ApiServiceProvider {
                 localStorage.setItem('token', data.access_token);
                 localStorage.setItem('refreshToken', data.refresh_token);
                 localStorage.setItem('isLogin', 'true');
+                this.events.publish('user:login');
                 return true;
             })
             .catch((err: Response) => {

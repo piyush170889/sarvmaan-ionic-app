@@ -9,6 +9,7 @@ page-quotation-details {
     }
     .toolbar-title-md {
         padding: 0 20px;
+        text-align: center;
     }
     .toolbar-background-md {
         border-color: none;
@@ -47,22 +48,34 @@ page-quotation-details {
         margin-top: 20px;
         position: relative;
     }
+    .Quotation-container
+    {
+        background-color: #f9f9f9;
+        max-height: 100px;
+        overflow: hidden;
+        overflow-y: hidden;
+        overflow-y: hidden;
+        overflow-y: scroll;
+        border: 1px solid #d7d7d7;
+        margin-bottom: 10px;
+        padding: 0px 10px;
+     }
+    
     .Quotation-item
     {
         background-color: #f9f9f9;
-        border-top: 1px solid #d7d7d7;
-        border-left: 1px solid #d7d7d7;
-        border-right: 1px solid #d7d7d7;
+        
         padding-top: 0px;
-        max-height: 57px !important;
+        padding-left: 0px;
+       
     }
     .Quotation-list .item-block .item-inner {
         border-bottom: 1px solid transparent;
     }
     .Quotation-item:last-child 
     {
-        border-bottom: 1px solid #d7d7d7;
-        border-top: 1px solid #d7d7d7;
+        border-bottom: 1px solid transparent;
+        border-top: 1px solid transparent;
     }
     .Quotation-item.item-md p
     {

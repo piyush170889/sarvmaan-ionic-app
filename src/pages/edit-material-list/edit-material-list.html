@@ -2,11 +2,11 @@
   <ion-navbar color="danger">
       <ion-title>Add Quotation</ion-title>
       <ion-buttons end>
-        <button ion-button icon-only>
+        <button ion-button icon-only (click)="addMaterial()">
             <ion-icon name="add"></ion-icon>
         </button>
 
-        <button ion-button icon-only>
+        <button ion-button icon-only (click)="opensearchbox()">
             <ion-icon name="search"></ion-icon>
         </button>
     </ion-buttons>
@@ -29,6 +29,9 @@
 </ion-header>
 
 <ion-content >
+    <div *ngIf="showsearchbar"  class="search-box-containter">
+        <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="setFilteredItems($event)"></ion-searchbar>
+    </div>  
   <ion-list> 
   <ion-item class="price-content" *ngFor="let list of new_materialList"><!--quotationDetailsData.materialList-->
      <ion-label> {{list.productName}}<br>
@@ -47,10 +50,10 @@
       <ion-title>
           <ion-row>
               <ion-col text-center>
-                  <button ion-button  color="{{deleteBtnColor}}" class="full-btn"  round [disabled]="!disabledForCancel">Delete</button>
+                  <button ion-button  color="{{deleteBtnColor}}" class="full-btn"  round [disabled]="!disabledForCancel" (click)="deleteMaterial()">Delete</button>
               </ion-col>
               <ion-col text-center>
-                  <button ion-button color="{{editBtnColor}}" class="full-btn"  round (click)="goToMaterialPage()" [disabled]="!disabledForEdit" [ngClass]="{class1:disabledForEdit,class2:!disabledForEdit}">Edit</button>
+                  <button ion-button color="{{editBtnColor}}" class="full-btn"  round (click)="goToMaterialPage()" [disabled]="!disabledForEdit">Edit</button>
               </ion-col>
           </ion-row>
       </ion-title>

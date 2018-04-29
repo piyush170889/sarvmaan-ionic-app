@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, Loading, NavParams, ToastController } from 'ionic-angular';
+import { Events, NavController, LoadingController, Loading, NavParams, ToastController } from 'ionic-angular';
 import { ApiServiceProvider } from '../../../api-services/globalApi.services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SelectProductListPage } from '../select-product-list/select-product-list'
+import { ProductListPage } from '../../product-list-page/product-list-page';
 
 @Component({
   selector: 'page-add-product-price',
@@ -15,26 +15,14 @@ export class AddProductPricePage {
   loadingConfig: any;
   requestType: any;
   updateRequestData: any;
+  selectedProduct:any = {
+    productName: '',
+    productId: ''
+  };
   public newPriceAddSuccess: any;
   public updatePriceAddSuccess: any;
-  productNameList: any = [
-    {
-      productId: 'asdasds1',
-      productName: 'Product One' 
-    },
-    {
-      productId: 'asdasds2',
-      productName: 'Product Two' 
-    },
-    {
-      productId: 'asdasds3',
-      productName: 'Product Three' 
-    },
-    {
-      productId: 'asdasds4',
-      productName: 'Product Four' 
-    }
- ];
+
+  
 
   constructor(
     public navCtrl: NavController,
@@ -42,7 +30,8 @@ export class AddProductPricePage {
     private loadingCtrl: LoadingController,
     public navParams: NavParams,
     private _FORMBUILDER: FormBuilder,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    public events: Events
   ) {
     this.addProductForm = this._FORMBUILDER.group({
       'formProductName': ['', Validators.required],
@@ -57,7 +46,16 @@ export class AddProductPricePage {
       this.updateRequestData = navParams.get("data")
     }
 
-  }
+    events.subscribe('event-productName', (data) => {
+      this.addProductForm.controls['formProductName'].setValue(data);
+      this.selectedProduct.productName = data;     
+    });
+  
+    events.subscribe('event-productId', (data) => {
+      this.selectedProduct.productId = data;
+    });
+
+  }  
 
   ionViewWillEnter() {
     this.updatePriceAddSuccess = this.toastCtrl.create({
@@ -78,7 +76,13 @@ export class AddProductPricePage {
   ionViewDidEnter(){
     setTimeout(()=>{
       if (this.requestType == 'UPDATE') {
-        this.addProductForm.controls['formProductName'].setValue(this.updateRequestData.product.productId);
+        if (this.selectedProduct.productId != '' && this.selectedProduct.productName != '') {
+          this.addProductForm.controls['formProductName'].setValue(this.selectedProduct.productName);
+        }else{
+          this.addProductForm.controls['formProductName'].setValue(this.updateRequestData.product.productName); 
+          this.selectedProduct.productName = this.updateRequestData.product.productName;
+          this.selectedProduct.productId = this.updateRequestData.product.productId;        
+        }        
         this.addProductForm.controls['p1'].setValue(this.updateRequestData.firstPrice);
         this.addProductForm.controls['p2'].setValue(this.updateRequestData.secondPrice);
         this.addProductForm.controls['p3'].setValue(this.updateRequestData.thirdPrice);
@@ -133,16 +137,16 @@ export class AddProductPricePage {
   }
 
   getSaveUpdateData(){
-    let selectedProduct
-    this.productNameList.forEach(element => {
-      if(element.productId == this.addProductForm.controls['formProductName'].value){
-        selectedProduct = element;
-      }
-    });
+    //let selectedProduct
+    // this.productNameList.forEach(element => {
+    //   if(element.productId == this.addProductForm.controls['formProductName'].value){
+    //     selectedProduct = element;
+    //   }
+    // });
     let data = {
       "product": {
-        "productId": selectedProduct.productId,
-        "productName": selectedProduct.productName
+        "productId": this.selectedProduct.productId,
+        "productName": this.selectedProduct.productName
       },
       "firstPrice": this.addProductForm.controls['p1'].value,
       "secondPrice": this.addProductForm.controls['p2'].value,
@@ -164,11 +168,13 @@ return data;
   }
 
   navigateToSelectProduct() {
-    this.navCtrl.push(SelectProductListPage);
+    this.navCtrl.push(ProductListPage);
   }
 
   cancelClicked() {
     this.navCtrl.pop();
   }
+
+ 
 
 }

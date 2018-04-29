@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams, LoadingController, Loading, ModalC
 import { ApiService } from '../../api-services/api.services';
 import { TermModalPage } from '../../pages/vendor-registration/term-modal/term-modal';
 import { EditMaterialListPage } from '../../pages/edit-material-list/edit-material-list';
+import { EditQuotePage } from '../../pages/edit-quotation-page/edit-quotation-page';
+import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -12,25 +14,31 @@ import { EditMaterialListPage } from '../../pages/edit-material-list/edit-materi
 export class QuotationDetailsPage {
   loading: Loading;
   loadingConfig: any;
-  quotationDetailsData:any = [];
+  quotationDetailsData: any = [];
   quotationId: any;
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, private loadingCtrl: LoadingController, public apiServices: ApiService) {
-     this.quotationId = this.navParams.get('id');
+  constructor(
+    public navCtrl: NavController,
+    public modalCtrl: ModalController,
+    public navParams: NavParams,
+    private loadingCtrl: LoadingController,
+    public apiServices: ApiService
+  ) {
+    this.quotationId = this.navParams.get('id');
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad QuotationDetailsPage');
     this.createLoader();
     this.loading.present().then(() => {
-    this.apiServices.getQuotationDetail(this.navParams.get('id'))
-         .subscribe(response => {
-           this.loading.dismiss();
-           this.quotationDetailsData = response.quotationDtls;
-         }, error => {
-           this.loading.dismiss();
-           //this.errorMessage = <any>error
-         });
-   });
+      this.apiServices.getQuotationDetail(this.navParams.get('id'))
+        .subscribe(response => {
+          this.loading.dismiss();
+          this.quotationDetailsData = response.quotationDtls;
+        }, error => {
+          this.loading.dismiss();
+          //this.errorMessage = <any>error
+        });
+    });
   }
 
   createLoader(message: string = "Please wait...") { // Optional Parameter
@@ -38,15 +46,23 @@ export class QuotationDetailsPage {
       content: message
     });
   }
-  
-  openTermsModal(msg){
+
+  openTermsModal(msg) {
     let profileModal = this.modalCtrl.create(TermModalPage, { msg: msg });
     profileModal.present();
   }
 
-  expandList(id){
+  expandList(id) {
     console.log(id)
-    this.navCtrl.push(EditMaterialListPage, {id:id});
+    this.navCtrl.push(EditMaterialListPage, { id: id });
+  }
+
+  editQuotation() {
+    this.navCtrl.push(EditQuotePage, { quotationId: this.quotationId });
+  }
+
+  cancelPage() {
+    this.navCtrl.setRoot(HomePage);
   }
 
 }

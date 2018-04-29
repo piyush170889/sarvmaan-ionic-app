@@ -1,4 +1,4 @@
-page-add-update-quote {
+edit-quotation-page {
     .header-md::after {
         background-image: none;
     }
@@ -114,6 +114,12 @@ page-add-update-quote {
         color: #ec6f6a !important;
         margin-bottom: 10px !important;
       
+    }
+
+    .status-img img
+    {
+        width: 18px;
+        margin-top: 5px;
     }
    
 }

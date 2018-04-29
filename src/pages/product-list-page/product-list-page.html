@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-navbar color="danger" hideBackButton="false">
+      <ion-title>Product Name</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+    <div>
+        <ng-template #recursiveList let-list>
+            <ion-list *ngFor="let item of list; let index = index">
+                <ion-item (click)="onSelect(item)"> {{item.catName}} 
+                    <ion-icon color="success" name="ios-add-circle-outline"></ion-icon>
+                </ion-item>
+                
+                <div *ngIf="item.child.length > 0 && item.hide" style="padding: 1px;">
+
+                    <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: item.child }"></ng-container>
+
+                </div>
+            </ion-list >
+        </ng-template>
+        <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: list }"></ng-container>
+    </div>
+
+    <ion-item class="product-select" *ngIf="showProductDropdown == true" [hidden]="true"> 
+      <ion-select #select1 [(ngModel)]= "productName" (ionChange)="getProductName(productName)"> 
+          <ion-option *ngFor="let p of getProductData">{{p.productName}}</ion-option>
+      </ion-select>
+  </ion-item>
+</ion-content>
+
+

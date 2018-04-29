@@ -19,12 +19,23 @@
                 </button>
               </ion-item> -->
 
-              <ion-item margin-bottom>
+              <!-- <ion-item margin-bottom>
                   <ion-label stacked>Hierarchy</ion-label>
                   <ion-select multiple="false" formControlName="hierarchy">
                       <ion-option [value]="product.productId" *ngFor="let product of productNameList">{{product.productName}}</ion-option>
                   </ion-select>
-                </ion-item>
+                </ion-item> -->
+
+                <ion-item margin-bottom>
+                    <ion-label stacked> Hierarchy </ion-label>
+                    <ion-input disabled type="text" formControlName="hierarchy" placeholder="Add As a...">
+                    </ion-input>
+                    <button ion-button clear color="danger" type="button" item-right (click)="navigateToSelectProduct()">
+                      <ion-icon> 
+                          <img style="height: 20px;" src="assets/imgs/Product-request.svg">
+                      </ion-icon>
+                    </button>
+                  </ion-item>
                 <ion-item margin-bottom>
                     <ion-label stacked>Product Name</ion-label>
                     <ion-input type="text" formControlName="productName" placeholder="Enter Product Name"></ion-input>

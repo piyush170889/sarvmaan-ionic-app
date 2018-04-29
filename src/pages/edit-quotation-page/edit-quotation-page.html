@@ -1,14 +1,24 @@
 <ion-header>
     <ion-navbar color="danger" hideBackButton="true">
-        <ion-title>Add Quotation</ion-title>
+        <ion-title>Edit Quotation</ion-title>
     </ion-navbar>
     <ion-toolbar class="sub-header-content">
         <ion-title>
-            <ion-row>
-                <ion-col text-right class="status-img">
-                   <ion-icon class="status-draft" name="bookmark" (click)="saveQuotationAsDraft()"><p style="font-size: 13px; margin-top: -19px;margin-right: 18px;">Save as a draft</p></ion-icon>
-                </ion-col>
-            </ion-row>
+                <ion-row>
+                        <ion-col text-left>
+                            <span class="cardTitle">
+                                {{quotationDetailsData?.quoteNumber}}
+                            </span>
+                        </ion-col>
+                        <ion-col text-right class="status-img">
+                           <!-- <ion-icon name="checkmark-circle" style="color: rgb(50, 219, 100);"></ion-icon>-->
+                           <img src="assets/imgs/approved.svg" *ngIf="quotationDetailsData?.quoteStatus == 'APPROVED'">
+                            <img src="assets/imgs/pending.svg"  *ngIf="quotationDetailsData?.quoteStatus == 'PENDING'">
+                            <img src="assets/imgs/reject.svg"  *ngIf="quotationDetailsData?.quoteStatus == 'DISCARDED'">
+                            <ion-icon class="status-draft" name="bookmark"  *ngIf="quotationDetailsData?.quoteStatus == 'DRAFT'"></ion-icon>
+                            <!-- <ion-icon name="checkmark-circle" [style.color]="item.quoteStatus=='DRAFT' ? 'orange': 'red'"></ion-icon> {{item.quoteStatus}} -->
+                        </ion-col>
+                    </ion-row>
         </ion-title>
     </ion-toolbar>
 </ion-header>
@@ -17,10 +27,7 @@
 <ion-content padding>
     <form [formGroup]="addQuoteForm" (ngSubmit)="submitQuotation()">
         <ion-list text-center>
-            <ion-item margin-bottom>
-                <ion-label stacked>Quotation No.</ion-label>
-                <ion-input placeholder="001" formControlName="quoteNumber"></ion-input>
-            </ion-item>
+
             <ion-item margin-bottom>
                 <ion-label stacked>Work Title</ion-label>
                 <ion-input type="text" formControlName="workTitle" placeholder="Enter Work Title"></ion-input>
@@ -42,48 +49,39 @@
                 <ion-label stacked>Street Address</ion-label>
                 <ion-input type="text" formControlName="streetAddress" placeholder="Enter Street Address"></ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item margin-bottom>
+                <ion-label stacked>State</ion-label>
+                <ion-select formControlName="state" [compareWith]="compareFn">
+                    <ion-option *ngFor="let state of states" [value]="state.stateName">{{state.stateName}}</ion-option>
+                </ion-select>
+           </ion-item> 
+            <!--<ion-item margin-bottom>
+                <ion-label stacked>State</ion-label>
+                <ion-input type="text" formControlName="state" placeholder="Enter State"></ion-input>
+            </ion-item>-->
+            <!--<ion-item>
+                 <ion-label stacked>City</ion-label>
+                <ion-input type="text" formControlName="city" placeholder="Enter City"></ion-input>
+            </ion-item>-->
+            <ion-item margin-bottom>
+                <ion-label stacked>City</ion-label>
+                <ion-select formControlName="city" [compareWith]="compareFn">
+                    <ion-option *ngFor="let city of cities" [value]="city.cityName">{{city.cityName}}</ion-option>
+                </ion-select> 
+           </ion-item>    
+            <!--<ion-item>
                 <select-searchable title="State" formControlName="state" [items]="states" [(ngModel)]="state" itemValueField="id" itemTextField="stateName" [canSearch]="true" (onChange)="stateChange($event)">
                 </select-searchable>
             </ion-item>
             <ion-item>
                 <select-searchable title="City" formControlName="city" [items]="cities" itemValueField="id" itemTextField="cityName" [canSearch]="true" (onChange)="cityChange($event)">
                 </select-searchable>
-             </ion-item>
+             </ion-item>-->
             <ion-item class="note-box" no-border>
                 <ion-label class="note-title" stacked>Terms and conditions</ion-label>
                 <ion-textarea class="cust-ion-textarea" placeholder="Write here" formControlName="tnc"></ion-textarea>
              </ion-item>
-            <!--add material list  -->
-            <ion-item>
-                <p class="material-title">Material List</p>
-                <div class="operation-container">
-                    <div class="operation-block">
-                        <ion-icon name="trash" (click)="removeMaterialToQuotationPage()"></ion-icon>
-                    </div>
-                    <div class="operation-block">
-                        <ion-icon name="create" (click)="EditMaterialToQuotationPage()"></ion-icon>
-                    </div>
-                    <div class="operation-block" (click)="addMaterialToQuotationPage()">
-                        <ion-icon name="add"></ion-icon>
-                   </div>
-                </div>
-            </ion-item>
-
-            <div *ngFor="let item of materialList">
-            <ion-item class="price-content" *ngIf="item.productName != undefined">
-               <ion-label>{{item.productName}}</ion-label>
-                <ion-checkbox color="danger" formControlName="productSts" checked="false" (ionChange)="checkboxChange(item)"></ion-checkbox>
-                <ion-avatar  item-end>
-                    <div class="mark-icon">
-                        <ion-icon style="margin-top: -2px;" name="information"></ion-icon>
-                    </div>
-                    <p>{{item.totalAmt}} /-</p>
-                    
-                </ion-avatar>
-            </ion-item>
-        </div>
-            
+             
         </ion-list>
     </form>
 </ion-content>
@@ -92,7 +90,7 @@
         <ion-title>
             <ion-row>
                 <ion-col text-center>
-                    <button class="full-btn" ion-button color="primary" round (click)="cancelPage()">Cancel</button>
+                    <button class="full-btn" ion-button color="primary" round (click)="cancelButton()">Cancel</button>
                 </ion-col>
                 <ion-col text-center>
                     <button class="full-btn" ion-button color="secondary" round (click)="submitQuotation()">Save</button>

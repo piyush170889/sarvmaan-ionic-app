@@ -10,21 +10,21 @@
 <ion-content padding>
   <form [formGroup]="addProductForm" (ngSubmit)="AddProductToVendorList()">
     <ion-list text-center>
-      <!-- <ion-item margin-bottom>
+      <ion-item margin-bottom>
         <ion-label stacked> Product Name </ion-label>
-        <ion-input disabled type="text" formControlName="productName" placeholder="Add Product">
+        <ion-input disabled type="text" formControlName="formProductName" placeholder="Add Product">
         </ion-input>
         <button ion-button clear color="danger" type="button" item-right (click)="navigateToSelectProduct()">
           <ion-icon name="ios-add-circle-outline"> </ion-icon>
         </button>
-      </ion-item> -->
+      </ion-item>
 
-      <ion-item margin-bottom>
+      <!-- <ion-item margin-bottom>
           <ion-label stacked>Product Name</ion-label>
           <ion-select multiple="false" formControlName="formProductName">
               <ion-option [value]="product.productId" *ngFor="let product of productNameList">{{product.productName}}</ion-option>
           </ion-select>
-        </ion-item>
+        </ion-item> -->
      
       <ion-item margin-bottom>
         <ion-label stacked>P1</ion-label>

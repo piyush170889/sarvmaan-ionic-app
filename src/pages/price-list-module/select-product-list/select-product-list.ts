@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { NodeEvent, TreeModel, RenamableNode, Ng2TreeSettings } from 'ng2-tree';
 
 declare const alertify: any;
 
