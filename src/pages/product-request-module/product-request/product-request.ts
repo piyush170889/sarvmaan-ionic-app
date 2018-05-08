@@ -90,7 +90,7 @@ export class ProductRequestPage {
     this.navCtrl.pop();
   }
   navigateToSelectProduct() {
-    this.navCtrl.push(ProductListPage);
+    this.navCtrl.push(ProductListPage, { id: 'PRODUCT_REQUEST' });
   }
 
 

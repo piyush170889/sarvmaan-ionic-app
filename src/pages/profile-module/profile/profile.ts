@@ -74,22 +74,33 @@ export class ProfilePage {
   }
 
   changeProfilePicture() {
-    let options = {
-      maximumImagesCount: 1,
-      outputType: 0,
-      destinationType: 0
-    }
-    this.imagePicker.getPictures(options).then((results) => {
-      let filePath: string = results[0];
-      this.base64.encodeFile(filePath).then((base64File: string) => {
-        let stringData = base64File.split(',')[1];
-        this.uploadLogo(stringData);
-      }, (err) => {
-        console.log(err);
-      });
-    }, (err) => {
-      alert('Unable to pic image from device.')
-    });
+
+    this.imagePicker.hasReadPermission().then((results) => {
+      if(results){
+        let options = {
+          maximumImagesCount: 1,
+          outputType: 0,
+          destinationType: 0
+        }
+        this.imagePicker.getPictures(options).then((results) => {
+          let filePath: string = results[0];
+          this.base64.encodeFile(filePath).then((base64File: string) => {
+            let stringData = base64File.split(',')[1];
+            this.uploadLogo(stringData);
+          }, (err) => {
+            console.log(err);
+          });
+        }, (err) => {
+          alert('Unable to pic image from device.')
+        });
+      }else{
+        this.imagePicker.requestReadPermission().then((results) => {
+          results
+        })
+      }
+    })
+
+    
   }
 
   uploadLogo(stringData) {
